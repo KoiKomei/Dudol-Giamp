@@ -17,7 +17,7 @@ public class GameView extends SurfaceView implements Runnable{
         Thread gameThread = null;
 
         // This is new. We need a SurfaceHolder
-        // When we use Paint and Canvas in a thread
+        //When we use Paint and Canvas in a thread
         // We will see it in action in the draw method soon.
         SurfaceHolder ourHolder;
 
@@ -73,7 +73,7 @@ public class GameView extends SurfaceView implements Runnable{
                 update();
 
                 // Draw the frame
-                //draw();
+                draw();
 
                 // Calculate the fps this frame
                 // We can then use the result to
@@ -135,7 +135,6 @@ public class GameView extends SurfaceView implements Runnable{
             } catch (InterruptedException e) {
                 Log.e("Error:", "joining thread");
             }
-
         }
 
         // If SimpleGameEngine Activity is started then
