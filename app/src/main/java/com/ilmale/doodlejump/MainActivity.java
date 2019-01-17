@@ -1,10 +1,9 @@
 package com.ilmale.doodlejump;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchOptionsActivity(View view) {
-        //Log.d(LOG_TAG, "Button clicked!");
+        Log.d(LOG_TAG, "Button clicked!");
+        Intent intent = new Intent(this, OptionsActivity.class);
+        startActivity(intent);
     }
 }

@@ -6,4 +6,5 @@
     <string name="button_label_multi">Multi Player</string>
     <string name="button_label_single">Single Player</string>
     <string name="main_menu_background">main_menu_background</string>
+    <string name="optionsText">TextView</string>
 </resources>
