@@ -6,10 +6,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.ilmale.doodlejump.engine.GameEngine;
+import com.ilmale.doodlejump.engine.Platform;
+import com.ilmale.doodlejump.engine.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -38,6 +48,10 @@ public class GameView extends SurfaceView implements Runnable{
         // Declare an object of type Bitmap
         Bitmap bitmapBob;
 
+        Player player;
+
+        List<Platform> platforms = new ArrayList<>();
+
         // Bob starts off not moving
         boolean isMoving = false;
 
@@ -46,6 +60,9 @@ public class GameView extends SurfaceView implements Runnable{
 
         // He starts 10 pixels from the left
         float bobXPosition = 10;
+
+        // He starts 10 pixels from the lower bound
+        float bobYPosition = 10;
 
         public GameView(Context context) {
             // The next line of code asks the
@@ -56,9 +73,13 @@ public class GameView extends SurfaceView implements Runnable{
             // Initialize ourHolder and paint objects
             ourHolder = getHolder();
             paint = new Paint();
-
+            player = new Player();
             // Load Bob from his .png file
             //bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.bob);
+            for (int i=0; i<10; i++){
+                platforms.add(new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
+                        i*50));
+            }
 
         }
 
@@ -88,12 +109,33 @@ public class GameView extends SurfaceView implements Runnable{
 
         public void update() {
 
-            // If bob is moving (the player is touching the screen)
-            // then move him to the right based on his target speed and the current fps.
-            if(isMoving){
-                bobXPosition = bobXPosition + (walkSpeedPerSecond / fps);
+            bobXPosition = bobXPosition + GameEngine.x;
+            if(player.getSpeed()>0){
+                while (player.getSpeed()>0){
+                    player.setSpeed(player.getSpeed() - player.getAcceleration());
+                    bobYPosition = bobYPosition + player.getAcceleration();
+                    for (Platform p: platforms) {
+                        p.setpY(p.getpY()-player.getAcceleration());
+                    }
+                }
+            }
+            else if (player.getSpeed()==0){
+                bobYPosition = bobYPosition - player.getAcceleration();
             }
 
+            for (Platform p: platforms) {
+                if(p.getpY()>getResources().getDisplayMetrics().heightPixels){
+                    platforms.remove(p);
+                    platforms.add(new Platform((float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
+                            0));
+                }
+            }
+
+            for (Platform p: platforms) {
+                if (bobYPosition + bitmapBob.getHeight() > p.getpY()+1 && (bobXPosition+bitmapBob.getWidth()>p.getpX() || bobXPosition<p.getpX()+p.getLenght()) && player.getSpeed()<=0) {
+                    player.setSpeed(600);
+                }
+            }
         }
 
         public void draw() {
@@ -116,8 +158,8 @@ public class GameView extends SurfaceView implements Runnable{
                 // Display the current fps on the screen
                 canvas.drawText("FPS:" + fps, 20, 40, paint);
 
-                // Draw bob at bobXPosition, 200 pixels
-                canvas.drawBitmap(bitmapBob, bobXPosition, 200, paint);
+                // Draw bob at bobXPosition, bobYPosition
+                canvas.drawBitmap(bitmapBob, bobXPosition, bobYPosition, paint);
 
                 // Draw everything to the screen
                 // and unlock the drawing surface
@@ -147,7 +189,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         // The SurfaceView class implements onTouchListener
         // So we can override this method and detect screen touches.
-        @Override
+       /* @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -169,6 +211,6 @@ public class GameView extends SurfaceView implements Runnable{
                     break;
             }
             return true;
-        }
+        }*/
 
 }
