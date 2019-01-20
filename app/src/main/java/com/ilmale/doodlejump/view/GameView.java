@@ -49,6 +49,11 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapBob;
         Bitmap bitmapPlatform;
 
+        Bitmap bitmapBULLET;
+        Bitmap bitmapHAT;
+        Bitmap bitmapJETPACK;
+        Bitmap bitmapSPRINGS;
+
         GameEngine ge;
 
         public GameView(Context context) {
