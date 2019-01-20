@@ -112,7 +112,7 @@ public class GameEngine extends Activity implements SensorEventListener {
     public boolean canJump(){
 
         for (Platform p: platforms) {
-            if (player.getpY() + 100 > p.getpY()+1 && (player.getpX()+100>p.getpX() || player.getpX()<p.getpX()+p.getLenght()) && player.getSpeed()<=0) {
+            if (player.getpY() + player.getLenght() > p.getpY()+1 && (player.getpX()+player.getLenght()>p.getpX() || player.getpX()<p.getpX()+p.getLenght()) && player.getSpeed()<=0) {
                 return true;
             }
         }
@@ -152,10 +152,13 @@ public class GameEngine extends Activity implements SensorEventListener {
 
     public void takeObject(){
         for (Object o: objects) {
-            if (o.getpY()<= player.getpY() && o.getpY()>=player.getpY()+100 && o.getpX()>= player.getpX() && o.getpX()>= player.getpX()+100 ) {
-                if(!player.hasObject()){
-                    player.pickObject(o);
+            if (o.getpY()<= player.getpY() && o.getpY()>=player.getpY()+player.getLenght() && o.getpX()>= player.getpX() && o.getpX()>= player.getpX()+player.getLenght() ) {
+                if(o.getpY()+o.getLenght()<= player.getpY() && o.getpY()+o.getLenght()>=player.getpY()+player.getLenght() && o.getpX()+o.getLenght()>= player.getpX() && o.getpX()+o.getLenght()>= player.getpX()+player.getLenght() ){
+                    if(!player.hasObject()){
+                        player.pickObject(o);
+                    }
                 }
+
             }
         }
     }

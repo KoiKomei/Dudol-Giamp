@@ -8,9 +8,11 @@ public class Player {
     private float acceleration;
     private float pX;
     private float pY;
+    private float lenght;
 
     public Player(){
         acceleration = 10;
+        this.lenght=100;
     }
 
     public void pickObject(Object object){
@@ -55,5 +57,9 @@ public class Player {
 
     public boolean hasObject() {
         return hasObject;
+    }
+
+    public float getLenght(){
+        return lenght;
     }
 }
