@@ -33,6 +33,9 @@ import android.hardware.SensorManager;
 
 import com.ilmale.doodlejump.view.GameView;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @SuppressLint("Registered")
 public class GameEngine extends Activity implements SensorEventListener {
 
@@ -45,18 +48,29 @@ public class GameEngine extends Activity implements SensorEventListener {
     private long lastUpdate;
     public static int x;
 
+    public Player player;
+    public List<Platform> platforms = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Initialize gameView and set it as the view
-        gameView = new GameView(this);
-        setContentView(gameView);
+
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         lastUpdate = System.currentTimeMillis();
 
+        player = new Player();
+        // Load Bob from his .png file
+        //bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.bob);
+        for (int i=0; i<10; i++){
+            platforms.add(new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
+                    i*50));
+        }
+        gameView = new GameView(this);
+        setContentView(gameView);
     }
 
     @Override
@@ -87,4 +101,45 @@ public class GameEngine extends Activity implements SensorEventListener {
             x -= (int) event.values[0];
         }
     }
+
+    public void jump(){
+        if(canJump()){
+            player.setSpeed(600);
+        }
+    }
+
+    public boolean canJump(){
+
+        for (Platform p: platforms) {
+            if (player.getpY() + 100 > p.getpY()+1 && (player.getpX()+100>p.getpX() || player.getpX()<p.getpX()+p.getLenght()) && player.getSpeed()<=0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void move(){
+        player.setpX(player.getpX()+x);
+        if(player.getSpeed()>0){
+            while (player.getSpeed()>0){
+                player.setSpeed(player.getSpeed() - player.getAcceleration());
+                player.setpY(player.getpY()+player.getAcceleration());
+                for (Platform p: platforms) {
+                    p.setpY(p.getpY()-player.getAcceleration());
+                }
+            }
+        }
+        else if (player.getSpeed()==0){
+            player.setpY(player.getpY()-player.getAcceleration());
+        }
+
+        for (Platform p: platforms) {
+            if(p.getpY()>getResources().getDisplayMetrics().heightPixels){
+                platforms.remove(p);
+                platforms.add(new Platform((float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
+                        0));
+            }
+        }
+    }
+
 }

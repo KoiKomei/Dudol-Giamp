@@ -15,12 +15,15 @@ public class Platform {
     public void setpX(float pX){
         this.pX=pX;
     }
+
     public float getpX(){
         return pX;
     }
+
     public float getpY(){
         return pY;
     }
+
     public void setpY(float pY){
         this.pY=pY;
     }

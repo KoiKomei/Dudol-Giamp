@@ -47,22 +47,9 @@ public class GameView extends SurfaceView implements Runnable{
 
         // Declare an object of type Bitmap
         Bitmap bitmapBob;
+        Bitmap bitmapPlatform;
 
-        Player player;
-
-        List<Platform> platforms = new ArrayList<>();
-
-        // Bob starts off not moving
-        boolean isMoving = false;
-
-        // He can walk at 150 pixels per second
-        float walkSpeedPerSecond = 150;
-
-        // He starts 10 pixels from the left
-        float bobXPosition = 10;
-
-        // He starts 10 pixels from the lower bound
-        float bobYPosition = 10;
+        GameEngine ge;
 
         public GameView(Context context) {
             // The next line of code asks the
@@ -70,16 +57,10 @@ public class GameView extends SurfaceView implements Runnable{
             // How kind.
             super(context);
 
+            ge =(GameEngine) context;
             // Initialize ourHolder and paint objects
             ourHolder = getHolder();
             paint = new Paint();
-            player = new Player();
-            // Load Bob from his .png file
-            //bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.bob);
-            for (int i=0; i<10; i++){
-                platforms.add(new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
-                        i*50));
-            }
 
         }
 
@@ -109,33 +90,6 @@ public class GameView extends SurfaceView implements Runnable{
 
         public void update() {
 
-            bobXPosition = bobXPosition + GameEngine.x;
-            if(player.getSpeed()>0){
-                while (player.getSpeed()>0){
-                    player.setSpeed(player.getSpeed() - player.getAcceleration());
-                    bobYPosition = bobYPosition + player.getAcceleration();
-                    for (Platform p: platforms) {
-                        p.setpY(p.getpY()-player.getAcceleration());
-                    }
-                }
-            }
-            else if (player.getSpeed()==0){
-                bobYPosition = bobYPosition - player.getAcceleration();
-            }
-
-            for (Platform p: platforms) {
-                if(p.getpY()>getResources().getDisplayMetrics().heightPixels){
-                    platforms.remove(p);
-                    platforms.add(new Platform((float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
-                            0));
-                }
-            }
-
-            for (Platform p: platforms) {
-                if (bobYPosition + bitmapBob.getHeight() > p.getpY()+1 && (bobXPosition+bitmapBob.getWidth()>p.getpX() || bobXPosition<p.getpX()+p.getLenght()) && player.getSpeed()<=0) {
-                    player.setSpeed(600);
-                }
-            }
         }
 
         public void draw() {
@@ -159,7 +113,11 @@ public class GameView extends SurfaceView implements Runnable{
                 canvas.drawText("FPS:" + fps, 20, 40, paint);
 
                 // Draw bob at bobXPosition, bobYPosition
-                canvas.drawBitmap(bitmapBob, bobXPosition, bobYPosition, paint);
+                canvas.drawBitmap(bitmapBob, ge.player.getpX(), ge.player.getpY(), paint);
+
+                for (Platform p: ge.platforms) {
+                    canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
+                }
 
                 // Draw everything to the screen
                 // and unlock the drawing surface
