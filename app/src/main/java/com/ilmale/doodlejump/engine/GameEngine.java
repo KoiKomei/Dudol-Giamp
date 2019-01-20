@@ -50,6 +50,7 @@ public class GameEngine extends Activity implements SensorEventListener {
 
     public Player player;
     public List<Platform> platforms = new ArrayList<>();
+    public List<Object> objects = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,13 @@ public class GameEngine extends Activity implements SensorEventListener {
         return false;
     }
 
+    public boolean canShoot(){
+        if(player.getObject().getType()==ObjectType.BULLET){
+            return true;
+        }
+        return false;
+    }
+
     public void move(){
         player.setpX(player.getpX()+x);
         if(player.getSpeed()>0){
@@ -138,6 +146,16 @@ public class GameEngine extends Activity implements SensorEventListener {
                 platforms.remove(p);
                 platforms.add(new Platform((float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
                         0));
+            }
+        }
+    }
+
+    public void takeObject(){
+        for (Object o: objects) {
+            if (o.getpY()<= player.getpY() && o.getpY()>=player.getpY()+100 && o.getpX()>= player.getpX() && o.getpX()>= player.getpX()+100 ) {
+                if(!player.hasObject()){
+                    player.pickObject(o);
+                }
             }
         }
     }

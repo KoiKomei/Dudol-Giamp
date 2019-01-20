@@ -2,6 +2,7 @@ package com.ilmale.doodlejump.engine;
 
 public class Player {
 
+    private Object object;
     private boolean hasObject;
     private float speed;
     private float acceleration;
@@ -9,12 +10,11 @@ public class Player {
     private float pY;
 
     public Player(){
-        hasObject = false;
         acceleration = 10;
     }
 
-    public boolean pickObject(){
-        return !hasObject;
+    public void pickObject(Object object){
+        this.object=object;
     }
 
     public void update(){
@@ -49,5 +49,11 @@ public class Player {
         this.pY=pY;
     }
 
+    public Object getObject() {
+        return object;
+    }
 
+    public boolean hasObject() {
+        return hasObject;
+    }
 }
