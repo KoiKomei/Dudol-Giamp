@@ -14,6 +14,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.ilmale.doodlejump.engine.GameEngine;
+import com.ilmale.doodlejump.engine.Object;
+import com.ilmale.doodlejump.engine.ObjectType;
 import com.ilmale.doodlejump.engine.Platform;
 import com.ilmale.doodlejump.engine.Player;
 
@@ -47,12 +49,16 @@ public class GameView extends SurfaceView implements Runnable{
 
         // Declare an object of type Bitmap
         Bitmap bitmapBob;
+
         Bitmap bitmapPlatform;
 
         Bitmap bitmapBULLET;
         Bitmap bitmapHAT;
         Bitmap bitmapJETPACK;
         Bitmap bitmapSPRINGS;
+        Bitmap bitmapSHIELD;
+
+        Bitmap bitmapEnemy;
 
         GameEngine ge;
 
@@ -152,28 +158,48 @@ public class GameView extends SurfaceView implements Runnable{
 
         // The SurfaceView class implements onTouchListener
         // So we can override this method and detect screen touches.
-       /* @Override
-        public boolean onTouchEvent(MotionEvent motionEvent) {
 
-            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
-                // Player has touched the screen
-                case MotionEvent.ACTION_DOWN:
-
-                    // Set isMoving so Bob is moved in the update method
-                    isMoving = true;
-
-                    break;
-
-                // Player has removed finger from screen
-                case MotionEvent.ACTION_UP:
-
-                    // Set isMoving so Bob does not move
-                    isMoving = false;
-
-                    break;
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            if(ge.canShoot()){
+                ge.Shoot();
             }
-            return true;
-        }*/
+            return super.onTouchEvent(event);
+        }
+
+
+
+        public Bitmap getBitmapBob() {
+            return bitmapBob;
+        }
+
+        public Bitmap getBitmapPlatform() {
+            return bitmapPlatform;
+        }
+
+        public Bitmap getBitmapBULLET() {
+            return bitmapBULLET;
+        }
+
+        public Bitmap getBitmapHAT() {
+            return bitmapHAT;
+        }
+
+        public Bitmap getBitmapJETPACK() {
+            return bitmapJETPACK;
+        }
+
+        public Bitmap getBitmapSPRINGS() {
+            return bitmapSPRINGS;
+        }
+
+        public Bitmap getBitmapSHIELD() {
+        return bitmapSHIELD;
+    }
+
+        public Bitmap getBitmapEnemy() {
+            return bitmapEnemy;
+        }
 
 }

@@ -1,19 +1,21 @@
 package com.ilmale.doodlejump.engine;
 
-enum ObjectType{BULLET,HAT,JETPACK,SPRINGS};
 public class Object {
 
     private float pX;
     private float pY;
-    private float lenght;
+    private float speedX;
+    private float timeShield;
 
     private ObjectType type;
+
+    public Object(){}
 
     public Object(ObjectType type, float pX, float pY){
         this.pX=pX;
         this.pY=pY;
-        this.lenght=100;
         this.type=type;
+        this.speedX=0;
     }
 
     public void setType(ObjectType type){
@@ -40,9 +42,20 @@ public class Object {
         this.pY=pY;
     }
 
-    public float getLenght(){
-        return lenght;
+    public float getSpeedX() {
+        return speedX;
     }
 
+    public void setSpeedX(float speedX) {
+        this.speedX = speedX;
+    }
+
+    public float getTimeShield() {
+        return timeShield;
+    }
+
+    public void setTimeShield(float timeShield) {
+        this.timeShield = timeShield;
+    }
 
 }

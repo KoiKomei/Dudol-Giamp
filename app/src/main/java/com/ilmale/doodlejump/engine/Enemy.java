@@ -1,11 +1,13 @@
 package com.ilmale.doodlejump.engine;
 
-public class Platform {
+public class Enemy {
 
     private float pX;
     private float pY;
 
-    public Platform(float pX, float pY){
+    public Enemy(){}
+
+    public Enemy(float pX, float pY){
         this.pX=pX;
         this.pY=pY;
     }
@@ -25,5 +27,4 @@ public class Platform {
     public void setpY(float pY){
         this.pY=pY;
     }
-
 }
