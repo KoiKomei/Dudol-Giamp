@@ -1,15 +1,15 @@
-package com.ilmale.doodlejump.mammata;
+package com.ilmale.doodlejump.domain;
 
-public class Platform extends AbstractGameObject {
+public class Enemy extends AbstractGameObject {
 
     private float pX;
     private float pY;
-    private boolean hasSprings;
 
-    public Platform(float pX, float pY){
+    public Enemy(){}
+
+    public Enemy(float pX, float pY){
         this.pX=pX;
         this.pY=pY;
-        this.hasSprings=false;
     }
 
     public void setpX(float pX){
@@ -26,14 +26,6 @@ public class Platform extends AbstractGameObject {
 
     public void setpY(float pY){
         this.pY=pY;
-    }
-
-    public boolean hasSprings() {
-        return hasSprings;
-    }
-
-    public void setHasSprings(boolean hasSprings) {
-        this.hasSprings = hasSprings;
     }
 
     @Override

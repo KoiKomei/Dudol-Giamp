@@ -1,4 +1,4 @@
-package com.ilmale.doodlejump.mammata;
+package com.ilmale.doodlejump.domain;
 
 public abstract class AbstractGameObject {
 

@@ -10,8 +10,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.ilmale.doodlejump.sorta.GameEngine;
-import com.ilmale.doodlejump.mammata.Platform;
+import com.ilmale.doodlejump.engine.GameEngine;
+import com.ilmale.doodlejump.domain.Platform;
 
 public class GameView extends SurfaceView implements Runnable{
 

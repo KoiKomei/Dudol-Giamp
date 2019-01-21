@@ -1,4 +1,4 @@
-package com.ilmale.doodlejump.sorta;
+package com.ilmale.doodlejump.engine;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,7 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 
-import com.ilmale.doodlejump.mammata.*;
+import com.ilmale.doodlejump.domain.*;
 import com.ilmale.doodlejump.view.GameView;
 
 import java.util.List;
