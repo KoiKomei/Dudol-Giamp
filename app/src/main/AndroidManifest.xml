@@ -39,6 +39,7 @@
                 android:name = "android.support.PARENT_ACTIVITY"
                 android:value = "com.ilmale.doodlejump.MainActivity" />
         </activity>
+        <activity android:name=".GameActivity" />
     </application>
 
 </manifest>

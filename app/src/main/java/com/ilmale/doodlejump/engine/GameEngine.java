@@ -2,6 +2,7 @@ package com.ilmale.doodlejump.engine;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.hardware.Sensor;
@@ -15,7 +16,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 @SuppressLint("Registered")
-public class GameEngine extends Activity implements SensorEventListener {
+public class GameEngine extends Activity implements SensorEventListener
+{
 
     // gameView will be the view of the game
     // It will also hold the logic of the game
@@ -31,6 +33,37 @@ public class GameEngine extends Activity implements SensorEventListener {
     public List<Bullet> bullets = new ArrayList<>();
     public Item item;
     public Enemy enemy;
+
+    public GameView getGameView(){
+        return gameView;
+    }
+
+    public GameEngine(Context context){
+        lastUpdate = System.currentTimeMillis();
+
+        gameView = new GameView(context);
+
+        player = new Player();
+        player.setpX(getResources().getDisplayMetrics().widthPixels/2-gameView.getBitmapBob().getWidth()/2);
+        player.setpY((getResources().getDisplayMetrics().heightPixels - 50) - gameView.getBitmapBob().getHeight());
+
+        for (int i=0; i<10; i++){
+            int j = (int) Math.random()*10+1;
+            Platform platform= new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),i*50);
+            if(j==5){
+                platform.setHasSprings(true);
+            }
+            platforms.add(platform);
+        }
+
+        enemy = new Enemy();
+        enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
+        enemy.setpY(-300);
+
+        Item item = new Item();
+        enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
+        enemy.setpY(-300);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
