@@ -38,6 +38,8 @@ public class GameEngine extends Activity implements SensorEventListener
         return gameView;
     }
 
+    public GameEngine(){};
+
     public GameEngine(Context context){
         lastUpdate = System.currentTimeMillis();
 

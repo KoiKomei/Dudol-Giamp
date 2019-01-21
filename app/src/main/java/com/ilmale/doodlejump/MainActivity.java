@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "onStart");
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
