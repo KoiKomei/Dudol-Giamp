@@ -74,8 +74,12 @@ public class GameEngine extends Activity implements SensorEventListener {
         // Load Bob from his .png file
         //bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.bob);
         for (int i=0; i<10; i++){
-            platforms.add(new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
-                    i*50));
+            int j = (int) Math.random()*10+1;
+            Platform platform= new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),i*50);
+            if(j==5){
+                platform.setHasSprings(true);
+            }
+            platforms.add(platform);
         }
         enemy = new Enemy();
         enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
@@ -117,20 +121,17 @@ public class GameEngine extends Activity implements SensorEventListener {
         }
     }
 
-    public void jump(){
-        if(canJump()){
-            player.setSpeed(600);
-        }
-    }
-
-    public boolean canJump(){
-
+    public void Jump(){
         for (Platform p: platforms) {
             if (player.getpY() + gameView.getBitmapBob().getHeight() > p.getpY()+1 && (player.getpX()+gameView.getBitmapBob().getWidth()>p.getpX() || player.getpX()<p.getpX()+gameView.getBitmapPlatform().getWidth()) && player.getSpeed()<=0) {
-                return true;
+                if(p.hasSprings()){
+                    player.setSpeed(1200);
+                }
+                else {
+                    player.setSpeed(600);
+                }
             }
         }
-        return false;
     }
 
     public void move(){
@@ -147,7 +148,7 @@ public class GameEngine extends Activity implements SensorEventListener {
             }
         }
         else if (player.getSpeed()<=0){
-            if(player.hasObject() && player.getObject().getType()==ObjectType.HAT && player.getObject().getType()==ObjectType.JETPACK && player.getObject().getType()==ObjectType.SPRINGS ){
+            if(player.hasObject() && player.getObject().getType()==ObjectType.HAT && player.getObject().getType()==ObjectType.JETPACK ){
                 player.loseObject();
             }
             player.setpY(player.getpY()+player.getAcceleration());
@@ -187,10 +188,6 @@ public class GameEngine extends Activity implements SensorEventListener {
                             object.setpX(player.getpX());
                             object.setpY(player.getpY());
                             player.setSpeed(4000);
-                        case SPRINGS:
-                            object.setpX(player.getpX());
-                            object.setpY(player.getpY()+gameView.getBitmapBob().getHeight());
-                            player.setSpeed(1200);
                     }
                 }
             }

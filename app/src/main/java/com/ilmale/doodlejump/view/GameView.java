@@ -128,6 +128,10 @@ public class GameView extends SurfaceView implements Runnable{
 
                 for (Platform p: ge.platforms) {
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
+                    if(p.hasSprings()){
+                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY(), paint);
+                    }
+
                 }
 
                 // Draw everything to the screen
