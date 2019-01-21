@@ -50,6 +50,7 @@ public class GameEngine extends Activity implements SensorEventListener {
 
     public Player player;
     public List<Platform> platforms = new ArrayList<>();
+    public List<Bullet> bullets = new ArrayList<>();
     public Object object;
     public Enemy enemy;
 
@@ -132,33 +133,24 @@ public class GameEngine extends Activity implements SensorEventListener {
         return false;
     }
 
-    public boolean canShoot(){
-        if(player.getObject().getType()==ObjectType.BULLET){
-            return true;
-        }
-        return false;
-    }
-
     public void move(){
         player.setpX(player.getpX()+x);
         if(player.getSpeed()>0){
             while (player.getSpeed()>0){
-                player.setSpeed(player.getSpeed() - player.getAcceleration());
-                player.setpY(player.getpY()+player.getAcceleration());
+                player.setSpeed(player.getSpeed() + player.getAcceleration());
+                player.setpY(player.getpY()-player.getAcceleration());
                 for (Platform p: platforms) {
-                    p.setpY(p.getpY()-player.getAcceleration());
+                    p.setpY(p.getpY()+player.getAcceleration());
                 }
-                if(object.getType() != ObjectType.BULLETSHOOTED){
-                    object.setpY(object.getpY()-player.getAcceleration());
-                }
-                enemy.setpY(enemy.getpY()-player.getAcceleration());
+                object.setpY(object.getpY()+player.getAcceleration());
+                enemy.setpY(enemy.getpY()+player.getAcceleration());
             }
         }
         else if (player.getSpeed()<=0){
             if(player.hasObject() && player.getObject().getType()==ObjectType.HAT && player.getObject().getType()==ObjectType.JETPACK && player.getObject().getType()==ObjectType.SPRINGS ){
                 player.loseObject();
             }
-            player.setpY(player.getpY()-player.getAcceleration());
+            player.setpY(player.getpY()+player.getAcceleration());
         }
 
         for (Platform p: platforms) {
@@ -168,20 +160,21 @@ public class GameEngine extends Activity implements SensorEventListener {
                         0));
             }
         }
-        if(object.getType() == ObjectType.BULLETSHOOTED){
-            object.setpX(object.getpX()+object.getSpeedX());
+        for(Bullet b:bullets){
+            b.setpY(b.getpY()-b.getSpeed());
+            if(b.getpY()<0){
+                bullets.remove(b);
+            }
+
         }
     }
 
     public void takeObject(){
         if (object.getpY()<= player.getpY() && object.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && object.getpX()>= player.getpX() && object.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
             if(object.getpY()+100<= player.getpY() && object.getpY()+100>=player.getpY()+gameView.getBitmapBob().getHeight() && object.getpX()+100>= player.getpX() && object.getpX()+100>= player.getpX()+gameView.getBitmapBob().getWidth() ){
-                if(!player.hasObject() && object.getType()!=ObjectType.BULLETSHOOTED){
+                if(!player.hasObject()){
                     player.pickObject(object);
                     switch (object.getType()){
-                        case BULLET:
-                            object.setpX(player.getpX());
-                            object.setpY(player.getpY());
                         case HAT:
                             object.setpX(player.getpX());
                             object.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
@@ -205,9 +198,9 @@ public class GameEngine extends Activity implements SensorEventListener {
     }
 
     public void killEnemy(){
-        if(object.getType() == ObjectType.BULLETSHOOTED) {
-            if (enemy.getpY() <= object.getpY() && enemy.getpY() >= object.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() >= object.getpX() && enemy.getpX() >= object.getpX() + gameView.getBitmapBULLET().getWidth()) {
-                if (enemy.getpY() + gameView.getBitmapEnemy().getHeight() <= object.getpY() && enemy.getpY() + gameView.getBitmapEnemy().getHeight() >= object.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= object.getpX() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= object.getpX() + gameView.getBitmapBULLET().getWidth()) {
+        for(Bullet b:bullets){
+            if (enemy.getpY() <= b.getpY() && enemy.getpY() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() >= b.getpX() && enemy.getpX() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
+                if (enemy.getpY() + gameView.getBitmapEnemy().getHeight() <= b.getpY() && enemy.getpY() + gameView.getBitmapEnemy().getHeight() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
                     enemy.setpX((float) Math.random() * getResources().getDisplayMetrics().widthPixels);
                     enemy.setpY(-300);
                 }
@@ -234,14 +227,7 @@ public class GameEngine extends Activity implements SensorEventListener {
     }
 
     public void Shoot() {
-        if(x>0){
-            object.setType(ObjectType.BULLETSHOOTED );
-            object.setSpeedX(10);
-            player.loseObject();
-        }else{
-            object.setType(ObjectType.BULLETSHOOTED );
-            object.setSpeedX(-10);
-            player.loseObject();
-        }
+        Bullet bullet = new Bullet(player.getpX(), player.getpY(),30);
+        bullets.add(bullet);
     }
 }

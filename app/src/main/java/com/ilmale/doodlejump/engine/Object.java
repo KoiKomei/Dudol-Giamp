@@ -4,7 +4,6 @@ public class Object {
 
     private float pX;
     private float pY;
-    private float speedX;
     private float timeShield;
 
     private ObjectType type;
@@ -15,7 +14,6 @@ public class Object {
         this.pX=pX;
         this.pY=pY;
         this.type=type;
-        this.speedX=0;
     }
 
     public void setType(ObjectType type){
@@ -40,14 +38,6 @@ public class Object {
 
     public void setpY(float pY){
         this.pY=pY;
-    }
-
-    public float getSpeedX() {
-        return speedX;
-    }
-
-    public void setSpeedX(float speedX) {
-        this.speedX = speedX;
     }
 
     public float getTimeShield() {

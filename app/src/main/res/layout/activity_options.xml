@@ -7,20 +7,64 @@
     android:layout_height="match_parent"
     tools:context=".OptionsActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="662dp"
+        android:layout_height="658dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/optionsText"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:textStyle="bold"
+        android:contentDescription="@string/main_menu_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/dudol_giamp_background" />
+
+    <Switch
+        android:id="@+id/SOUND"
+        android:layout_width="287dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="550dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="544dp"
+        android:checked="true"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="36sp"
+        android:text="SOUND"
+        android:textColor="@color/design_default_color_primary"
+        android:textSize="36sp"
+        android:typeface="serif"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image2"
+        app:layout_constraintVertical_bias="0.66" />
+
+    <Switch
+        android:id="@+id/MUSIC"
+        android:layout_width="287dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="1000dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="544dp"
+        android:checked="true"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="36sp"
+        android:text="MUSIC"
+        android:textColor="@color/design_default_color_primary"
+        android:textSize="36sp"
+        android:typeface="serif"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/image2"
+        app:layout_constraintVertical_bias="0.96"
+        tools:checked="true" />
+
 </android.support.constraint.ConstraintLayout>

@@ -162,9 +162,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            if(ge.canShoot()){
-                ge.Shoot();
-            }
+            ge.Shoot();
             return super.onTouchEvent(event);
         }
 
