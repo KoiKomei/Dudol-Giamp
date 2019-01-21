@@ -1,26 +1,26 @@
-package com.ilmale.doodlejump.engine;
+package com.ilmale.doodlejump.mammata;
 
-public class Object {
+public class Item extends AbstractGameObject {
 
     private float pX;
     private float pY;
     private float timeShield;
 
-    private ObjectType type;
+    private EnumItemType type;
 
-    public Object(){}
+    public Item(){}
 
-    public Object(ObjectType type, float pX, float pY){
+    public Item(EnumItemType type, float pX, float pY){
         this.pX=pX;
         this.pY=pY;
         this.type=type;
     }
 
-    public void setType(ObjectType type){
+    public void setType(EnumItemType type){
         this.type = type;
     }
 
-    public ObjectType getType() {
+    public EnumItemType getType() {
         return type;
     }
 
@@ -48,4 +48,8 @@ public class Object {
         this.timeShield = timeShield;
     }
 
+    @Override
+    public void update() {
+
+    }
 }

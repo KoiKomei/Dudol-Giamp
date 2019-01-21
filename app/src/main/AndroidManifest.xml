@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name="engine.GameEngine"
+            android:name="sorta.GameEngine"
             android:label="DoodleJump"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

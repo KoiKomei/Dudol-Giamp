@@ -1,8 +1,8 @@
-package com.ilmale.doodlejump.engine;
+package com.ilmale.doodlejump.mammata;
 
-public class Player {
+public class Player extends AbstractGameObject {
 
-    private Object object;
+    private Item item;
     private boolean hasObject;
     private float speed;
     private float acceleration;
@@ -13,16 +13,17 @@ public class Player {
         acceleration = 10;
     }
 
-    public void pickObject(Object object){
-        this.object=object;
+    public void pickObject(Item item){
+        this.item = item;
         this.hasObject=true;
     }
 
     public void loseObject(){
-        this.object=null;
+        this.item =null;
         this.hasObject=false;
     }
 
+    @Override
     public void update(){
 
     }
@@ -55,8 +56,8 @@ public class Player {
         this.pY=pY;
     }
 
-    public Object getObject() {
-        return object;
+    public Item getItem() {
+        return item;
     }
 
     public boolean hasObject() {

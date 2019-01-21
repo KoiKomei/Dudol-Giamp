@@ -1,36 +1,14 @@
-package com.ilmale.doodlejump.engine;
+package com.ilmale.doodlejump.sorta;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.hardware.SensorEventListener;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;import android.app.Activity;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import com.ilmale.doodlejump.mammata.*;
 import com.ilmale.doodlejump.view.GameView;
 
 import java.util.List;
@@ -51,7 +29,7 @@ public class GameEngine extends Activity implements SensorEventListener {
     public Player player;
     public List<Platform> platforms = new ArrayList<>();
     public List<Bullet> bullets = new ArrayList<>();
-    public Object object;
+    public Item item;
     public Enemy enemy;
 
     @Override
@@ -85,7 +63,7 @@ public class GameEngine extends Activity implements SensorEventListener {
         enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
         enemy.setpY(-300);
 
-        Object object = new Object();
+        Item item = new Item();
         enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
         enemy.setpY(-300);
 
@@ -143,12 +121,12 @@ public class GameEngine extends Activity implements SensorEventListener {
                 for (Platform p: platforms) {
                     p.setpY(p.getpY()+player.getAcceleration());
                 }
-                object.setpY(object.getpY()+player.getAcceleration());
+                item.setpY(item.getpY()+player.getAcceleration());
                 enemy.setpY(enemy.getpY()+player.getAcceleration());
             }
         }
         else if (player.getSpeed()<=0){
-            if(player.hasObject() && player.getObject().getType()==ObjectType.HAT && player.getObject().getType()==ObjectType.JETPACK ){
+            if(player.hasObject() && player.getItem().getType()==EnumItemType.HAT && player.getItem().getType()==EnumItemType.JETPACK ){
                 player.loseObject();
             }
             player.setpY(player.getpY()+player.getAcceleration());
@@ -171,22 +149,22 @@ public class GameEngine extends Activity implements SensorEventListener {
     }
 
     public void takeObject(){
-        if (object.getpY()<= player.getpY() && object.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && object.getpX()>= player.getpX() && object.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-            if(object.getpY()+100<= player.getpY() && object.getpY()+100>=player.getpY()+gameView.getBitmapBob().getHeight() && object.getpX()+100>= player.getpX() && object.getpX()+100>= player.getpX()+gameView.getBitmapBob().getWidth() ){
+        if (item.getpY()<= player.getpY() && item.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && item.getpX()>= player.getpX() && item.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
+            if(item.getpY()+100<= player.getpY() && item.getpY()+100>=player.getpY()+gameView.getBitmapBob().getHeight() && item.getpX()+100>= player.getpX() && item.getpX()+100>= player.getpX()+gameView.getBitmapBob().getWidth() ){
                 if(!player.hasObject()){
-                    player.pickObject(object);
-                    switch (object.getType()){
+                    player.pickObject(item);
+                    switch (item.getType()){
                         case HAT:
-                            object.setpX(player.getpX());
-                            object.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
+                            item.setpX(player.getpX());
+                            item.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
                             player.setSpeed(3000);
                         case SHIELD:
-                            object.setpX(player.getpX());
-                            object.setpY(player.getpY());
-                            object.setTimeShield(1000);
+                            item.setpX(player.getpX());
+                            item.setpY(player.getpY());
+                            item.setTimeShield(1000);
                         case JETPACK:
-                            object.setpX(player.getpX());
-                            object.setpY(player.getpY());
+                            item.setpX(player.getpX());
+                            item.setpY(player.getpY());
                             player.setSpeed(4000);
                     }
                 }
@@ -208,7 +186,7 @@ public class GameEngine extends Activity implements SensorEventListener {
     public boolean killedByEnemy(){
         if (enemy.getpY()<= player.getpY() && enemy.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && enemy.getpX()>= player.getpX() && enemy.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
             if(enemy.getpY()+gameView.getBitmapEnemy().getHeight()<= player.getpY() && enemy.getpY()+gameView.getBitmapEnemy().getHeight()>=player.getpY()+gameView.getBitmapBob().getHeight() && enemy.getpX()+gameView.getBitmapEnemy().getWidth()>= player.getpX() && enemy.getpX()+gameView.getBitmapEnemy().getWidth()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-                if (player.getObject().getType()!=ObjectType.SHIELD) {
+                if (player.getItem().getType()!=EnumItemType.SHIELD) {
                     return true;
                 }
             }

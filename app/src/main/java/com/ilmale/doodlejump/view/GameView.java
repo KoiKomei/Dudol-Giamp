@@ -2,26 +2,16 @@ package com.ilmale.doodlejump.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.ilmale.doodlejump.engine.GameEngine;
-import com.ilmale.doodlejump.engine.Object;
-import com.ilmale.doodlejump.engine.ObjectType;
-import com.ilmale.doodlejump.engine.Platform;
-import com.ilmale.doodlejump.engine.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.ilmale.doodlejump.sorta.GameEngine;
+import com.ilmale.doodlejump.mammata.Platform;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -37,7 +27,7 @@ public class GameView extends SurfaceView implements Runnable{
         // when the game is running- or not.
         volatile boolean playing;
 
-        // A Canvas and a Paint object
+        // A Canvas and a Paint item
         Canvas canvas;
         Paint paint;
 
@@ -47,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable{
         // This is used to help calculate the fps
         private long timeThisFrame;
 
-        // Declare an object of type Bitmap
+        // Declare an item of type Bitmap
         Bitmap bitmapBob;
 
         Bitmap bitmapPlatform;
@@ -64,7 +54,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         public GameView(Context context) {
             // The next line of code asks the
-            // SurfaceView class to set up our object.
+            // SurfaceView class to set up our item.
             // How kind.
             super(context);
 
@@ -108,7 +98,7 @@ public class GameView extends SurfaceView implements Runnable{
             // Make sure our drawing surface is valid or we crash
             if (ourHolder.getSurface().isValid()) {
                 // Lock the canvas ready to draw
-                // Make the drawing surface our canvas object
+                // Make the drawing surface our canvas item
                 canvas = ourHolder.lockCanvas();
 
                 // Draw the background color

@@ -1,6 +1,6 @@
-package com.ilmale.doodlejump.engine;
+package com.ilmale.doodlejump.mammata;
 
-public class Platform {
+public class Platform extends AbstractGameObject {
 
     private float pX;
     private float pY;
@@ -34,5 +34,10 @@ public class Platform {
 
     public void setHasSprings(boolean hasSprings) {
         this.hasSprings = hasSprings;
+    }
+
+    @Override
+    public void update() {
+
     }
 }

@@ -1,6 +1,6 @@
-package com.ilmale.doodlejump.engine;
+package com.ilmale.doodlejump.mammata;
 
-public class Enemy {
+public class Enemy extends AbstractGameObject {
 
     private float pX;
     private float pY;
@@ -26,5 +26,10 @@ public class Enemy {
 
     public void setpY(float pY){
         this.pY=pY;
+    }
+
+    @Override
+    public void update() {
+
     }
 }

@@ -1,6 +1,6 @@
-package com.ilmale.doodlejump.engine;
+package com.ilmale.doodlejump.mammata;
 
-public class Bullet {
+public class Bullet extends AbstractGameObject {
 
     private float pX;
     private float pY;
@@ -36,5 +36,10 @@ public class Bullet {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    @Override
+    public void update() {
+
     }
 }
