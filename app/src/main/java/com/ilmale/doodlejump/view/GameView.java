@@ -41,15 +41,12 @@ public class GameView extends SurfaceView implements Runnable{
 
         // Declare an item of type Bitmap
         Bitmap bitmapBob;
-
         Bitmap bitmapPlatform;
-
         Bitmap bitmapBULLET;
         Bitmap bitmapHAT;
         Bitmap bitmapJETPACK;
         Bitmap bitmapSPRINGS;
         Bitmap bitmapSHIELD;
-
         Bitmap bitmapEnemy;
 
         GameEngine gameEngine;
