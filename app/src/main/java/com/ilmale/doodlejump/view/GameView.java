@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.ilmale.doodlejump.domain.Bullet;
+import com.ilmale.doodlejump.domain.EnumItemType;
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.domain.Platform;
 
@@ -39,18 +41,15 @@ public class GameView extends SurfaceView implements Runnable{
 
         // Declare an item of type Bitmap
         Bitmap bitmapBob;
-
         Bitmap bitmapPlatform;
-
         Bitmap bitmapBULLET;
         Bitmap bitmapHAT;
         Bitmap bitmapJETPACK;
         Bitmap bitmapSPRINGS;
         Bitmap bitmapSHIELD;
-
         Bitmap bitmapEnemy;
 
-        GameEngine ge;
+        GameEngine gameEngine;
 
         public GameView(Context context) {
             // The next line of code asks the
@@ -58,7 +57,7 @@ public class GameView extends SurfaceView implements Runnable{
             // How kind.
             super(context);
 
-            ge =(GameEngine) context;
+            gameEngine =(GameEngine) context;
             // Initialize ourHolder and paint objects
             ourHolder = getHolder();
             paint = new Paint();
@@ -90,7 +89,7 @@ public class GameView extends SurfaceView implements Runnable{
 
 
         public void update() {
-
+            gameEngine.update();
         }
 
         public void draw() {
@@ -114,14 +113,27 @@ public class GameView extends SurfaceView implements Runnable{
                 canvas.drawText("FPS:" + fps, 20, 40, paint);
 
                 // Draw bob at bobXPosition, bobYPosition
-                canvas.drawBitmap(bitmapBob, ge.player.getpX(), ge.player.getpY(), paint);
+                canvas.drawBitmap(bitmapBob, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
 
-                for (Platform p: ge.platforms) {
+                for (Platform p: gameEngine.platforms) {
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
                     if(p.hasSprings()){
-                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY(), paint);
+                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY()-bitmapSPRINGS.getHeight(), paint);
                     }
 
+                }
+                for (Bullet b: gameEngine.bullets){
+                    canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);
+                }
+
+                if(gameEngine.item.getType()== EnumItemType.JETPACK){
+                    canvas.drawBitmap(bitmapJETPACK, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
+                }
+                else if(gameEngine.item.getType()== EnumItemType.HAT){
+                    canvas.drawBitmap(bitmapHAT, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
+                }
+                else if(gameEngine.item.getType()== EnumItemType.SHIELD){
+                    canvas.drawBitmap(bitmapSHIELD, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
                 }
 
                 // Draw everything to the screen
@@ -156,7 +168,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            ge.Shoot();
+            gameEngine.shoot();
             return super.onTouchEvent(event);
         }
 

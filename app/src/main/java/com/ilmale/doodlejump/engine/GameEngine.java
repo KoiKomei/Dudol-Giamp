@@ -59,12 +59,11 @@ public class GameEngine extends Activity implements SensorEventListener
         }
 
         enemy = new Enemy();
-        enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
-        enemy.setpY(-300);
+        placeEnemy();
 
         Item item = new Item();
-        enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
-        enemy.setpY(-300);
+        placeItem();
+
     }
 
     @Override
@@ -134,7 +133,7 @@ public class GameEngine extends Activity implements SensorEventListener
         }
     }
 
-    public void Jump(){
+    public void jump(){
         for (Platform p: platforms) {
             if (player.getpY() + gameView.getBitmapBob().getHeight() > p.getpY()+1 && (player.getpX()+gameView.getBitmapBob().getWidth()>p.getpX() || player.getpX()<p.getpX()+gameView.getBitmapPlatform().getWidth()) && player.getSpeed()<=0) {
                 if(p.hasSprings()){
@@ -152,7 +151,9 @@ public class GameEngine extends Activity implements SensorEventListener
         if(player.getSpeed()>0){
             while (player.getSpeed()>0){
                 player.setSpeed(player.getSpeed() + player.getAcceleration());
-                player.setpY(player.getpY()-player.getAcceleration());
+                if(player.getpY()+gameView.getBitmapBob().getHeight()>getResources().getDisplayMetrics().heightPixels/2){
+                    player.setpY(player.getpY()-player.getAcceleration());
+                }
                 for (Platform p: platforms) {
                     p.setpY(p.getpY()+player.getAcceleration());
                 }
@@ -163,6 +164,7 @@ public class GameEngine extends Activity implements SensorEventListener
         else if (player.getSpeed()<=0){
             if(player.hasObject() && player.getItem().getType()==EnumItemType.HAT && player.getItem().getType()==EnumItemType.JETPACK ){
                 player.loseObject();
+                placeItem();
             }
             player.setpY(player.getpY()+player.getAcceleration());
         }
@@ -181,6 +183,32 @@ public class GameEngine extends Activity implements SensorEventListener
             }
 
         }
+        if(item.getpX()>getResources().getDisplayMetrics().heightPixels){
+            placeItem();
+        }
+        if(enemy.getpX()>getResources().getDisplayMetrics().heightPixels){
+            placeEnemy();
+        }
+    }
+
+    public void placeItem(){
+        int type = (int) Math.random()*3;
+        if(type==0){
+            item.setType(EnumItemType.HAT);
+        }
+        else if(type==1){
+            item.setType(EnumItemType.JETPACK);
+        }
+        else if(type==2){
+            item.setType(EnumItemType.SHIELD);
+        }
+        item.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
+        item.setpY(-300);
+    }
+
+    public void placeEnemy(){
+        enemy.setpX((float) Math.random() * getResources().getDisplayMetrics().widthPixels);
+        enemy.setpY(-300);
     }
 
     public void takeObject(){
@@ -211,8 +239,7 @@ public class GameEngine extends Activity implements SensorEventListener
         for(Bullet b:bullets){
             if (enemy.getpY() <= b.getpY() && enemy.getpY() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() >= b.getpX() && enemy.getpX() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
                 if (enemy.getpY() + gameView.getBitmapEnemy().getHeight() <= b.getpY() && enemy.getpY() + gameView.getBitmapEnemy().getHeight() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
-                    enemy.setpX((float) Math.random() * getResources().getDisplayMetrics().widthPixels);
-                    enemy.setpY(-300);
+                    placeEnemy();
                 }
             }
         }
@@ -236,8 +263,22 @@ public class GameEngine extends Activity implements SensorEventListener
         return false;
     }
 
-    public void Shoot() {
+    public void shoot() {
         Bullet bullet = new Bullet(player.getpX(), player.getpY(),30);
         bullets.add(bullet);
+    }
+
+    public void update() {
+        if(isDeath()){
+            endGame();
+        }
+        move();
+        jump();
+        takeObject();
+        killEnemy();
+    }
+
+    public void endGame(){
+
     }
 }
