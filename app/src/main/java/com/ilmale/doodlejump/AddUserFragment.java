@@ -58,7 +58,7 @@ public class AddUserFragment extends Fragment {
                 userEmail.setText("");
                 userName.setText("");
                 userPassword.setText("");
-                
+
 
             }
 
