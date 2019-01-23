@@ -13,7 +13,6 @@ public class AudioManager {
     private MediaPlayer hat_audio;
     private MediaPlayer jetpack_audio;
     private MediaPlayer springs_audio;
-    private MediaPlayer shield_audio;
     private MediaPlayer killEnemy_audio;
     private MediaPlayer jumpOnEnemy_audio;
     private MediaPlayer jump_audio;
@@ -89,12 +88,6 @@ public class AudioManager {
     public void playSprings_audio() {
         if(!springs_audio.isPlaying()){
             springs_audio.start();
-        }
-    }
-
-    public void playShield_audio() {
-        if(!shield_audio.isPlaying()){
-            shield_audio.start();
         }
     }
 
