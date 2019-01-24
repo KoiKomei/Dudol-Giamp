@@ -35,10 +35,10 @@ public class AudioManager {
         hat_audio=MediaPlayer.create(context,R.raw.hat_audio);
         jetpack_audio=MediaPlayer.create(context,R.raw.jetpack_audio);
         springs_audio=MediaPlayer.create(context,R.raw.springs_audio);
-        killEnemy_audio=MediaPlayer.create(context,R.raw.killEnemy_audio);
-        jumpOnEnemy_audio=MediaPlayer.create(context,R.raw.jumpOnEnemy_audio);
+        killEnemy_audio=MediaPlayer.create(context,R.raw.killenemy_audio);
+        jumpOnEnemy_audio=MediaPlayer.create(context,R.raw.jumponenemy_audio);
         jump_audio=MediaPlayer.create(context,R.raw.jump_audio);
-        buttonClick_audio=MediaPlayer.create(context,R.raw.buttonClick_audio);
+        buttonClick_audio=MediaPlayer.create(context,R.raw.buttonclick_audio);
         rain_audio=MediaPlayer.create(context,R.raw.rain_audio);
     }
 
