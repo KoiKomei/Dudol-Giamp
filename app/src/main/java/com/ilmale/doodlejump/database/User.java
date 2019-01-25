@@ -3,11 +3,12 @@ package com.ilmale.doodlejump.database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "User")
 public class User {
 
-    @PrimaryKey
+    @ColumnInfo
     private int id;
 
     @ColumnInfo(name="Nome_Utente")
@@ -16,6 +17,8 @@ public class User {
     @ColumnInfo(name="Password")
     private String password;
 
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name="Email")
     private String email;
 

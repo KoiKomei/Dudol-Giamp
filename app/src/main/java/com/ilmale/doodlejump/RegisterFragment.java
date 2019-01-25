@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    private Button BnRegister;
+    private Button BnRegister, BnRead, BnDelete, BnUpdate;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -27,6 +27,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         View view= inflater.inflate(R.layout.fragment_register, container, false);
         BnRegister=view.findViewById(R.id.bn_register);
         BnRegister.setOnClickListener(this);
+
+        BnRead=view.findViewById(R.id.bn_read);
+        BnRead.setOnClickListener(this);
+
+        BnDelete=view.findViewById(R.id.bn_delete);
+        BnDelete.setOnClickListener(this);
+
+        BnUpdate=view.findViewById(R.id.bn_update);
+        BnUpdate.setOnClickListener(this);
+
         return view;
     }
 
@@ -36,6 +46,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             case R.id.bn_register:
                 RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new AddUserFragment()).addToBackStack(null).commit();
                 break;
+            case R.id.bn_read:
+                RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new ReadUserFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.bn_delete:
+                RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new DeleteUserFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.bn_update:
+                RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new UpdateFragment()).addToBackStack(null).commit();
+                break;
+
         }
     }
 }
