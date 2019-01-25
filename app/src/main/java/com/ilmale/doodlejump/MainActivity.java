@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     SettingsSI settingsSI = SettingsSI.getInstance();
-    MediaPlayer backgound_music ;
+    AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
+        audioManager.create(this);
 
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,6 +44,29 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
+    public void initializeSettings(){
+        final SharedPreferences pref = getSharedPreferences("AUDIO_PREF",this.MODE_PRIVATE);
+        boolean musicInOn = pref.getBoolean("music_is_on", true);
+        boolean soundIsOn = pref.getBoolean("sound_is_on", true);
+        settingsSI.setMusic(musicInOn);
+        settingsSI.setSound(soundIsOn);
+        if(settingsSI.isMusic()){
+            Log.d(LOG_TAG, "music off");
+        }else{
+            Log.d(LOG_TAG, "music on");
+        }
+        if(settingsSI.isSound()){
+            Log.d(LOG_TAG, "sound off");
+        }else{
+            Log.d(LOG_TAG, "sound on");
+        }
+    }
+
+    public void playMusic(){
+        Log.d(LOG_TAG, "play music");
+        audioManager.playBg_audio();
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -52,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        initializeSettings();
+        playMusic();
         Log.d(LOG_TAG, "onResume");
     }
 
