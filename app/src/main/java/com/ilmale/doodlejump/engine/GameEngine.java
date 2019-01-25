@@ -32,8 +32,6 @@ public class GameEngine {
         lastUpdate = System.currentTimeMillis();
 
         player = new Player();
-        player.setpX(45);
-        player.setpY(30);
 
         /*for (int i = 0; i < 10; i++){
             int j = (int) Math.random() * 10+1;
@@ -94,10 +92,10 @@ public class GameEngine {
         for (Platform p: platforms) {
             if (collide(p, player)) {
                 if (p.hasSprings()) {
-                    player.setSpeed(1800);
+                    player.setVelX(1800);
                 }
                 else {
-                    player.setSpeed(600);
+                    player.setVelX(600);
                 }
             }
         }
@@ -124,30 +122,30 @@ public class GameEngine {
 
         player.setpX(player.getpX() + x);
 
-        if (player.getSpeed() > 0) {
+        if (player.getVelX() > 0) {
 
-            while (player.getSpeed() > 0) {
+            while (player.getVelX() > 0) {
 
-                player.setSpeed(player.getSpeed() + player.getAcceleration());
+                player.setVelX(player.getVelX() + player.getAccX());
 
                 if (player.getpY() + player.getHeight() > 800){
-                    player.setpY(player.getpY() - player.getAcceleration());
+                    player.setpY(player.getpY() - player.getAccX());
                 }
                 for (Platform p: platforms) {
-                    p.setpY(p.getpY() + player.getAcceleration());
+                    p.setpY(p.getpY() + player.getAccX());
                 }
-                item.setpY(item.getpY() + player.getAcceleration());
-                enemy.setpY(enemy.getpY() + player.getAcceleration());
+                item.setpY(item.getpY() + player.getAccX());
+                enemy.setpY(enemy.getpY() + player.getAccX());
 
             }
 
         }
-        else if (player.getSpeed() <= 0){
+        else if (player.getVelX() <= 0){
             if(player.hasObject() && player.getItem().getType()==EnumItemType.HAT && player.getItem().getType()==EnumItemType.JETPACK ){
                 player.loseObject();
                 placeItem();
             }
-            player.setpY(player.getpY()+player.getAcceleration());
+            player.setpY(player.getpY()+player.getAccX());
         }
 
         for (Platform p: platforms) {
@@ -158,7 +156,7 @@ public class GameEngine {
             }
         }
         for(Bullet b:bullets){
-            b.setpY(b.getpY()-b.getSpeed());
+            b.setpY(b.getpY()-b.getVelX());
             if(b.getpY()<0){
                 bullets.remove(b);
             }
@@ -201,7 +199,7 @@ public class GameEngine {
                         case HAT:
                             item.setpX(player.getpX());
                             item.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
-                            player.setSpeed(3000);
+                            player.setVelX(3000);
                         case SHIELD:
                             item.setpX(player.getpX());
                             item.setpY(player.getpY());
@@ -209,7 +207,7 @@ public class GameEngine {
                         case JETPACK:
                             item.setpX(player.getpX());
                             item.setpY(player.getpY());
-                            player.setSpeed(4000);
+                            player.setVelX(4000);
                     }
                 }
             }
@@ -253,5 +251,9 @@ public class GameEngine {
         for (AbstractGameObject o: objects) {
             o.update();
         }
+    }
+
+    public void updatePlayer(){
+        player.update();
     }
 }
