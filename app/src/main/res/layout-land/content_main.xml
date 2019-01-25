@@ -95,6 +95,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
+        android:onClick="launchSinglePlayerActivity"
         android:text="@string/button_label_single"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"

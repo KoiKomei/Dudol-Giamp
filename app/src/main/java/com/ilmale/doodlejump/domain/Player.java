@@ -10,6 +10,7 @@ public class Player extends AbstractGameObject {
     private float pY;
 
     public Player(){
+        super();
         acceleration = 10;
     }
 

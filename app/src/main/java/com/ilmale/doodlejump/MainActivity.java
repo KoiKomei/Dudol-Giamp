@@ -2,6 +2,7 @@ package com.ilmale.doodlejump;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,30 @@ import static android.media.tv.TvContract.Programs.Genres.MUSIC;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    SettingsSI settingsSI = SettingsSI.getInstance();
+    MediaPlayer backgound_music ;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_main);
+
+
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+    }
 
     @Override
     protected void onRestart() {
@@ -54,29 +79,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "onStart");
     }
 
-    SettingsSI settingsSI = SettingsSI.getInstance();
-    MediaPlayer backgound_music ;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -100,8 +102,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchOptionsActivity(View view) {
-        Log.d(LOG_TAG, "Button clicked!");
+        Log.d(LOG_TAG, "Button options clicked!");
         Intent intent = new Intent(this, OptionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchSinglePlayerActivity(View view) {
+        Log.d(LOG_TAG, "Button single player clicked!");
+        Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 }

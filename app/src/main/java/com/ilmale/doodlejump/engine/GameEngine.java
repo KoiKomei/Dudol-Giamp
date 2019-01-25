@@ -1,32 +1,23 @@
 package com.ilmale.doodlejump.engine;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.hardware.SensorEventListener;
-import android.os.Bundle;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
 
 import com.ilmale.doodlejump.domain.*;
-import com.ilmale.doodlejump.view.GameView;
 
 import java.util.List;
 import java.util.ArrayList;
 
 @SuppressLint("Registered")
-public class GameEngine extends Activity implements SensorEventListener
-{
+public class GameEngine {
 
     // gameView will be the view of the game
-    // It will also hold the logic of the game
     // and respond to screen touches as well
-    GameView gameView;
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
+    //GameView gameView;
     private long lastUpdate;
-    public static int x;
+
+    List<AbstractGameObject> objects = new ArrayList<>();
+
+    public int x;
 
     public Player player;
     public List<Platform> platforms = new ArrayList<>();
@@ -34,39 +25,34 @@ public class GameEngine extends Activity implements SensorEventListener
     public Item item;
     public Enemy enemy;
 
-    public GameView getGameView(){
-        return gameView;
-    }
+    //public GameView getGameView(){return gameView;}
 
-    public GameEngine(){};
+    public GameEngine(){
 
-    public GameEngine(Context context){
         lastUpdate = System.currentTimeMillis();
 
-        gameView = new GameView(context);
-
         player = new Player();
-        player.setpX(getResources().getDisplayMetrics().widthPixels/2-gameView.getBitmapBob().getWidth()/2);
-        player.setpY((getResources().getDisplayMetrics().heightPixels - 50) - gameView.getBitmapBob().getHeight());
+        player.setpX(45);
+        player.setpY(30);
 
-        for (int i=0; i<10; i++){
-            int j = (int) Math.random()*10+1;
-            Platform platform= new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),i*50);
-            if(j==5){
+        /*for (int i = 0; i < 10; i++){
+            int j = (int) Math.random() * 10+1;
+            Platform platform = new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),i*50);
+            if( j == 5){
                 platform.setHasSprings(true);
             }
-            platforms.add(platform);
+            objects.add(platform);
         }
 
         enemy = new Enemy();
         placeEnemy();
 
         Item item = new Item();
-        placeItem();
+        placeItem();*/
 
     }
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -101,43 +87,14 @@ public class GameEngine extends Activity implements SensorEventListener
         enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
         enemy.setpY(-300);
 
-        setContentView(gameView);
-    }
+        //setContentView(gameView);
+    }*/
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        gameView.resume();
-        sensorManager.registerListener(this, accelerometer,
-                SensorManager.SENSOR_DELAY_GAME);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        gameView.pause();
-        sensorManager.unregisterListener(this);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor arg0, int arg1) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        // TODO Auto-generated method stub
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            x -= (int) event.values[0];
-        }
-    }
-
-    public void jump(){
+    private void jump(){
         for (Platform p: platforms) {
-            if (player.getpY() + gameView.getBitmapBob().getHeight() > p.getpY()+1 && (player.getpX()+gameView.getBitmapBob().getWidth()>p.getpX() || player.getpX()<p.getpX()+gameView.getBitmapPlatform().getWidth()) && player.getSpeed()<=0) {
-                if(p.hasSprings()){
-                    player.setSpeed(1200);
+            if (collide(p, player)) {
+                if (p.hasSprings()) {
+                    player.setSpeed(1800);
                 }
                 else {
                     player.setSpeed(600);
@@ -146,22 +103,46 @@ public class GameEngine extends Activity implements SensorEventListener
         }
     }
 
-    public void move(){
-        player.setpX(player.getpX()+x);
-        if(player.getSpeed()>0){
-            while (player.getSpeed()>0){
-                player.setSpeed(player.getSpeed() + player.getAcceleration());
-                if(player.getpY()+gameView.getBitmapBob().getHeight()>getResources().getDisplayMetrics().heightPixels/2){
-                    player.setpY(player.getpY()-player.getAcceleration());
-                }
-                for (Platform p: platforms) {
-                    p.setpY(p.getpY()+player.getAcceleration());
-                }
-                item.setpY(item.getpY()+player.getAcceleration());
-                enemy.setpY(enemy.getpY()+player.getAcceleration());
+    private boolean collide(AbstractGameObject obj1, AbstractGameObject obj2) {
+        float x11 = obj1.getpX();
+        float x12 = x11 + obj1.getWidth();
+        float x21 = obj2.getpX();
+        float x22 = x21 + obj2.getWidth();
+        float y11 = obj1.getpY();
+        float y12 = y11 + obj1.getHeight();
+        float y21 = obj2.getpY();
+        float y22 = y21 + obj2.getHeight();
+        if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
+            if ((y11 >= y21 && y11 <= y22) || (y12 >= y21 && y12 <= y22)) {
+                return true;
             }
         }
-        else if (player.getSpeed()<=0){
+        return false;
+    }
+
+    /*private void move(){
+
+        player.setpX(player.getpX() + x);
+
+        if (player.getSpeed() > 0) {
+
+            while (player.getSpeed() > 0) {
+
+                player.setSpeed(player.getSpeed() + player.getAcceleration());
+
+                if (player.getpY() + player.getHeight() > 800){
+                    player.setpY(player.getpY() - player.getAcceleration());
+                }
+                for (Platform p: platforms) {
+                    p.setpY(p.getpY() + player.getAcceleration());
+                }
+                item.setpY(item.getpY() + player.getAcceleration());
+                enemy.setpY(enemy.getpY() + player.getAcceleration());
+
+            }
+
+        }
+        else if (player.getSpeed() <= 0){
             if(player.hasObject() && player.getItem().getType()==EnumItemType.HAT && player.getItem().getType()==EnumItemType.JETPACK ){
                 player.loseObject();
                 placeItem();
@@ -266,19 +247,11 @@ public class GameEngine extends Activity implements SensorEventListener
     public void shoot() {
         Bullet bullet = new Bullet(player.getpX(), player.getpY(),30);
         bullets.add(bullet);
-    }
+    }*/
 
     public void update() {
-        if(isDeath()){
-            endGame();
+        for (AbstractGameObject o: objects) {
+            o.update();
         }
-        move();
-        jump();
-        takeObject();
-        killEnemy();
-    }
-
-    public void endGame(){
-
     }
 }

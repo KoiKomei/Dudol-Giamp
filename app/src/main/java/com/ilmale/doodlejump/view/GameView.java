@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.EnumItemType;
@@ -57,7 +58,7 @@ public class GameView extends SurfaceView implements Runnable{
             // How kind.
             super(context);
 
-            gameEngine =(GameEngine) context;
+            //gameEngine =(GameEngine) context;
             // Initialize ourHolder and paint objects
             ourHolder = getHolder();
             paint = new Paint();
@@ -168,7 +169,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            gameEngine.shoot();
+            //gameEngine.shoot();
             return super.onTouchEvent(event);
         }
 
