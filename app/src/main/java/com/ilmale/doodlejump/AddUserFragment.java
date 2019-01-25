@@ -45,11 +45,13 @@ public class AddUserFragment extends Fragment {
                 String UserEmail=userEmail.getText().toString();
                 String UserPassword=userPassword.getText().toString();
 
+
                 User user=new User();
                 user.setEmail(UserEmail);
                 user.setId(UserId);
                 user.setPassword(UserPassword);
                 user.setUsername(UserName);
+                user.setMoney(0);
 
                 RegisterActivity.db.ourDao().setUser(user);
                 Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
