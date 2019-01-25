@@ -2,6 +2,8 @@ package com.ilmale.doodlejump.domain;
 
 import android.util.Log;
 
+import com.ilmale.doodlejump.settings.SettingsSI;
+
 public class Player extends AbstractGameObject {
 
     private static final String LOG_TAG = Player.class.getSimpleName();
@@ -18,6 +20,8 @@ public class Player extends AbstractGameObject {
     private float accX;
     private float velY;
     private float accY;
+
+    private float gravity = 0.2f;
 
     public Player(){
         super();
@@ -50,18 +54,23 @@ public class Player extends AbstractGameObject {
 //        }
 //    }
 
+    public void jump(float force){
+        Log.d(LOG_TAG, "jumping");
+        velY = -force;
+    }
+
     @Override
     public void update() {
         Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
 
         float frameTime = 0.666f;
         velX += (accX * frameTime * 6);
-        velY += (accY * frameTime * 6);
+        velY += (-gravity * frameTime * 6);
 
-        if (velX > 200) velX = 200;
-        else if (velX < -200) velX = -200;
-        if (velY > 200) velY = 200;
-        else if (velY < -200) velY = -200;
+        if (velX > SettingsSI.MaxVel) velX = SettingsSI.MaxVel;
+        else if (velX < -SettingsSI.MaxVel) velX = -SettingsSI.MaxVel;
+        if (velY > SettingsSI.MaxVel) velY = SettingsSI.MaxVel;
+        else if (velY < -SettingsSI.MaxVel) velY = -SettingsSI.MaxVel;
 
         float xS = (velX / 2) * frameTime;
         float yS = (velY / 2) * frameTime;

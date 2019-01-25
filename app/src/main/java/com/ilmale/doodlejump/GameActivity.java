@@ -74,7 +74,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             //Log.d(LOG_TAG, "Sensor Changed: " + event.values[0]);
             engine.player.setAccX(event.values[0]);
-            engine.player.setAccY(-event.values[1]);
+            //engine.player.setAccY(-event.values[1]);
             engine.updatePlayer();
         }
     }

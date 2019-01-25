@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump.engine;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.ilmale.doodlejump.domain.*;
 
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 
 @SuppressLint("Registered")
 public class GameEngine {
+
+    private static final String LOG_TAG = GameEngine.class.getSimpleName();
 
     // gameView will be the view of the game
     // and respond to screen touches as well
@@ -20,7 +23,7 @@ public class GameEngine {
     public int x;
 
     public Player player;
-    public List<Platform> platforms = new ArrayList<>();
+    List<Platform> platforms = new ArrayList<>();
     public List<Bullet> bullets = new ArrayList<>();
     public Item item;
     public Enemy enemy;
@@ -33,16 +36,19 @@ public class GameEngine {
 
         player = new Player();
 
-        /*for (int i = 0; i < 10; i++){
-            int j = (int) Math.random() * 10+1;
-            Platform platform = new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),i*50);
-            if( j == 5){
-                platform.setHasSprings(true);
-            }
-            objects.add(platform);
-        }
 
-        enemy = new Enemy();
+
+
+        Platform platform1 = new Platform(550, 1650);
+        Platform platform2 = new Platform(200, 1650);
+        Platform platform3 = new Platform(1500, 450);
+        Platform platform4 = new Platform(1500, 450);
+        Platform platform5 = new Platform(1500, 450);
+
+        platforms.add(platform1); platforms.add(platform2);
+
+
+        /*enemy = new Enemy();
         placeEnemy();
 
         Item item = new Item();
@@ -51,8 +57,12 @@ public class GameEngine {
     }
 
     public void update() {
-        for (AbstractGameObject o: objects) {
-            o.update();
+        Log.d(LOG_TAG, "updating gameengine");
+        for (Platform p: platforms) {
+            if (collidesFromAbove(player, p)){
+                Log.d(LOG_TAG, "collision!");
+                player.jump(1000);
+            }
         }
     }
 
@@ -124,6 +134,26 @@ public class GameEngine {
             return (y11 >= y21 && y11 <= y22) || (y12 >= y21 && y12 <= y22);
         }
         return false;
+    }
+
+    private boolean collidesFromAbove(AbstractGameObject obj1, AbstractGameObject obj2) {
+        float x11 = obj1.getpX();
+        float x12 = x11 + obj1.getWidth();
+        float x21 = obj2.getpX();
+        float x22 = x21 + obj2.getWidth();
+        float y11 = obj1.getpY();
+        float y12 = y11 + obj1.getHeight();
+        float y21 = obj2.getpY();
+        float y22 = y21 + obj2.getHeight();
+        if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
+            Log.d(LOG_TAG, "colliding X");
+            return (y12 >= y21 - 15 || y12 <= y21 + 15);
+        }
+        return false;
+    }
+
+    public List<Platform> getPlatforms(){
+        return platforms;
     }
 
     /*private void move(){

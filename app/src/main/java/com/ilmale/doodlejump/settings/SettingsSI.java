@@ -2,9 +2,6 @@ package com.ilmale.doodlejump.settings;
 
 public class SettingsSI {
 
-    private boolean sound = true;
-    private boolean music = true;
-
     private static final SettingsSI ourInstance = new SettingsSI();
 
     public static SettingsSI getInstance() {
@@ -12,6 +9,10 @@ public class SettingsSI {
     }
 
     private SettingsSI() { }
+
+    private boolean sound = true;
+    private boolean music = true;
+    public static final float MaxVel = 200;
 
     public void setSound(boolean v){
         sound = v;

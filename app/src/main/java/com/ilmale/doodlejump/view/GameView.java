@@ -13,6 +13,8 @@ import android.view.SurfaceView;
 
 import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
+import com.ilmale.doodlejump.domain.AbstractGameObject;
+import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
 
 public class GameView extends SurfaceView implements Runnable{
@@ -68,6 +70,7 @@ public class GameView extends SurfaceView implements Runnable{
             bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
 
             playing = true;
         }
@@ -122,17 +125,18 @@ public class GameView extends SurfaceView implements Runnable{
                 // Display the current fps on the screen
                 canvas.drawText("FPS:" + fps, 20, 40, paint);
 
+                for (Platform p: gameEngine.getPlatforms()) {
+                    canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
+//                    if(p.hasSprings()){
+//                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY()-bitmapSPRINGS.getHeight(), paint);
+//                    }
+
+                }
+
                 // Draw bob at bobXPosition, bobYPosition
                 if (gameEngine.player.getVelX() > 0) canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                 else canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
 
-//                for (Platform p: gameEngine.platforms) {
-//                    canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
-//                    if(p.hasSprings()){
-//                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY()-bitmapSPRINGS.getHeight(), paint);
-//                    }
-//
-//                }
 //                for (Bullet b: gameEngine.bullets){
 //                    canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);
 //                }
