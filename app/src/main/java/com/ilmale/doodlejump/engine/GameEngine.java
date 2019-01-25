@@ -92,7 +92,7 @@ public class GameEngine {
 
     private void jump(){
         for (Platform p: platforms) {
-            if (collide(p, player)) {
+            if (collideForJump(player,p)) {
                 if (p.hasSprings()) {
                     player.setSpeed(1800);
                 }
@@ -120,7 +120,24 @@ public class GameEngine {
         return false;
     }
 
-    /*private void move(){
+    private boolean collideForJump(Player player, Platform platform) {
+        float x11 = player.getpX();
+        float x12 = x11 + player.getWidth();
+        float x21 = platform.getpX();
+        float x22 = x21 + platform.getWidth();
+        float y11 = player.getpY();
+        float y12 = y11 + player.getHeight();
+        float y21 = platform.getpY();
+        float y22 = y21 + platform.getHeight();
+        if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
+            if (y12 > y21) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /*
+    private void move(){
 
         player.setpX(player.getpX() + x);
 
@@ -193,45 +210,43 @@ public class GameEngine {
     }
 
     public void takeObject(){
-        if (item.getpY()<= player.getpY() && item.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && item.getpX()>= player.getpX() && item.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-            if(item.getpY()+100<= player.getpY() && item.getpY()+100>=player.getpY()+gameView.getBitmapBob().getHeight() && item.getpX()+100>= player.getpX() && item.getpX()+100>= player.getpX()+gameView.getBitmapBob().getWidth() ){
-                if(!player.hasObject()){
-                    player.pickObject(item);
-                    switch (item.getType()){
-                        case HAT:
-                            item.setpX(player.getpX());
-                            item.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
-                            player.setSpeed(3000);
-                        case SHIELD:
-                            item.setpX(player.getpX());
-                            item.setpY(player.getpY());
-                            item.setTimeShield(1000);
-                        case JETPACK:
-                            item.setpX(player.getpX());
-                            item.setpY(player.getpY());
-                            player.setSpeed(4000);
-                    }
+        if (collide(item,player)){
+            if(!player.hasObject()){
+                player.pickObject(item);
+                switch (item.getType()){
+                    case HAT:
+                        item.setpX(player.getpX());
+                        item.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
+                        player.setSpeed(3000);
+                    case SHIELD:
+                        item.setpX(player.getpX());
+                        item.setpY(player.getpY());
+                        item.setTimeShield(1000);
+                    case JETPACK:
+                        item.setpX(player.getpX());
+                        item.setpY(player.getpY());
+                        player.setSpeed(4000);
                 }
-            }
+           }
+
         }
     }
 
     public void killEnemy(){
         for(Bullet b:bullets){
-            if (enemy.getpY() <= b.getpY() && enemy.getpY() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() >= b.getpX() && enemy.getpX() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
-                if (enemy.getpY() + gameView.getBitmapEnemy().getHeight() <= b.getpY() && enemy.getpY() + gameView.getBitmapEnemy().getHeight() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
+            if (collide(enemy,b))
                     placeEnemy();
                 }
             }
         }
+        if(collideForJump(player,enemy))
+            placeEnemy();
     }
 
     public boolean killedByEnemy(){
-        if (enemy.getpY()<= player.getpY() && enemy.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && enemy.getpX()>= player.getpX() && enemy.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-            if(enemy.getpY()+gameView.getBitmapEnemy().getHeight()<= player.getpY() && enemy.getpY()+gameView.getBitmapEnemy().getHeight()>=player.getpY()+gameView.getBitmapBob().getHeight() && enemy.getpX()+gameView.getBitmapEnemy().getWidth()>= player.getpX() && enemy.getpX()+gameView.getBitmapEnemy().getWidth()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-                if (player.getItem().getType()!=EnumItemType.SHIELD) {
-                    return true;
-                }
+        if(collide(enemy,player)){
+            if (player.hasObject() && player.getItem().getType()!=EnumItemType.SHIELD) {
+                return true;
             }
         }
         return false;

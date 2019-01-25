@@ -11,7 +11,7 @@ public class Player extends AbstractGameObject {
 
     public Player(){
         super();
-        acceleration = 10;
+        acceleration = 0.3f;
     }
 
     public void pickObject(Item item){

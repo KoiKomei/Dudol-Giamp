@@ -116,6 +116,8 @@ public class GameView extends SurfaceView implements Runnable{
                 // Draw bob at bobXPosition, bobYPosition
                 canvas.drawBitmap(bitmapBob, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
 
+                canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
+
                 for (Platform p: gameEngine.platforms) {
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
                     if(p.hasSprings()){
@@ -136,6 +138,8 @@ public class GameView extends SurfaceView implements Runnable{
                 else if(gameEngine.item.getType()== EnumItemType.SHIELD){
                     canvas.drawBitmap(bitmapSHIELD, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
                 }
+
+
 
                 // Draw everything to the screen
                 // and unlock the drawing surface

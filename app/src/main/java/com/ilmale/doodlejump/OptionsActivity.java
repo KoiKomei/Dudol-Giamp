@@ -24,6 +24,7 @@ public class OptionsActivity extends AppCompatActivity {
     Button save;
 
     SettingsSI settingsSI = SettingsSI.getInstance();
+    AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +54,13 @@ public class OptionsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (musicSwitch.isChecked()){
                     settingsSI.setMusic(true);
+                    audioManager.playBg_audio();
                     Log.d(LOG_TAG, "music on");
 
                 }
                 else{
                     settingsSI.setMusic(false);
+                    audioManager.playBg_audio();
                     Log.d(LOG_TAG, "music off");
                 }
                 if (soundSwitch.isChecked()){

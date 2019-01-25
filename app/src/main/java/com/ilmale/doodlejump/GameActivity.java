@@ -96,18 +96,22 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         float yS = (yVel / 2) * frameTime;
 
         xPos -= xS;
-        yPos -= yS;
+        yPos += yS;
 
         if (xPos > xMax) {
             xPos = xMax;
+            xVel=0;
         } else if (xPos < 0) {
             xPos = 0;
+            xVel=0;
         }
 
         if (yPos > yMax) {
             yPos = yMax;
+            yVel=0;
         } else if (yPos < 0) {
             yPos = 0;
+            yVel=0;
         }
     }
 

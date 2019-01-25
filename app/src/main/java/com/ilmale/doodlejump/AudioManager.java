@@ -2,6 +2,9 @@ package com.ilmale.doodlejump;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
+
+import com.ilmale.doodlejump.settings.SettingsSI;
 
 public class AudioManager {
 
@@ -19,14 +22,19 @@ public class AudioManager {
     private MediaPlayer buttonClick_audio;
     private MediaPlayer rain_audio;
 
-    private static Context context;
-    private static final AudioManager audioManagerInstance = new AudioManager(context);
+    SettingsSI settingsSI = SettingsSI.getInstance();
+
+    private static final AudioManager audioManagerInstance = new AudioManager();
 
     public static AudioManager getInstance() {
         return audioManagerInstance;
     }
 
-    private AudioManager(Context context) {
+    private AudioManager() {
+
+    }
+
+    public void create(Context context){
         bg_audio=MediaPlayer.create(context,R.raw.background_audio);
         lose_audio=MediaPlayer.create(context,R.raw.lose_audio);
         win_audio=MediaPlayer.create(context,R.raw.win_audio);
@@ -43,80 +51,86 @@ public class AudioManager {
     }
 
     public void playBg_audio() {
-        if(!bg_audio.isPlaying()){
-            bg_audio.start();
-            bg_audio.setLooping(true);
+        if(settingsSI.isMusic()){
+            if(!bg_audio.isPlaying()){
+                bg_audio.start();
+                bg_audio.setLooping(true);
+            }
+        }
+        else{
+            bg_audio.stop();
         }
     }
 
-    public void playLose_audio() {
-         if(!lose_audio.isPlaying()){
-             lose_audio.start();
-         }
-    }
-
     public void playWin_audio() {
-        if(!win_audio.isPlaying()){
+        if(!win_audio.isPlaying() && settingsSI.isSound()){
             win_audio.start();
         }
     }
 
+    public void playLose_audio() {
+        if(!lose_audio.isPlaying() && settingsSI.isSound()){
+            lose_audio.start();
+        }
+    }
+
+
     public void playBullet_audio() {
-        if(!bullet_audio.isPlaying()){
+        if(!bullet_audio.isPlaying() && settingsSI.isSound()){
             bullet_audio.start();
         }
     }
 
     public void playEnemy_audio() {
-        if(!enemy_audio.isPlaying()){
+        if(!enemy_audio.isPlaying() && settingsSI.isSound()){
             enemy_audio.start();
         }
     }
 
     public void playHat_audio() {
-        if(!hat_audio.isPlaying()){
+        if(!hat_audio.isPlaying() && settingsSI.isSound()){
             hat_audio.start();
         }
     }
 
     public void playJetpack_audio() {
-        if(!jetpack_audio.isPlaying()){
+        if(!jetpack_audio.isPlaying() && settingsSI.isSound()){
             jetpack_audio.start();
         }
     }
 
     public void playSprings_audio() {
-        if(!springs_audio.isPlaying()){
+        if(!springs_audio.isPlaying() && settingsSI.isSound()){
             springs_audio.start();
         }
     }
 
     public void playKillEnemy_audio() {
-        if(!killEnemy_audio.isPlaying()){
+        if(!killEnemy_audio.isPlaying() && settingsSI.isSound()){
             killEnemy_audio.start();
         }
     }
 
     public void playJumpOnEnemy_audio() {
-        if(!jumpOnEnemy_audio.isPlaying()){
+        if(!jumpOnEnemy_audio.isPlaying() && settingsSI.isSound()){
             jumpOnEnemy_audio.start();
         }
     }
 
     public void playJump_audio() {
-        if(!jump_audio.isPlaying()){
+        if(!jump_audio.isPlaying() && settingsSI.isSound()){
             jump_audio.start();
         }
     }
 
     public void playButtonClick_audio() {
-        if(!buttonClick_audio.isPlaying()){
+        if(!buttonClick_audio.isPlaying() && settingsSI.isSound()){
             buttonClick_audio.start();
         }
     }
 
     public void playRain_audio() {
-        if(!rain_audio.isPlaying()){
+        if(!rain_audio.isPlaying() && settingsSI.isSound()){
             rain_audio.start();
         }
     }
