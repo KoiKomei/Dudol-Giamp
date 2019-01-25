@@ -50,6 +50,16 @@ public class GameEngine {
 
     }
 
+    public void update() {
+        for (AbstractGameObject o: objects) {
+            o.update();
+        }
+    }
+
+    public void updatePlayer() {
+        player.update();
+    }
+
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +121,7 @@ public class GameEngine {
         float y21 = obj2.getpY();
         float y22 = y21 + obj2.getHeight();
         if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
-            if ((y11 >= y21 && y11 <= y22) || (y12 >= y21 && y12 <= y22)) {
-                return true;
-            }
+            return (y11 >= y21 && y11 <= y22) || (y12 >= y21 && y12 <= y22);
         }
         return false;
     }
@@ -247,13 +255,4 @@ public class GameEngine {
         bullets.add(bullet);
     }*/
 
-    public void update() {
-        for (AbstractGameObject o: objects) {
-            o.update();
-        }
-    }
-
-    public void updatePlayer(){
-        player.update();
-    }
 }

@@ -11,10 +11,13 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.engine.GameEngine;
 
 public class GameView extends SurfaceView implements Runnable{
+
+    private static final String LOG_TAG = GameView.class.getSimpleName();
 
         // This is our thread
         Thread gameThread = null;
@@ -39,6 +42,7 @@ public class GameView extends SurfaceView implements Runnable{
         private long timeThisFrame;
 
         // Declare an item of type Bitmap
+        Bitmap bitmapBG;
         Bitmap bitmapBobLeft;
         Bitmap bitmapBobRight;
         Bitmap bitmapPlatform;
@@ -51,25 +55,28 @@ public class GameView extends SurfaceView implements Runnable{
 
         GameEngine gameEngine;
 
-        public GameView(Context context) {
+        public GameView(Context context, GameEngine engine) {
             super(context);
 
-            //gameEngine =(GameEngine) context;
-
-            // Initialize bitmaps
-            bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
-            bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
+            gameEngine = engine;
 
             // Initialize ourHolder and paint objects
             ourHolder = getHolder();
             paint = new Paint();
 
+            // Initialize bitmaps
+            bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
+            bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
+            bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+
+            playing = true;
         }
 
         @Override
         public void run() {
 
             while (playing) {
+                Log.d(LOG_TAG, "Running while");
 
                 // Capture the current time in milliseconds in startFrameTime
                 long startFrameTime = System.currentTimeMillis();
@@ -91,18 +98,20 @@ public class GameView extends SurfaceView implements Runnable{
         }
 
         public void update() {
+            Log.d(LOG_TAG, "updating gameview");
             gameEngine.update();
         }
 
         public void draw() {
             // Make sure our drawing surface is valid or we crash
             if (ourHolder.getSurface().isValid()) {
+                Log.d(LOG_TAG, "drawing");
                 // Lock the canvas ready to draw
                 // Make the drawing surface our canvas item
                 canvas = ourHolder.lockCanvas();
 
                 // Draw the background color
-                canvas.drawColor(Color.argb(255,  26, 128, 182));
+                canvas.drawBitmap(bitmapBG, 0, 0, paint);
 
                 // Choose the brush color for drawing
                 paint.setColor(Color.argb(255,  249, 129, 0));
@@ -114,8 +123,8 @@ public class GameView extends SurfaceView implements Runnable{
                 canvas.drawText("FPS:" + fps, 20, 40, paint);
 
                 // Draw bob at bobXPosition, bobYPosition
-                if (gameEngine.player.getVelX() > 0) canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                else canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                if (gameEngine.player.getVelX() > 0) canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                else canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
 
 //                for (Platform p: gameEngine.platforms) {
 //                    canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
@@ -148,6 +157,7 @@ public class GameView extends SurfaceView implements Runnable{
         // If SimpleGameEngine Activity is paused/stopped
         // shutdown our thread.
         public void pause() {
+            Log.d(LOG_TAG, "Pausing game");
             playing = false;
             try {
                 gameThread.join();
@@ -159,8 +169,9 @@ public class GameView extends SurfaceView implements Runnable{
         // If SimpleGameEngine Activity is started then
         // start our thread.
         public void resume() {
+            Log.d(LOG_TAG, "Resuming game");
             playing = true;
-            gameThread = new Thread();
+            gameThread = new Thread(this);
             gameThread.start();
         }
 
@@ -168,6 +179,7 @@ public class GameView extends SurfaceView implements Runnable{
         // So we can override this method and detect screen touches.
         @Override
         public boolean onTouchEvent(MotionEvent event) {
+            Log.d(LOG_TAG, "Touched screen");
             //gameEngine.shoot();
             return super.onTouchEvent(event);
         }
