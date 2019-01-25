@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a1d7d2288d6cbc5a9835f98aa0004a98",
+    "identityHash": "9d0cc6aed48826073a2513ef9c2f7806",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `Nome_Utente` TEXT, `Password` TEXT, `Email` TEXT NOT NULL, PRIMARY KEY(`Email`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `Nome_Utente` TEXT, `Password` TEXT, `Email` TEXT NOT NULL, `Money` INTEGER NOT NULL, PRIMARY KEY(`Email`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,12 @@
             "columnName": "Email",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "money",
+            "columnName": "Money",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -41,11 +47,92 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Negozio",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Id_oggetto` INTEGER NOT NULL, `Nome` TEXT, PRIMARY KEY(`Id_oggetto`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "Id_oggetto",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "Nome",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "Id_oggetto"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Possiede",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`posses_id` INTEGER NOT NULL, `user_email` TEXT, `oggetto` INTEGER NOT NULL, PRIMARY KEY(`posses_id`), FOREIGN KEY(`user_email`) REFERENCES `User`(`Email`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`oggetto`) REFERENCES `Negozio`(`Id_oggetto`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "posses_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "user_email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "oggetto",
+            "columnName": "oggetto",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "posses_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "user_email"
+            ],
+            "referencedColumns": [
+              "Email"
+            ]
+          },
+          {
+            "table": "Negozio",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "oggetto"
+            ],
+            "referencedColumns": [
+              "Id_oggetto"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a1d7d2288d6cbc5a9835f98aa0004a98\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9d0cc6aed48826073a2513ef9c2f7806\")"
     ]
   }
 }
