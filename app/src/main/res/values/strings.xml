@@ -26,4 +26,6 @@
     <string name="button_label_shop">SHOP</string>
     <string name="button_label_score">SCOREBOARD</string>
     <string name="button_label_map">MAP</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDxn_pt1EHrqZ8utuFj_7yG2s4cKZeDAzQ</string>
 </resources>

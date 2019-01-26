@@ -138,4 +138,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
+
+    public void launchMapsActivity(View view) {
+        Log.d(LOG_TAG, "Button map clicked!");
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+    }
 }
