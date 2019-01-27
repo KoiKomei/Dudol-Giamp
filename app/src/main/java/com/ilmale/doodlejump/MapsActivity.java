@@ -23,7 +23,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.ilmale.doodlejump.database.Negozio;
+import com.ilmale.doodlejump.database.OurDao;
+import com.ilmale.doodlejump.database.Possiede;
+import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.MyLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -32,6 +39,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     MyLocation myLocation = MyLocation.getInstance();
     private String player;
     private int points;
+    //private List<User> users;
+    //private OurDao ourDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        //users = ourDao.getUsers();
 
     }
 
@@ -70,6 +80,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng myPosition = myLocation.getLatLng();
         mMap.addMarker(new MarkerOptions().position(myPosition).title(player+":"+points));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+
+
+        /*
+            for(User u:users){
+                int point = ourDao.getPoints(u.getId());
+                LatLng position = ourDao.getPosition(u.getId());
+                mMap.addMarker(new MarkerOptions().position(position).title(u.getUsername()+":"+point));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+            }
+         */
     }
 
 }
