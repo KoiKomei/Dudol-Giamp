@@ -16,9 +16,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        String name="userdb";
         fm=getSupportFragmentManager();
-        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class, name).allowMainThreadQueries().build();
+        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
 
         if(findViewById(R.id.fragment_container)!=null){
 
