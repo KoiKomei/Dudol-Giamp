@@ -2,8 +2,6 @@ package com.ilmale.doodlejump;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,9 +9,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ilmale.doodlejump.database.ItemHandler;
 import com.ilmale.doodlejump.settings.SettingsSI;
-
-import static android.media.tv.TvContract.Programs.Genres.MUSIC;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,14 +18,16 @@ public class MainActivity extends AppCompatActivity {
 
     SettingsSI settingsSI = SettingsSI.getInstance();
     AudioManager audioManager = AudioManager.getInstance();
+    ItemHandler dataHandler=new ItemHandler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
-
         audioManager.create(this);
+
 
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

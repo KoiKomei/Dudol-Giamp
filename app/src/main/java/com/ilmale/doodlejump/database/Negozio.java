@@ -17,6 +17,28 @@ public class Negozio {
     @ColumnInfo(name="Nome")
     private String name;
 
+    @ColumnInfo(name="Image")
+    private String url;
+
+    @ColumnInfo(name="Costo")
+    private int costo;
+
+    public int getCosto() {
+        return costo;
+    }
+
+    public void setCosto(int costo) {
+        this.costo = costo;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public int getId(){return id;}
 
     public void setId(int id){this.id=id;}

@@ -12,13 +12,13 @@ import java.util.List;
 @Dao
 public interface OurDao {
 
-    @Insert
-    void setUser(User user);
-
-
     /*                */
     /*Roba dell'utente*/
     /*                */
+
+    @Insert
+    void setUser(User user);
+
     @Query("select * from User")
     public List<User> getUsers();
 
@@ -44,6 +44,15 @@ public interface OurDao {
     @Query("select * from Negozio")
     public List<Negozio> getNegozio();
 
+    @Query("UPDATE Negozio SET Nome=:name WHERE Id_oggetto=:id")
+    public void updateName(String name, int id);
+
+    @Query("UPDATE Negozio SET Image=:url WHERE Id_oggetto=:id")
+    public void updateImage(String url, int id);
+
+    @Query("UPDATE Negozio SET Costo=:costo WHERE Id_oggetto=:id")
+    public void updateCosto(int costo, int id);
+
 
     /*                                                 */
     /*Roba di quella roba che abbiamo chiamato Possiede*/
@@ -55,5 +64,10 @@ public interface OurDao {
     @Query("select * from Possiede")
     public List<Possiede> getPossiede();
 
+    @Delete
+    public void deletePossiede(Possiede possiede);
+
+   /* @Query("SELECT posses_id from Possiede where MAX(posses_id)")
+    public int getMaxId();*/
 
 }

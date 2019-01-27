@@ -6,28 +6,34 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-@Entity(tableName = "Possiede", foreignKeys = {@ForeignKey(entity=User.class, parentColumns = "Email", childColumns = "user_email", onDelete = ForeignKey.CASCADE),
-        @ForeignKey(entity = Negozio.class, parentColumns = "Id_oggetto", childColumns = "oggetto")}
-)
+@Entity(tableName = "Possiede", foreignKeys = @ForeignKey(entity=User.class, parentColumns = "Email", childColumns = "user_email", onDelete = ForeignKey.CASCADE))
 public class Possiede {
 
     @PrimaryKey
     @NonNull
-    @ColumnInfo(name="posses_id")
-    private int id;
-
     @ColumnInfo(name="user_email")
     private String email;
 
     @ColumnInfo(name="oggetto")
-    private int oggetto;
+    private boolean oggetto;
 
-    public int getId() {
-        return id;
+    @ColumnInfo(name="oggetto2")
+    private boolean oggetto2;
+
+    public boolean isOggetto() {
+        return oggetto;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOggetto(boolean oggetto) {
+        this.oggetto = oggetto;
+    }
+
+    public boolean isOggetto2() {
+        return oggetto2;
+    }
+
+    public void setOggetto2(boolean oggetto2) {
+        this.oggetto2 = oggetto2;
     }
 
     public String getEmail() {
@@ -38,11 +44,5 @@ public class Possiede {
         this.email = email;
     }
 
-    public int getOggetto() {
-        return oggetto;
-    }
 
-    public void setOggetto(int oggetto) {
-        this.oggetto = oggetto;
-    }
 }
