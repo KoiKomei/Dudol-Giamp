@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -19,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,6 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     MyLocation myLocation = MyLocation.getInstance();
     private String player;
     private int points;
+    private List<Marker> markers;
     //private List<User> users;
     //private OurDao ourDao;
 
@@ -74,11 +75,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        player = "Ciccio";
-        points = 100;
+        player = "123456789";
+        points = 999999;
 
         LatLng myPosition = myLocation.getLatLng();
-        mMap.addMarker(new MarkerOptions().position(myPosition).title(player+":"+points));
+        MarkerOptions marker = new MarkerOptions().position(myPosition).title(player+":"+points);
+        mMap.addMarker(marker);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
 
 
@@ -86,8 +88,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for(User u:users){
                 int point = ourDao.getPoints(u.getId());
                 LatLng position = ourDao.getPosition(u.getId());
-                mMap.addMarker(new MarkerOptions().position(position).title(u.getUsername()+":"+point));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                MarkerOptions marker = new MarkerOptions().position(myPosition).title(player+":"+points);
+                mMap.addMarker(marker);
+                markers.add(marker);
             }
          */
     }
