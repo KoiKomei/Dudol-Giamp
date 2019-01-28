@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 
 
@@ -52,8 +53,18 @@ public class AddUserFragment extends Fragment {
                 user.setPassword(UserPassword);
                 user.setUsername(UserName);
                 user.setMoney(0);
+                user.setPunteggio(0);
+                user.setLatitudine(0);
+                user.setLongitudine(0);
+
+                Possiede pos=new Possiede();
+
+                pos.setEmail(UserEmail);
+                pos.setBob(true);
+                pos.setOggetto2(false);
 
                 RegisterActivity.db.ourDao().setUser(user);
+                RegisterActivity.db.ourDao().setPossiede(pos);
                 Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
 
                 userId.setText("");

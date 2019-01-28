@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3af8c49a9f31f35c368e6ddf01163f5e",
+    "identityHash": "ce06c95747a4a7bdc479a23b60a426f0",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `Nome_Utente` TEXT, `Password` TEXT, `Email` TEXT NOT NULL, `Money` INTEGER NOT NULL, PRIMARY KEY(`Email`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `Nome_Utente` TEXT, `Password` TEXT, `Email` TEXT NOT NULL, `Money` INTEGER NOT NULL, `Punteggio` INTEGER NOT NULL, `Latitudine` REAL NOT NULL, `Longitudine` REAL NOT NULL, PRIMARY KEY(`Email`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -36,6 +36,24 @@
             "fieldPath": "money",
             "columnName": "Money",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "punteggio",
+            "columnName": "Punteggio",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitudine",
+            "columnName": "Latitudine",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitudine",
+            "columnName": "Longitudine",
+            "affinity": "REAL",
             "notNull": true
           }
         ],
@@ -88,7 +106,7 @@
       },
       {
         "tableName": "Possiede",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_email` TEXT NOT NULL, `oggetto` INTEGER NOT NULL, `oggetto2` INTEGER NOT NULL, PRIMARY KEY(`user_email`), FOREIGN KEY(`user_email`) REFERENCES `User`(`Email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_email` TEXT NOT NULL, `Bob` INTEGER NOT NULL, `oggetto2` INTEGER NOT NULL, PRIMARY KEY(`user_email`), FOREIGN KEY(`user_email`) REFERENCES `User`(`Email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "email",
@@ -97,8 +115,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "oggetto",
-            "columnName": "oggetto",
+            "fieldPath": "bob",
+            "columnName": "Bob",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -133,7 +151,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3af8c49a9f31f35c368e6ddf01163f5e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ce06c95747a4a7bdc479a23b60a426f0\")"
     ]
   }
 }

@@ -25,6 +25,15 @@ public class User {
     @ColumnInfo(name="Money")
     private int money;
 
+    @ColumnInfo(name="Punteggio")
+    private int punteggio;
+
+    @ColumnInfo(name="Latitudine")
+    private double latitudine;
+
+    @ColumnInfo(name="Longitudine")
+    private double longitudine;
+
     public int getId() {
         return id;
     }
@@ -60,4 +69,28 @@ public class User {
     public int getMoney(){return money;}
 
     public void setMoney(int money){this.money=money;}
+
+    public int getPunteggio() {
+        return punteggio;
+    }
+
+    public void setPunteggio(int punteggio) {
+        this.punteggio = punteggio;
+    }
+
+    public double getLatitudine() {
+        return latitudine;
+    }
+
+    public void setLatitudine(double latitudine) {
+        this.latitudine = latitudine;
+    }
+
+    public double getLongitudine() {
+        return longitudine;
+    }
+
+    public void setLongitudine(double longitudine) {
+        this.longitudine = longitudine;
+    }
 }

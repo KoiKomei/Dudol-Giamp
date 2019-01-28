@@ -14,18 +14,18 @@ public class Possiede {
     @ColumnInfo(name="user_email")
     private String email;
 
-    @ColumnInfo(name="oggetto")
-    private boolean oggetto;
+    @ColumnInfo(name="Bob")
+    private boolean bob;
 
     @ColumnInfo(name="oggetto2")
     private boolean oggetto2;
 
-    public boolean isOggetto() {
-        return oggetto;
+    public boolean isBob() {
+        return bob;
     }
 
-    public void setOggetto(boolean oggetto) {
-        this.oggetto = oggetto;
+    public void setBob(boolean bob) {
+        this.bob=bob;
     }
 
     public boolean isOggetto2() {
