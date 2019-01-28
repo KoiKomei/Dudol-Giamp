@@ -1,12 +1,14 @@
 package com.ilmale.doodlejump.domain;
 
+import com.ilmale.doodlejump.Constants;
+
 public class Bullet extends AbstractGameObject {
 
     private float pX;
     private float pY;
     private float speed;
 
-    public Bullet(){}
+    private Constants constants = Constants.getInstance();
 
     public Bullet(float pX, float pY, float speed) {
         this.pX = pX;
@@ -39,7 +41,6 @@ public class Bullet extends AbstractGameObject {
     }
 
     @Override
-    public void update() {
+    public void update() {}
 
-    }
 }

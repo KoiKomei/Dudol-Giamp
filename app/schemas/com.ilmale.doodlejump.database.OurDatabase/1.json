@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ce06c95747a4a7bdc479a23b60a426f0",
+    "identityHash": "c07d6ab03c230e0685c405128ee47eca",
     "entities": [
       {
         "tableName": "User",
@@ -45,13 +45,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "latitudine",
+            "fieldPath": "lat",
             "columnName": "Latitudine",
             "affinity": "REAL",
             "notNull": true
           },
           {
-            "fieldPath": "longitudine",
+            "fieldPath": "longi",
             "columnName": "Longitudine",
             "affinity": "REAL",
             "notNull": true
@@ -106,7 +106,7 @@
       },
       {
         "tableName": "Possiede",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_email` TEXT NOT NULL, `Bob` INTEGER NOT NULL, `oggetto2` INTEGER NOT NULL, PRIMARY KEY(`user_email`), FOREIGN KEY(`user_email`) REFERENCES `User`(`Email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_email` TEXT NOT NULL, `bob` INTEGER NOT NULL, `blue_bob` INTEGER NOT NULL, `jungle_bob` INTEGER NOT NULL, `bunny_bob` INTEGER NOT NULL, PRIMARY KEY(`user_email`), FOREIGN KEY(`user_email`) REFERENCES `User`(`Email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "email",
@@ -116,13 +116,25 @@
           },
           {
             "fieldPath": "bob",
-            "columnName": "Bob",
+            "columnName": "bob",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "oggetto2",
-            "columnName": "oggetto2",
+            "fieldPath": "bluebob",
+            "columnName": "blue_bob",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "junglebob",
+            "columnName": "jungle_bob",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bunnybob",
+            "columnName": "bunny_bob",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -151,7 +163,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ce06c95747a4a7bdc479a23b60a426f0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c07d6ab03c230e0685c405128ee47eca\")"
     ]
   }
 }

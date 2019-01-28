@@ -1,10 +1,15 @@
 package com.ilmale.doodlejump.domain;
 
+import android.util.Log;
+
 import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.view.GameView;
 
 import java.util.List;
 
 public class Platform extends AbstractGameObject {
+
+    private static final String LOG_TAG = GameView.class.getSimpleName();
 
     private float pX;
     private float pY;
@@ -52,16 +57,25 @@ public class Platform extends AbstractGameObject {
     public void update() {
         pY -= yS;
         if(pY > constants.getPixelHeight()){
+            if(constants.getPoints()<=10000){
+                constants.setPoints(constants.getPoints()+10);
+            }
             pX = (float) (Math.random() * constants.getPixelWidth());
             pY = 0;
+            float j = (float) Math.random()*100;
+            Log.d(LOG_TAG, "----------------------------------------------------------------------" + j);
+            if(j>=97){
+                setHasSprings(true);
+            }
         }
     }
 
     public void createRandomPlatform(List<Platform> platforms){
         for (int i=0; i<10; i++){
-            int j = (int) Math.random()*10+1;
+            float j = (float) Math.random()*100;
+            Log.d(LOG_TAG, "----------------------------------------------------------------------" + j);
             Platform platform= new Platform((float)Math.random() * (constants.getPixelWidth()-100),i*(constants.getPixelHeight()/10));
-            if(j==5){
+            if(j>=95){
                 platform.setHasSprings(true);
             }
             platforms.add(platform);

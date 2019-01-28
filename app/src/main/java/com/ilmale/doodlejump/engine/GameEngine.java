@@ -36,21 +36,17 @@ public class GameEngine {
     //public GameView getGameView(){return gameView;}
 
     public GameEngine(){
-
         lastUpdate = System.currentTimeMillis();
-
         player = new Player();
 
         Platform platform = new Platform();
         platform.createRandomPlatform(platforms);
-
         player.setPlatforms(platforms);
-        /*
+
         enemy = new Enemy();
-        placeEnemy();
-        Item item = new Item();
-        placeItem();
-        */
+        item = new Item();
+        player.setEnemy(enemy);
+        player.setItem(item);
     }
 
     public void update() {
@@ -59,13 +55,15 @@ public class GameEngine {
             if (collidesFromAbove(player, p)){
                 Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
-                    player.jump(50);
+                    player.jump(60);
                 }
                 else {
-                    player.jump(30);
+                    player.jump(40);
                 }
             }
         }
+        takeObject();
+
     }
 
     public void updatePlayer() {
@@ -106,96 +104,23 @@ public class GameEngine {
         return platforms;
     }
 
-    /*private void move(){
-
-        player.setpX(player.getpX() + x);
-
-        if (player.getVelX() > 0) {
-
-            while (player.getVelX() > 0) {
-
-                player.setVelX(player.getVelX() + player.getAccX());
-
-                if (player.getpY() + player.getHeight() > 800){
-                    player.setpY(player.getpY() - player.getAccX());
-                }
-                for (Platform p: platforms) {
-                    p.setpY(p.getpY() + player.getAccX());
-                }
-                item.setpY(item.getpY() + player.getAccX());
-                enemy.setpY(enemy.getpY() + player.getAccX());
-
-            }
-
-        }
-        else if (player.getVelX() <= 0){
-            if(player.hasObject() && player.getItem().getType()==EnumItemType.HAT && player.getItem().getType()==EnumItemType.JETPACK ){
-                player.loseObject();
-                placeItem();
-            }
-            player.setpY(player.getpY()+player.getAccX());
-        }
-
-        for (Platform p: platforms) {
-            if(p.getpY()>constants.getPixelHeight()){
-                p.setpX((float) (Math.random() * constants.getPixelWidth());
-                p.setpY(0);
-                points+=10;
-            }
-        }
-        for(Bullet b:bullets){
-            b.setpY(b.getpY()-b.getVelX());
-            if(b.getpY()<0){
-                bullets.remove(b);
-            }
-
-        }
-        if(item.getpX()>constants.getPixelHeight()){
-            placeItem();
-        }
-        if(enemy.getpX()>constants.getPixelHeight()){
-            placeEnemy();
-        }
-    }
-
-    public void placeItem(){
-        int type = (int) Math.random()*3;
-        if(type==0){
-            item.setType(EnumItemType.HAT);
-        }
-        else if(type==1){
-            item.setType(EnumItemType.JETPACK);
-        }
-        else if(type==2){
-            item.setType(EnumItemType.SHIELD);
-        }
-        item.setpX((float)Math.random() * constants.getPixelWidth());
-        item.setpY(-300);
-    }
-
-    public void placeEnemy(){
-        enemy.setpX((float) Math.random() * constants.getPixelWidth());
-        enemy.setpY(-300);
-    }
-
     public void takeObject(){
-        if (collide(p,item)){
-                if(!player.hasObject()){
-                    player.pickObject(item);
-                    switch (item.getType()){
-                        case HAT:
-                            item.setpX(player.getpX());
-                            item.setpY(player.getpY()-gameView.getBitmapHAT().getHeight());
-                            player.setVelX(3000);
-                        case SHIELD:
-                            item.setpX(player.getpX());
-                            item.setpY(player.getpY());
-                            item.setTimeShield(1000);
-                        case JETPACK:
-                            item.setpX(player.getpX());
-                            item.setpY(player.getpY());
-                            player.setVelX(4000);
-                    }
+        if (collide(player,item)){
+            if(!player.hasObject()){
+                player.pickObject(item);
+                switch (item.getType()){
+                    case HAT:
+                         item.setpX(player.getpX());
+                         item.setpY(player.getpY()-item.getHeight());
+                         player.jump(70);
+                    case SHIELD:
+                         item.setpX(player.getpX());
+                         item.setpY(player.getpY());
+                         item.setTimeShield(150);
+                    case JETPACK:
+                         item.setpX(player.getpX());
+                         item.setpY(player.getpY());
+                         player.jump(70);
                 }
             }
         }
@@ -204,17 +129,15 @@ public class GameEngine {
     public void killEnemy(){
         for(Bullet b:bullets){
             if (collide(enemy,b)) {
-                    placeEnemy();
-                }
+                enemy.replace();
             }
         }
     }
 
     public boolean killedByEnemy(){
-        if ( collide(player, enemy) ) {
-                if (player.getItem().getType()!=EnumItemType.SHIELD) {
-                    return true;
-                }
+        if (collide(player, enemy) ) {
+            if (player.getTake().getType()!=EnumItemType.SHIELD) {
+                return true;
             }
         }
         return false;
@@ -232,10 +155,9 @@ public class GameEngine {
         bullets.add(bullet);
     }
 
-
     public void endGame(){
 
     }
-    */
+
 
 }

@@ -7,6 +7,7 @@ public class Item extends AbstractGameObject {
     private float pX;
     private float pY;
     private float timeShield;
+    private float yS=0;
 
     private EnumItemType type;
     private Constants constants = Constants.getInstance();
@@ -17,6 +18,18 @@ public class Item extends AbstractGameObject {
         this.pX=pX;
         this.pY=pY;
         this.type=type;
+        int typeInt = (int) Math.random()*3;
+        if(typeInt==0){
+            type = EnumItemType.HAT;
+        }
+        else if(typeInt==1){
+            type = EnumItemType.JETPACK;
+        }
+        else if(typeInt==2){
+            type = EnumItemType.SHIELD;
+        }
+        pX = (float)Math.random() * constants.getPixelWidth();
+        pY = -300;
     }
 
     public void setType(EnumItemType type){
@@ -51,14 +64,25 @@ public class Item extends AbstractGameObject {
         this.timeShield = timeShield;
     }
 
-    @Override
-    public void update() {
-
+    public float getyS() {
+        return yS;
     }
 
-    public void createRandomItem(Item item){
-        item.setpX((float)Math.random() * constants.getPixelWidth());
-        item.setpY(-300);
+    public void setyS(float yS) {
+        this.yS = yS;
+    }
 
+    @Override
+    public void update() {
+        pY -= yS;
+        if(pY > constants.getPixelHeight()){
+            pX = (float) (Math.random() * constants.getPixelWidth());
+            pY = -300;
+        }
+    }
+
+    public void replace(Item item){
+        pX = (float) (Math.random() * constants.getPixelWidth());
+        pY = -300;
     }
 }

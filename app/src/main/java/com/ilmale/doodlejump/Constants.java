@@ -10,6 +10,7 @@ public class Constants {
 
     private float pixelWidth=0;
     private float pixelHeight=0;
+    private int points = 0;
 
     private static final Constants ourInstance = new Constants();
 
@@ -35,4 +36,11 @@ public class Constants {
         this.pixelHeight = pixelHeight;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 }

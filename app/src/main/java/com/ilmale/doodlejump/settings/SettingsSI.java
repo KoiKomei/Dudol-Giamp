@@ -12,7 +12,7 @@ public class SettingsSI {
 
     private boolean sound = true;
     private boolean music = true;
-    public static final float MaxVel = 50;
+    public static final float MaxVel = 70;
 
     public void setSound(boolean v){
         sound = v;
