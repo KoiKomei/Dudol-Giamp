@@ -57,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         audioManager.create(this);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        setDimension();
+    }
+
+    public void setDimension(){
+        Constants constants = Constants.getInstance();
+        constants.setPixelHeight(getResources().getDisplayMetrics().heightPixels);
+        constants.setPixelWidth(getResources().getDisplayMetrics().widthPixels);
+        Log.d(LOG_TAG, "Width: "+constants.getPixelWidth()+ ", Height:" +constants.getPixelHeight());
 
     }
 

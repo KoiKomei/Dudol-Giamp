@@ -1,8 +1,10 @@
 package com.ilmale.doodlejump.engine;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
+import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.domain.*;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class GameEngine {
     public List<Bullet> bullets = new ArrayList<>();
     public Item item;
     public Enemy enemy;
+    private Constants constants = Constants.getInstance();
 
     //public GameView getGameView(){return gameView;}
 
@@ -36,16 +39,9 @@ public class GameEngine {
 
         player = new Player();
 
+        Platform platform = new Platform();
+        platform.createRandomPlatform(platforms);
 
-
-
-        Platform platform1 = new Platform(550, 1650);
-        Platform platform2 = new Platform(200, 1650);
-        Platform platform3 = new Platform(1500, 450);
-        Platform platform4 = new Platform(1500, 450);
-        Platform platform5 = new Platform(1500, 450);
-
-        platforms.add(platform1); platforms.add(platform2);
 
 
         /*enemy = new Enemy();
@@ -89,21 +85,7 @@ public class GameEngine {
 
         // Load Bob from his .png file
         //bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.bob);
-        for (int i=0; i<10; i++){
-            int j = (int) Math.random()*10+1;
-            Platform platform= new Platform(i*(float) (Math.random() * getResources().getDisplayMetrics().widthPixels),i*50);
-            if(j==5){
-                platform.setHasSprings(true);
-            }
-            platforms.add(platform);
-        }
-        enemy = new Enemy();
-        enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
-        enemy.setpY(-300);
 
-        Item item = new Item();
-        enemy.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
-        enemy.setpY(-300);
 
         //setContentView(gameView);
     }*/
@@ -187,9 +169,9 @@ public class GameEngine {
         }
 
         for (Platform p: platforms) {
-            if(p.getpY()>getResources().getDisplayMetrics().heightPixels){
+            if(p.getpY()>constants.getPixelHeight()){
                 platforms.remove(p);
-                platforms.add(new Platform((float) (Math.random() * getResources().getDisplayMetrics().widthPixels),
+                platforms.add(new Platform((float) (Math.random() * constants.getPixelWidth()),
                         0));
             }
         }
@@ -200,10 +182,10 @@ public class GameEngine {
             }
 
         }
-        if(item.getpX()>getResources().getDisplayMetrics().heightPixels){
+        if(item.getpX()>constants.getPixelHeight()){
             placeItem();
         }
-        if(enemy.getpX()>getResources().getDisplayMetrics().heightPixels){
+        if(enemy.getpX()>constants.getPixelHeight()){
             placeEnemy();
         }
     }
@@ -219,18 +201,17 @@ public class GameEngine {
         else if(type==2){
             item.setType(EnumItemType.SHIELD);
         }
-        item.setpX((float)Math.random() * getResources().getDisplayMetrics().widthPixels);
+        item.setpX((float)Math.random() * constants.getPixelWidth());
         item.setpY(-300);
     }
 
     public void placeEnemy(){
-        enemy.setpX((float) Math.random() * getResources().getDisplayMetrics().widthPixels);
+        enemy.setpX((float) Math.random() * constants.getPixelWidth());
         enemy.setpY(-300);
     }
 
     public void takeObject(){
-        if (item.getpY()<= player.getpY() && item.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && item.getpX()>= player.getpX() && item.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-            if(item.getpY()+100<= player.getpY() && item.getpY()+100>=player.getpY()+gameView.getBitmapBob().getHeight() && item.getpX()+100>= player.getpX() && item.getpX()+100>= player.getpX()+gameView.getBitmapBob().getWidth() ){
+        if (collide(p,item)){
                 if(!player.hasObject()){
                     player.pickObject(item);
                     switch (item.getType()){
@@ -254,8 +235,7 @@ public class GameEngine {
 
     public void killEnemy(){
         for(Bullet b:bullets){
-            if (enemy.getpY() <= b.getpY() && enemy.getpY() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() >= b.getpX() && enemy.getpX() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
-                if (enemy.getpY() + gameView.getBitmapEnemy().getHeight() <= b.getpY() && enemy.getpY() + gameView.getBitmapEnemy().getHeight() >= b.getpY() + gameView.getBitmapBULLET().getHeight() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() && enemy.getpX() + gameView.getBitmapEnemy().getWidth() >= b.getpX() + gameView.getBitmapBULLET().getWidth()) {
+            if (collide(enemy,b)) {
                     placeEnemy();
                 }
             }
@@ -263,8 +243,7 @@ public class GameEngine {
     }
 
     public boolean killedByEnemy(){
-        if (enemy.getpY()<= player.getpY() && enemy.getpY()>=player.getpY()+gameView.getBitmapBob().getHeight() && enemy.getpX()>= player.getpX() && enemy.getpX()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
-            if(enemy.getpY()+gameView.getBitmapEnemy().getHeight()<= player.getpY() && enemy.getpY()+gameView.getBitmapEnemy().getHeight()>=player.getpY()+gameView.getBitmapBob().getHeight() && enemy.getpX()+gameView.getBitmapEnemy().getWidth()>= player.getpX() && enemy.getpX()+gameView.getBitmapEnemy().getWidth()>= player.getpX()+gameView.getBitmapBob().getWidth() ) {
+        if ( collide(player, enemy) ) {
                 if (player.getItem().getType()!=EnumItemType.SHIELD) {
                     return true;
                 }
@@ -274,7 +253,7 @@ public class GameEngine {
     }
 
     public boolean isDeath(){
-        if(player.getpX()>getResources().getDisplayMetrics().heightPixels || killedByEnemy()){
+        if(player.getpX()>constants.getPixelHeight() || killedByEnemy()){
             return true;
         }
         return false;

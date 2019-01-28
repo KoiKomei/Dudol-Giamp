@@ -1,5 +1,7 @@
 package com.ilmale.doodlejump.domain;
 
+import com.ilmale.doodlejump.Constants;
+
 public class Item extends AbstractGameObject {
 
     private float pX;
@@ -7,6 +9,7 @@ public class Item extends AbstractGameObject {
     private float timeShield;
 
     private EnumItemType type;
+    private Constants constants = Constants.getInstance();
 
     public Item(){}
 
@@ -50,6 +53,12 @@ public class Item extends AbstractGameObject {
 
     @Override
     public void update() {
+
+    }
+
+    public void createRandomItem(Item item){
+        item.setpX((float)Math.random() * constants.getPixelWidth());
+        item.setpY(-300);
 
     }
 }

@@ -1,9 +1,12 @@
 package com.ilmale.doodlejump.domain;
 
+import com.ilmale.doodlejump.Constants;
+
 public class Enemy extends AbstractGameObject {
 
     private float pX;
     private float pY;
+    private Constants constants = Constants.getInstance();
 
     public Enemy(){}
 
@@ -30,6 +33,12 @@ public class Enemy extends AbstractGameObject {
 
     @Override
     public void update() {
+
+    }
+
+    public void createRandomEnemy(Enemy enemy){
+        enemy.setpX((float)Math.random() * constants.getPixelWidth());
+        enemy.setpY(-300);
 
     }
 }

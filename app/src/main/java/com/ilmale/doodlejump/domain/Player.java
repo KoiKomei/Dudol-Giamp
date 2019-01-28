@@ -2,6 +2,7 @@ package com.ilmale.doodlejump.domain;
 
 import android.util.Log;
 
+import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
 public class Player extends AbstractGameObject {
@@ -23,10 +24,12 @@ public class Player extends AbstractGameObject {
 
     private float gravity = 0.2f;
 
+    private Constants constants = Constants.getInstance();
+
     public Player(){
         super();
-        pX = 450;
-        pY = 400;
+        pX = constants.getPixelWidth()/2;
+        pY = constants.getPixelHeight()/3;
     }
 
     public void pickObject(Item item){
@@ -84,8 +87,8 @@ public class Player extends AbstractGameObject {
             pX = 975;
         }
 
-        if (pY < 800) {
-            pY = 800;
+        if (pY < constants.getPixelHeight()/3) {
+            pY = constants.getPixelHeight()/3;
         } else if (pY > 1500) {
             pY = 1500;
         }
