@@ -41,12 +41,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         engine = new GameEngine();
         gameView = new GameView(this, engine);
         setContentView(gameView);
-
-//        Point size = new Point();
-//        Display display = getWindowManager().getDefaultDisplay();
-//        display.getSize(size);
-//        xMax = (float) size.x - 100;
-//        yMax = (float) size.y - 100;
     }
 
     @Override
@@ -73,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             //Log.d(LOG_TAG, "Sensor Changed: " + event.values[0]);
-            engine.player.setAccX(event.values[0]);
+            engine.player.setAccX(event.values[0]/5);
             //engine.player.setAccY(-event.values[1]);
             engine.updatePlayer();
         }

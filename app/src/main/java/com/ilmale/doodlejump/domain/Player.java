@@ -5,6 +5,8 @@ import android.util.Log;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
+import java.util.List;
+
 public class Player extends AbstractGameObject {
 
     private static final String LOG_TAG = Player.class.getSimpleName();
@@ -26,6 +28,9 @@ public class Player extends AbstractGameObject {
 
     private Constants constants = Constants.getInstance();
 
+    private List<Platform> platforms;
+    private Enemy enemy;
+
     public Player(){
         super();
         pX = constants.getPixelWidth()/2;
@@ -42,21 +47,6 @@ public class Player extends AbstractGameObject {
         this.hasObject = false;
     }
 
-//    @Override
-//    public void update(){
-//        velX += (accX);//* frameTime);
-//
-//        float xS = (velX / 2);// * frameTime;
-//
-//        pX -= xS;
-//
-//        if (pX > 95) {
-//            pX = -5;
-//        } else if (pX < -6) {
-//            pX = 94;
-//        }
-//    }
-
     public void jump(float force){
         Log.d(LOG_TAG, "jumping");
         velY = -force;
@@ -68,7 +58,7 @@ public class Player extends AbstractGameObject {
 
         float frameTime = 0.666f;
         velX += (accX * frameTime * 6);
-        velY += (-gravity * frameTime * 6);
+        velY += (gravity * frameTime * 6);
 
         if (velX > SettingsSI.MaxVel) velX = SettingsSI.MaxVel;
         else if (velX < -SettingsSI.MaxVel) velX = -SettingsSI.MaxVel;
@@ -79,7 +69,7 @@ public class Player extends AbstractGameObject {
         float yS = (velY / 2) * frameTime;
 
         pX -= xS;
-        pY -= yS;
+        pY += yS;
 
         if (pX > 980) {
             pX = -100;
@@ -87,10 +77,14 @@ public class Player extends AbstractGameObject {
             pX = 975;
         }
 
-        if (pY < constants.getPixelHeight()/3) {
-            pY = constants.getPixelHeight()/3;
-        } else if (pY > 1500) {
-            pY = 1500;
+        if (pY < constants.getPixelHeight()/4) {
+            pY = constants.getPixelHeight()/4;
+            for(Platform p: platforms){
+                p.setyS(yS);
+                p.update();
+            }
+        } else if (pY > constants.getPixelHeight()) {
+            pY = constants.getPixelHeight();
         }
     }
 
@@ -136,4 +130,11 @@ public class Player extends AbstractGameObject {
         return hasObject;
     }
 
+    public List<Platform> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<Platform> platforms) {
+        this.platforms = platforms;
+    }
 }

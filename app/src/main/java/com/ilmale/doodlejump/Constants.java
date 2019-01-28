@@ -34,4 +34,5 @@ public class Constants {
     public void setPixelHeight(float pixelHeight) {
         this.pixelHeight = pixelHeight;
     }
+
 }

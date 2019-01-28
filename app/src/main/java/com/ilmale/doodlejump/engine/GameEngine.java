@@ -31,6 +31,8 @@ public class GameEngine {
     public Enemy enemy;
     private Constants constants = Constants.getInstance();
 
+    private int points=0;
+
     //public GameView getGameView(){return gameView;}
 
     public GameEngine(){
@@ -42,14 +44,13 @@ public class GameEngine {
         Platform platform = new Platform();
         platform.createRandomPlatform(platforms);
 
-
-
-        /*enemy = new Enemy();
+        player.setPlatforms(platforms);
+        /*
+        enemy = new Enemy();
         placeEnemy();
-
         Item item = new Item();
-        placeItem();*/
-
+        placeItem();
+        */
     }
 
     public void update() {
@@ -57,50 +58,18 @@ public class GameEngine {
         for (Platform p: platforms) {
             if (collidesFromAbove(player, p)){
                 Log.d(LOG_TAG, "collision!");
-                player.jump(1000);
+                if (p.hasSprings()) {
+                    player.jump(50);
+                }
+                else {
+                    player.jump(30);
+                }
             }
         }
     }
 
     public void updatePlayer() {
         player.update();
-    }
-
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Initialize gameView and set it as the view
-
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        lastUpdate = System.currentTimeMillis();
-
-        gameView = new GameView(this);
-
-        player = new Player();
-        player.setpX(getResources().getDisplayMetrics().widthPixels/2-gameView.getBitmapBob().getWidth()/2);
-        player.setpY((getResources().getDisplayMetrics().heightPixels - 50) - gameView.getBitmapBob().getHeight());
-
-        // Load Bob from his .png file
-        //bitmapBob = BitmapFactory.decodeResource(this.getResources(), R.drawable.bob);
-
-
-        //setContentView(gameView);
-    }*/
-
-    private void jump(){
-        for (Platform p: platforms) {
-            if (collide(p, player)) {
-                if (p.hasSprings()) {
-                    player.setVelX(1800);
-                }
-                else {
-                    player.setVelX(600);
-                }
-            }
-        }
     }
 
     private boolean collide(AbstractGameObject obj1, AbstractGameObject obj2) {
@@ -128,8 +97,7 @@ public class GameEngine {
         float y21 = obj2.getpY();
         float y22 = y21 + obj2.getHeight();
         if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
-            Log.d(LOG_TAG, "colliding X");
-            return (y12 >= y21 - 15 || y12 <= y21 + 15);
+            return (y12 <= y21 && y12 >= y21 - 10);
         }
         return false;
     }
@@ -170,9 +138,9 @@ public class GameEngine {
 
         for (Platform p: platforms) {
             if(p.getpY()>constants.getPixelHeight()){
-                platforms.remove(p);
-                platforms.add(new Platform((float) (Math.random() * constants.getPixelWidth()),
-                        0));
+                p.setpX((float) (Math.random() * constants.getPixelWidth());
+                p.setpY(0);
+                points+=10;
             }
         }
         for(Bullet b:bullets){
@@ -262,6 +230,12 @@ public class GameEngine {
     public void shoot() {
         Bullet bullet = new Bullet(player.getpX(), player.getpY(),30);
         bullets.add(bullet);
-    }*/
+    }
+
+
+    public void endGame(){
+
+    }
+    */
 
 }

@@ -8,6 +8,7 @@ public class Platform extends AbstractGameObject {
 
     private float pX;
     private float pY;
+    private float yS=0;
     private boolean hasSprings;
     private Constants constants = Constants.getInstance();
 
@@ -35,6 +36,10 @@ public class Platform extends AbstractGameObject {
         this.pY=pY;
     }
 
+    public void setyS(float yS) {
+        this.yS = yS;
+    }
+
     public boolean hasSprings() {
         return hasSprings;
     }
@@ -45,13 +50,17 @@ public class Platform extends AbstractGameObject {
 
     @Override
     public void update() {
-
+        pY -= yS;
+        if(pY > constants.getPixelHeight()){
+            pX = (float) (Math.random() * constants.getPixelWidth());
+            pY = 0;
+        }
     }
 
     public void createRandomPlatform(List<Platform> platforms){
         for (int i=0; i<10; i++){
             int j = (int) Math.random()*10+1;
-            Platform platform= new Platform(i*(float)Math.random() * (constants.getPixelWidth()-100),i*(constants.getPixelHeight()/10));
+            Platform platform= new Platform((float)Math.random() * (constants.getPixelWidth()-100),i*(constants.getPixelHeight()/10));
             if(j==5){
                 platform.setHasSprings(true);
             }

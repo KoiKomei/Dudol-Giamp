@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.domain.AbstractGameObject;
@@ -56,6 +57,7 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapEnemy;
 
         GameEngine gameEngine;
+        private Constants constants = Constants.getInstance();
 
         public GameView(Context context, GameEngine engine) {
             super(context);
@@ -71,6 +73,18 @@ public class GameView extends SurfaceView implements Runnable{
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
+            bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
+
+            gameEngine.player.setHeight(bitmapBobLeft.getHeight());
+            gameEngine.player.setWidth(bitmapBobLeft.getWidth());
+            for(Platform p: gameEngine.getPlatforms()){
+                p.setHeight(bitmapPlatform.getHeight());
+                p.setWidth(bitmapPlatform.getWidth());
+            }
+            //gameEngine.enemy.setHeight(bitmapEnemy.getHeight());
+            //gameEngine.enemy.setWidth(bitmapEnemy.getWidth());
+            //gameEngine.item.setHeight(bitmapHAT.getHeight());
+            //gameEngine.item.setWidth(bitmapHAT.getHeight());
 
             playing = true;
         }
@@ -126,6 +140,7 @@ public class GameView extends SurfaceView implements Runnable{
                 canvas.drawText("FPS:" + fps, 20, 40, paint);
 
                 for (Platform p: gameEngine.getPlatforms()) {
+                    Log.d(LOG_TAG, "platx:"+p.getpX()+", platy:"+p.getpY());
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
                     /*if(p.hasSprings()){
                         canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY()-bitmapSPRINGS.getHeight(), paint);
