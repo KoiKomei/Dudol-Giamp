@@ -54,8 +54,8 @@ public class AddUserFragment extends Fragment {
                 user.setUsername(UserName);
                 user.setMoney(0);
                 user.setPunteggio(0);
-                user.setLatitudine(0);
-                user.setLongitudine(0);
+                user.setLat(0);
+                user.setLongi(0);
 
                 Possiede pos=new Possiede();
 

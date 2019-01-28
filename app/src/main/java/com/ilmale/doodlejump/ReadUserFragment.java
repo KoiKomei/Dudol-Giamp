@@ -43,8 +43,8 @@ public class ReadUserFragment extends Fragment {
             String email=us.getEmail();
             int money=us.getMoney();
             int punteggio=us.getPunteggio();
-            double lat=us.getLatitudine();
-            double lon=us.getLongitudine();
+            double lat=us.getLat();
+            double lon=us.getLongi();
             /*user.setEmail(UserEmail);
             user.setId(UserId);
             user.setPassword(UserPassword);

@@ -29,10 +29,10 @@ public class User {
     private int punteggio;
 
     @ColumnInfo(name="Latitudine")
-    private double latitudine;
+    private double lat;
 
     @ColumnInfo(name="Longitudine")
-    private double longitudine;
+    private double longi;
 
     public int getId() {
         return id;
@@ -78,19 +78,19 @@ public class User {
         this.punteggio = punteggio;
     }
 
-    public double getLatitudine() {
-        return latitudine;
+    public double getLat() {
+        return lat;
     }
 
-    public void setLatitudine(double latitudine) {
-        this.latitudine = latitudine;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public double getLongitudine() {
-        return longitudine;
+    public double getLongi() {
+        return longi;
     }
 
-    public void setLongitudine(double longitudine) {
-        this.longitudine = longitudine;
+    public void setLongi(double longi) {
+        this.longi = longi;
     }
 }
