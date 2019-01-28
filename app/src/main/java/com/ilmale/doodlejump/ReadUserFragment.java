@@ -60,9 +60,11 @@ public class ReadUserFragment extends Fragment {
 
             String em=pos.getEmail();
             boolean bob=pos.isBob();
-            boolean oggetto2=pos.isOggetto2();
+            boolean bluebob=pos.isBluebob();
+            boolean junglebob=pos.isJunglebob();
+            boolean bunnybob=pos.isBunnybob();
 
-            txt=txt+"\n"+"Email: "+em+"\n Bob: "+bob+"\n oggetto2: "+oggetto2+"\n ";
+            txt=txt+"\n"+"Email: "+em+"\n Bob: "+bob+"\n BlueBob: "+bluebob+"\n JungleBob: "+junglebob+"\n BunnyBob: "+bunnybob+"\n ";
 
         }
 

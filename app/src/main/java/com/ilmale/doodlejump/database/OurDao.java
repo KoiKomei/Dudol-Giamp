@@ -34,6 +34,21 @@ public interface OurDao {
     @Query("UPDATE User SET Money=:newValue WHERE Email=:email AND Money=:oldValue")
     public void updateMoney(String email, int newValue, int oldValue);
 
+    @Query("select Latitudine from User WHERE Email=:email")
+    public double userLat(String email);
+
+    @Query("select Longitudine from User WHERE Email=:email")
+    public double userLong(String email);
+
+    @Query("UPDATE User set Punteggio=:newPunteggio WHERE Email=:email")
+    public int updatePunteggio(int newPunteggio, String email);
+
+    @Query("UPDATE User set Latitudine=:newLat WHERE Email=:email")
+    public void updateLat(double newLat, String email);
+
+    @Query("UPDATE User set Longitudine=:newLong WHERE Email=:email")
+    public void updateLong(double newLong, String email);
+
     /*                */
     /*Roba del negozio*/
     /*                */
@@ -67,7 +82,25 @@ public interface OurDao {
     @Delete
     public void deletePossiede(Possiede possiede);
 
-   /* @Query("SELECT posses_id from Possiede where MAX(posses_id)")
-    public int getMaxId();*/
+    @Query("UPDATE Possiede SET blue_bob=:newValue WHERE user_email=:email")
+    public void updateBlue(boolean newValue, String email);
+
+    @Query("UPDATE Possiede SET jungle_bob=:newValue WHERE user_email=:email")
+    public void updateJungle(boolean newValue, String email);
+
+    @Query("UPDATE Possiede SET bunny_bob=:newValue WHERE user_email=:email")
+    public void updateBunny(boolean newValue, String email);
+
+    @Query("select bob from Possiede")
+    public boolean getBob();
+
+    @Query("select blue_bob from Possiede")
+    public boolean getBlue();
+
+    @Query("select jungle_bob from Possiede")
+    public boolean getJungle();
+
+    @Query("select bunny_bob from Possiede")
+    public boolean getBunny();
 
 }

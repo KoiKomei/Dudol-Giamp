@@ -61,7 +61,9 @@ public class AddUserFragment extends Fragment {
 
                 pos.setEmail(UserEmail);
                 pos.setBob(true);
-                pos.setOggetto2(false);
+                pos.setBluebob(false);
+                pos.setJunglebob(false);
+                pos.setBunnybob(false);
 
                 RegisterActivity.db.ourDao().setUser(user);
                 RegisterActivity.db.ourDao().setPossiede(pos);
