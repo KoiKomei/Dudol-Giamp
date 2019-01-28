@@ -2,7 +2,7 @@ package com.ilmale.doodlejump.domain;
 
 import com.ilmale.doodlejump.Constants;
 
-public class Enemy extends AbstractGameObject {
+public class Jetpack extends AbstractGameObject {
 
     private float pX;
     private float pY;
@@ -10,12 +10,12 @@ public class Enemy extends AbstractGameObject {
 
     private Constants constants = Constants.getInstance();
 
-    public Enemy(){
-        pX = (float)Math.random() * (constants.getPixelWidth()-76);
-        pY = -2000;
+    public Jetpack(){
+        pX = (float)Math.random() * (constants.getPixelWidth()-52);
+        pY = -5000;
     }
 
-    public Enemy(float pX, float pY){
+    public Jetpack(float pX, float pY){
         this.pX=pX;
         this.pY=pY;
     }
@@ -48,13 +48,13 @@ public class Enemy extends AbstractGameObject {
     public void update() {
         pY -= yS;
         if(pY > constants.getPixelHeight()){
-            pX = (float) (Math.random() * constants.getPixelWidth());
+            pX = (float) (Math.random() * (constants.getPixelWidth()-52));
             pY = -300;
         }
     }
 
-    public void replace(){
-        pX = (float) (Math.random() * (constants.getPixelWidth()-76));
-        pY = -2000;
+    public void replace(Jetpack jetpack){
+        pX = (float) (Math.random() * (constants.getPixelWidth()-52));
+        pY = -5000;
     }
 }

@@ -6,14 +6,12 @@ public class Bullet extends AbstractGameObject {
 
     private float pX;
     private float pY;
-    private float speed;
 
     private Constants constants = Constants.getInstance();
 
-    public Bullet(float pX, float pY, float speed) {
+    public Bullet(float pX, float pY) {
         this.pX = pX;
         this.pY = pY;
-        this.speed = speed;
     }
 
     public float getpX() {
@@ -30,14 +28,6 @@ public class Bullet extends AbstractGameObject {
 
     public void setpY(float pY) {
         this.pY = pY;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
     }
 
     @Override

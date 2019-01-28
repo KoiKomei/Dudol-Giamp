@@ -11,8 +11,8 @@ public class Player extends AbstractGameObject {
 
     private static final String LOG_TAG = Player.class.getSimpleName();
 
-    private Item take;
-    private boolean hasObject;
+    private boolean hasJetpack;
+    private boolean isDeath = false;
 
     //current position of the player
     private float pX;
@@ -31,7 +31,7 @@ public class Player extends AbstractGameObject {
     private List<Platform> platforms;
     private List<Bullet> bullets;
     private Enemy enemy;
-    private Item item;
+    private Jetpack jetpack;
 
     public Player(){
         super();
@@ -39,14 +39,8 @@ public class Player extends AbstractGameObject {
         pY = constants.getPixelHeight()/3;
     }
 
-    public void pickObject(Item item){
-        this.take = item;
-        this.hasObject = true;
-    }
-
-    public void loseObject(){
-        this.take = null;
-        this.hasObject = false;
+    public void pickJetpack(){
+        this.hasJetpack = true;
     }
 
     public void jump(float force){
@@ -78,14 +72,14 @@ public class Player extends AbstractGameObject {
         } else if (pX < -105) {
             pX = 975;
         }
-        /*
+
         for(Bullet b: bullets){
             float yB = (100 / 2) * frameTime;
             b.setpY(b.getpY()-yB);
             if(pY<0){
                 bullets.remove(b);
             }
-        }*/
+        }
 
         if (pY < constants.getPixelHeight()/4) {
             pY = constants.getPixelHeight()/4;
@@ -96,12 +90,17 @@ public class Player extends AbstractGameObject {
 
             enemy.setyS(yS);
             enemy.update();
-            item.setyS(yS);
-            item.update();
+            jetpack.setyS(yS);
+            jetpack.update();
 
         } else if (pY > constants.getPixelHeight()) {
             pY = constants.getPixelHeight();
         }
+
+        if(hasJetpack && velY < 0){
+
+        }
+
     }
 
     public float getAccX(){
@@ -138,8 +137,8 @@ public class Player extends AbstractGameObject {
 
     public void setpY(float pY){ this.pY = pY; }
 
-    public boolean hasObject() {
-        return hasObject;
+    public boolean hasJetpack() {
+        return hasJetpack;
     }
 
     public List<Platform> getPlatforms() {
@@ -150,20 +149,16 @@ public class Player extends AbstractGameObject {
         this.platforms = platforms;
     }
 
-    public Item getTake() {
-        return take;
-    }
-
-    public void setTake(Item take) {
-        this.take = take;
-    }
-
     public void setEnemy(Enemy enemy) {
         this.enemy = enemy;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setJetpack(Jetpack jetpack) {
+        this.jetpack = jetpack;
+    }
+
+    public void setBullets(List<Bullet> bullets) {
+        this.bullets = bullets;
     }
 
 }

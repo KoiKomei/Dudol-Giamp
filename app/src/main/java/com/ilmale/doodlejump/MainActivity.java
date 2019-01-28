@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     SettingsSI settingsSI = SettingsSI.getInstance();
     AudioManager audioManager = AudioManager.getInstance();
     MyLocation userLocation = MyLocation.getInstance();
+    Records records = Records.getInstance();
     ItemHandler dataHandler = new ItemHandler();
 
     private boolean mLocationPermissionGranted = false;
@@ -56,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         audioManager.create(this);
+        records.initializeRecords(this);
+        for(Integer i: records.getRecords()){
+            Log.d(LOG_TAG,"Punteggio "+i);
+        }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setDimension();
     }

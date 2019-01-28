@@ -5,6 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.GameActivity;
+import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.domain.*;
 
 import java.util.List;
@@ -25,11 +27,14 @@ public class GameEngine {
     public int x;
 
     public Player player;
-    List<Platform> platforms = new ArrayList<>();
+    public List<Platform> platforms = new ArrayList<>();
     public List<Bullet> bullets = new ArrayList<>();
-    public Item item;
+    public Jetpack jetpack;
     public Enemy enemy;
     private Constants constants = Constants.getInstance();
+    private Records records = Records.getInstance();
+
+    private boolean gameOver=false;
 
     private int points=0;
 
@@ -42,11 +47,12 @@ public class GameEngine {
         Platform platform = new Platform();
         platform.createRandomPlatform(platforms);
         player.setPlatforms(platforms);
+        player.setBullets(bullets);
 
         enemy = new Enemy();
-        item = new Item();
+        jetpack = new Jetpack();
         player.setEnemy(enemy);
-        player.setItem(item);
+        player.setJetpack(jetpack);
     }
 
     public void update() {
@@ -63,7 +69,10 @@ public class GameEngine {
             }
         }
         takeObject();
-
+        killEnemy();
+        if(isDeath()){
+            endGame();
+        }
     }
 
     public void updatePlayer() {
@@ -95,7 +104,7 @@ public class GameEngine {
         float y21 = obj2.getpY();
         float y22 = y21 + obj2.getHeight();
         if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
-            return (y12 <= y21 && y12 >= y21 - 10);
+            return (y12 <= y21 + 10 && y12 >= y21 - 10);
         }
         return false;
     }
@@ -105,23 +114,12 @@ public class GameEngine {
     }
 
     public void takeObject(){
-        if (collide(player,item)){
-            if(!player.hasObject()){
-                player.pickObject(item);
-                switch (item.getType()){
-                    case HAT:
-                         item.setpX(player.getpX());
-                         item.setpY(player.getpY()-item.getHeight());
-                         player.jump(70);
-                    case SHIELD:
-                         item.setpX(player.getpX());
-                         item.setpY(player.getpY());
-                         item.setTimeShield(150);
-                    case JETPACK:
-                         item.setpX(player.getpX());
-                         item.setpY(player.getpY());
-                         player.jump(70);
-                }
+        if (collide(player,jetpack)){
+            if(!player.hasJetpack()){
+                player.pickJetpack();
+                jetpack.setpX(player.getpX());
+                jetpack.setpY(player.getpY());
+                player.jump(70);
             }
         }
     }
@@ -135,10 +133,8 @@ public class GameEngine {
     }
 
     public boolean killedByEnemy(){
-        if (collide(player, enemy) ) {
-            if (player.getTake().getType()!=EnumItemType.SHIELD) {
-                return true;
-            }
+        if (collide(player, enemy)){
+            return true;
         }
         return false;
     }
@@ -151,13 +147,12 @@ public class GameEngine {
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(player.getpX(), player.getpY(),30);
+        Bullet bullet = new Bullet(player.getpX(), player.getpY());
         bullets.add(bullet);
     }
 
     public void endGame(){
-
+        records.updateRecords();
     }
-
 
 }

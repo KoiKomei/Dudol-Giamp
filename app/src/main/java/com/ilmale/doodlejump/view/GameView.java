@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.domain.AbstractGameObject;
+import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
 
@@ -48,6 +50,7 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapBG;
         Bitmap bitmapBobLeft;
         Bitmap bitmapBobRight;
+        Bitmap bitmapBobUp;
         Bitmap bitmapPlatform;
         Bitmap bitmapBULLET;
         Bitmap bitmapHAT;
@@ -71,10 +74,13 @@ public class GameView extends SurfaceView implements Runnable{
             // Initialize bitmaps
             bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
+            bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bobup);
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
             bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
             bitmapSPRINGS = BitmapFactory.decodeResource(getResources(), R.drawable.molla);
+            bitmapJETPACK = BitmapFactory.decodeResource(getResources(), R.drawable.jetpack);
+            bitmapBULLET = BitmapFactory.decodeResource(getResources(), R.drawable.bullet);;
 
             gameEngine.player.setHeight(bitmapBobLeft.getHeight());
             gameEngine.player.setWidth(bitmapBobLeft.getWidth());
@@ -82,10 +88,10 @@ public class GameView extends SurfaceView implements Runnable{
                 p.setHeight(bitmapPlatform.getHeight());
                 p.setWidth(bitmapPlatform.getWidth());
             }
-            //gameEngine.enemy.setHeight(bitmapEnemy.getHeight());
-            //gameEngine.enemy.setWidth(bitmapEnemy.getWidth());
-            //gameEngine.item.setHeight(bitmapHAT.getHeight());
-            //gameEngine.item.setWidth(bitmapHAT.getHeight());
+            gameEngine.enemy.setHeight(bitmapEnemy.getHeight());
+            gameEngine.enemy.setWidth(bitmapEnemy.getWidth());
+            gameEngine.jetpack.setHeight(bitmapJETPACK.getHeight());
+            gameEngine.jetpack.setWidth(bitmapJETPACK.getHeight());
 
             playing = true;
         }
@@ -106,8 +112,7 @@ public class GameView extends SurfaceView implements Runnable{
                 draw();
 
                 // Calculate the fps this frame
-                // We can then use the result to
-                // time animations and more.
+                // We can then use the result to time animations and more.
                 timeThisFrame = System.currentTimeMillis() - startFrameTime;
                 if (timeThisFrame > 0) {
                     fps = 1000 / timeThisFrame;
@@ -146,7 +151,7 @@ public class GameView extends SurfaceView implements Runnable{
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
                     if(p.hasSprings()){
                         Log.d(LOG_TAG, "SPRINGS");
-                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+bitmapPlatform.getWidth()/2, p.getpY()-bitmapSPRINGS.getHeight(), paint);
+                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+(bitmapPlatform.getWidth()/2-bitmapSPRINGS.getWidth()/2), p.getpY()-bitmapSPRINGS.getHeight(), paint);
                     }
 
                 }
@@ -155,29 +160,19 @@ public class GameView extends SurfaceView implements Runnable{
                 if (gameEngine.player.getVelX() > 0) canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                 else canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
 
-//                for (Bullet b: gameEngine.bullets){
-//                    canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);
-//                }
-//
-//                if(gameEngine.item.getType()== EnumItemType.JETPACK){
-//                    canvas.drawBitmap(bitmapJETPACK, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
-//                }
-//                else if(gameEngine.item.getType()== EnumItemType.HAT){
-//                    canvas.drawBitmap(bitmapHAT, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
-//                }
-//                else if(gameEngine.item.getType()== EnumItemType.SHIELD){
-//                    canvas.drawBitmap(bitmapSHIELD, gameEngine.item.getpX(), gameEngine.item.getpY(), paint);
-//                }
+                canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
+                canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
+                for (Bullet b: gameEngine.bullets){
+                    canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);
+                }
 
-                // Draw everything to the screen
-                // and unlock the drawing surface
+                // Draw everything to the screen and unlock the drawing surface
                 ourHolder.unlockCanvasAndPost(canvas);
             }
 
         }
 
-        // If SimpleGameEngine Activity is paused/stopped
-        // shutdown our thread.
+        // If SimpleGameEngine Activity is paused/stopped/shutdown our thread.
         public void pause() {
             Log.d(LOG_TAG, "Pausing game");
             playing = false;
@@ -188,8 +183,7 @@ public class GameView extends SurfaceView implements Runnable{
             }
         }
 
-        // If SimpleGameEngine Activity is started then
-        // start our thread.
+        // If SimpleGameEngine Activity is started then start our thread.
         public void resume() {
             Log.d(LOG_TAG, "Resuming game");
             playing = true;
@@ -201,8 +195,8 @@ public class GameView extends SurfaceView implements Runnable{
         // So we can override this method and detect screen touches.
         @Override
         public boolean onTouchEvent(MotionEvent event) {
-            Log.d(LOG_TAG, "Touched screen");
-            //gameEngine.shoot();
+            canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+            gameEngine.shoot();
             return super.onTouchEvent(event);
         }
 

@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,10 +15,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.view.GameView;
+
+import java.security.PublicKey;
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -28,6 +32,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
+
+    private Constants constants = Constants.getInstance();
+    private Records records = Records.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         engine = new GameEngine();
         gameView = new GameView(this, engine);
         setContentView(gameView);
+        constants.setPoints(0);
     }
 
     @Override
@@ -66,9 +74,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            //Log.d(LOG_TAG, "Sensor Changed: " + event.values[0]);
             engine.player.setAccX(event.values[0]/5);
-            //engine.player.setAccY(-event.values[1]);
             engine.updatePlayer();
         }
     }
@@ -77,4 +83,5 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor arg0, int arg1) {
         // TODO Auto-generated method stub
     }
+
 }
