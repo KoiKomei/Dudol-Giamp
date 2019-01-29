@@ -167,7 +167,9 @@ public class GameEngine {
     }
 
     public void endGame(){
-        records.updateRecords();
+        if(!gameOver){
+            records.updateRecords();
+        }
         gameOver=true;
     }
 

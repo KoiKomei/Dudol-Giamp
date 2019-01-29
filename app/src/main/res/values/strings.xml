@@ -35,4 +35,6 @@
     <string name="user_id">User ID</string>
     <string name="email">Email</string>
     <string name="nickname">Nickname</string>
+    <string name="title_activity_score">ScoreActivity</string>
+    <string name="scores">SCORES</string>
 </resources>

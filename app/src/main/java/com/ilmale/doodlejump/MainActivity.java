@@ -306,7 +306,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Register clicked!");
         Intent intent=new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
 
+    public void launchScoreboardActivity(View view){
+        Log.d(LOG_TAG, "Scoreboard clicked!");
+        Intent intent=new Intent(this, ScoreActivity.class);
+        startActivity(intent);
     }
 
 }
