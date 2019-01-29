@@ -76,13 +76,13 @@ public class Player extends AbstractGameObject {
 
         float yS = (velY / 2) * frameTime;
 
-        if(velYjet>0){
+        if(velYjet<0){
             yS = (-SettingsSI.MaxVel / 2) * frameTime;
         }
         pY += yS;
 
         for(Bullet b: bullets){
-            float yB = (100 / 2) * frameTime;
+            float yB = ((float)100 / 2) * frameTime;
             b.setpY(b.getpY()-yB);
         }
 
