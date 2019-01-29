@@ -55,6 +55,6 @@ public class Jetpack extends AbstractGameObject {
 
     public void replace(){
         pX = (float) (Math.random() * (constants.getPixelWidth()-52));
-        pY = -10000;
+        pY = -15000;
     }
 }

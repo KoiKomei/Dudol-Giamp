@@ -24,6 +24,8 @@ public class Player extends AbstractGameObject {
     private float velY;
     private float accY;
 
+    private float velYjet;
+
     private float gravity = 0.2f;
 
     private Constants constants = Constants.getInstance();
@@ -41,6 +43,7 @@ public class Player extends AbstractGameObject {
 
     public void pickJetpack(){
         this.hasJetpack = true;
+        velYjet = -500;
     }
 
     public void jump(float force){
@@ -54,6 +57,9 @@ public class Player extends AbstractGameObject {
         float frameTime = 0.666f;
         velX += (accX * frameTime * 6);
         velY += (gravity * frameTime * 6);
+        if(hasJetpack){
+            velYjet += (gravity * frameTime * 6);
+        }
 
         if (velX > SettingsSI.MaxVel) velX = SettingsSI.MaxVel;
         else if (velX < -SettingsSI.MaxVel) velX = -SettingsSI.MaxVel;
@@ -61,16 +67,19 @@ public class Player extends AbstractGameObject {
         else if (velY < -SettingsSI.MaxVel) velY = -SettingsSI.MaxVel;
 
         float xS = (velX / 2) * frameTime;
-        float yS = (velY / 2) * frameTime;
-
         pX -= xS;
-        pY += yS;
-
         if (pX > 980) {
             pX = -100;
         } else if (pX < -105) {
             pX = 975;
         }
+
+        float yS = (velY / 2) * frameTime;
+
+        if(velYjet>0){
+            yS = (-SettingsSI.MaxVel / 2) * frameTime;
+        }
+        pY += yS;
 
         for(Bullet b: bullets){
             float yB = (100 / 2) * frameTime;
@@ -91,8 +100,9 @@ public class Player extends AbstractGameObject {
 
         }
 
-        if(hasJetpack && velY < 0){
+        if(hasJetpack && velYjet > 0){
             hasJetpack=false;
+            velYjet=0;
             jetpack.replace();
         }
 

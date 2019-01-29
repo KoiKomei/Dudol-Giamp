@@ -118,7 +118,6 @@ public class GameEngine {
             if(!player.hasJetpack()){
                 player.pickJetpack();
                 jetpack.replace();
-                player.jump(250);
             }
         }
     }
