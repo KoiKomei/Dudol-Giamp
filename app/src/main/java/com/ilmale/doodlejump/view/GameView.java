@@ -19,6 +19,7 @@ import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.domain.AbstractGameObject;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
+import com.ilmale.doodlejump.domain.Player;
 import com.ilmale.doodlejump.engine.GameEngine;
 
 public class GameView extends SurfaceView implements Runnable{
@@ -134,7 +135,7 @@ public class GameView extends SurfaceView implements Runnable{
             gameEngine.update();
         }
 
-        public void draw() {
+        public synchronized void draw() {
             // Make sure our drawing surface is valid or we crash
             if (ourHolder.getSurface().isValid()) {
                 Log.d(LOG_TAG, "drawing");
@@ -158,6 +159,7 @@ public class GameView extends SurfaceView implements Runnable{
 
                 for (Platform p : gameEngine.getPlatforms()) {
                     Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
+                    canvas.drawRect(p.getpX(), p.getpY(), p.getpX() + p.getWidth(), p.getpY() + p.getHeight(), paint);
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
                     if (p.hasSprings()) {
                         Log.d(LOG_TAG, "SPRINGS");
@@ -192,6 +194,8 @@ public class GameView extends SurfaceView implements Runnable{
                         }
                     }
                     if(!shootMode){
+                        Player player = gameEngine.player; //TODO delete
+                        canvas.drawRect(player.getpX(), player.getpY(), player.getpX() + player.getWidth(), player.getpY() + player.getHeight(), paint);
                         if (gameEngine.player.getVelX() > 0)
                             canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                         else

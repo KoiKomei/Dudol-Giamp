@@ -31,6 +31,9 @@ public class Bullet extends AbstractGameObject {
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        float yB = ((float) 100 / 2);
+        setpY(pY - yB);
+    }
 
 }

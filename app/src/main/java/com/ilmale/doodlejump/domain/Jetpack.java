@@ -7,6 +7,7 @@ public class Jetpack extends AbstractGameObject {
     private float pX;
     private float pY;
     private float yS=0;
+    private int duration = 5;
 
     private Constants constants = Constants.getInstance();
 
@@ -42,6 +43,10 @@ public class Jetpack extends AbstractGameObject {
 
     public void setyS(float yS) {
         this.yS = yS;
+    }
+
+    public int getDuration(){
+        return duration;
     }
 
     @Override

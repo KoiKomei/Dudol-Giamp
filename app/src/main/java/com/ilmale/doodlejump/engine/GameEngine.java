@@ -24,10 +24,11 @@ public class GameEngine {
 
     List<AbstractGameObject> objects = new ArrayList<>();
 
-    public int x;
+    public int contatore; //contatore per operazioni di ottimizzazione
 
     public Player player;
     public List<Platform> platforms = new ArrayList<>();
+    public List<Platform> platformsNearThePlayer = new ArrayList<>();
     public List<Bullet> bullets = new ArrayList<>();
     public Jetpack jetpack;
     public Enemy enemy;
@@ -38,7 +39,7 @@ public class GameEngine {
 
     private int points=0;
 
-    //public GameView getGameView(){return gameView;}
+    private int jumpForce = 50;
 
     public GameEngine(){
         lastUpdate = System.currentTimeMillis();
@@ -56,27 +57,56 @@ public class GameEngine {
     }
 
     public void update() {
-        Log.d(LOG_TAG, "updating gameengine");
-        for (Platform p: platforms) {
+        //Log.d(LOG_TAG, "updating gameengine");
+        player.update();
+
+        for (Platform p: platformsNearThePlayer) {
             if (collidesFromAbove(player, p)){
-                Log.d(LOG_TAG, "collision!");
+                //Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
-                    player.jump(100);
+                    player.jump(jumpForce * 3);
                 }
                 else {
-                    player.jump(40);
+                    player.jump(jumpForce);
                 }
             }
         }
+
+        for (Bullet b: bullets){
+            b.update();
+        }
+
+        if (player.getpY() < constants.getPixelHeight()/3) {
+            player.setpY(constants.getPixelHeight()/3);
+            for(Platform p: platforms){
+                p.setyS(player.getVelY() / 2);
+                p.update();
+            }
+            enemy.setyS((player.getVelY() / 2));
+            enemy.update();
+            jetpack.setyS((player.getVelY() / 2));
+            jetpack.update();
+        }
+
+        if (contatore == 0){
+            aggiornaPiattaforme();
+        }
+
         takeJetpack();
         killEnemy();
+
         if(isDeath()){
             endGame();
         }
+
+        if (contatore > 10) {
+            contatore = 0;
+        }
+        contatore++;
     }
 
     public void updatePlayer() {
-        player.update();
+        player.updateControls();
     }
 
     private boolean collide(AbstractGameObject obj1, AbstractGameObject obj2) {
@@ -102,9 +132,10 @@ public class GameEngine {
         float y11 = obj1.getpY();
         float y12 = y11 + obj1.getHeight();
         float y21 = obj2.getpY();
-        float y22 = y21 + obj2.getHeight();
-        if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
-            return (y12 <= y21 + 15 && y12 >= y21 - 15);
+        if ((x11 >= x21 && x11 <= (x22 - player.getHeight()/4)) || (x12 >= (x21 + player.getHeight()/4) && x12 <= x22)) {
+            if (y12 <= y21 + 15 && y12 >= y21 - 45){
+                return player.getVelY() >= 0;
+            }
         }
         return false;
     }
@@ -175,5 +206,16 @@ public class GameEngine {
 
     public boolean isGameOver() {
         return gameOver;
+    }
+
+    public void aggiornaPiattaforme(){
+        for (Platform p: platforms){
+            if (p.getpY() >= player.getpY() - 1000 || p.getpY() <= player.getpY() + 1000){
+                platformsNearThePlayer.add(p);
+            }
+            else if (platformsNearThePlayer.contains(p)){
+                platformsNearThePlayer.remove(p);
+            }
+        }
     }
 }
