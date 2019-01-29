@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import com.ilmale.doodlejump.AudioManager;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.GameActivity;
 import com.ilmale.doodlejump.Records;
@@ -33,6 +34,7 @@ public class GameEngine {
     public Enemy enemy;
     private Constants constants = Constants.getInstance();
     private Records records = Records.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     private boolean gameOver=false;
 
@@ -61,18 +63,32 @@ public class GameEngine {
             if (collidesFromAbove(player, p)){
                 Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
-                    player.jump(100);
+                    if(player.getVelY()>=0){
+                        player.jump(100);
+                        if(!gameOver){
+                            audioManager.playSprings_audio();
+                        }
+                    }
                 }
                 else {
-                    player.jump(40);
+                    if(player.getVelY()>=0){
+                        player.jump(45);
+                        if(!gameOver){
+                            audioManager.playJump_audio();
+                        }
+                    }
+
                 }
             }
         }
+        audioEnemy();
+        audioJetpack();
         takeJetpack();
         killEnemy();
         if(isDeath()){
             endGame();
         }
+
     }
 
     public void updatePlayer() {
@@ -118,6 +134,9 @@ public class GameEngine {
             if(!player.hasJetpack()){
                 player.pickJetpack();
                 jetpack.replace();
+                if(!gameOver){
+                    audioManager.playJetpack_audio();
+                }
             }
         }
     }
@@ -127,11 +146,17 @@ public class GameEngine {
         for(Bullet b:bullets){
             if (collide(b,enemy)) {
                 enemy.replace();
+                if(!gameOver){
+                    audioManager.playKillEnemy_audio();
+                }
             }
         }
         if (collidesFromAbove(player,enemy)){
             enemy.replace();
-            player.jump(40);
+            player.jump(60);
+            if(!gameOver){
+                audioManager.playJumpOnEnemy_audio();
+            }
         }
     }
 
@@ -148,6 +173,9 @@ public class GameEngine {
 
     public boolean isDeath(){
         if(player.getpY()>constants.getPixelHeight() || killedByEnemy()){
+            if(!gameOver){
+                audioManager.playLose_audio();
+            }
             return true;
         }
         return false;
@@ -156,6 +184,9 @@ public class GameEngine {
     public void shoot() {
         Bullet bullet = new Bullet(player.getpX()+53, player.getpY());
         bullets.add(bullet);
+        if(!gameOver){
+            audioManager.playBullet_audio();
+        }
     }
 
     public void removeBullets(){
@@ -163,6 +194,28 @@ public class GameEngine {
             if(b.getpY()<0){
                 bullets.remove(b);
             }
+        }
+    }
+
+    private void audioEnemy() {
+        if(enemy.getpY()+enemy.getHeight()>0 && enemy.getpY()<constants.getPixelHeight()){
+            if(!gameOver){
+                audioManager.playEnemy_audio();
+            }
+        }
+        else {
+            if (!gameOver) {
+                audioManager.stopEnemy_audio();
+            }
+        }
+    }
+
+    private void audioJetpack() {
+        if(player.hasJetpack()){
+           audioManager.playJetpack_audio();
+        }
+        else {
+           audioManager.stopJetpack_audio();
         }
     }
 
