@@ -51,7 +51,6 @@ public class Player extends AbstractGameObject {
     @Override
     public void update() {
         Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
-
         float frameTime = 0.666f;
         velX += (accX * frameTime * 6);
         velY += (gravity * frameTime * 6);
@@ -76,13 +75,10 @@ public class Player extends AbstractGameObject {
         for(Bullet b: bullets){
             float yB = (100 / 2) * frameTime;
             b.setpY(b.getpY()-yB);
-            if(pY<0){
-                bullets.remove(b);
-            }
         }
 
-        if (pY < constants.getPixelHeight()/4) {
-            pY = constants.getPixelHeight()/4;
+        if (pY < constants.getPixelHeight()/3) {
+            pY = constants.getPixelHeight()/3;
             for(Platform p: platforms){
                 p.setyS(yS);
                 p.update();
@@ -93,12 +89,11 @@ public class Player extends AbstractGameObject {
             jetpack.setyS(yS);
             jetpack.update();
 
-        } else if (pY > constants.getPixelHeight()) {
-            pY = constants.getPixelHeight();
         }
 
         if(hasJetpack && velY < 0){
-
+            hasJetpack=false;
+            jetpack.replace();
         }
 
     }

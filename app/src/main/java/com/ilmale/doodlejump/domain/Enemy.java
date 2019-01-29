@@ -49,7 +49,7 @@ public class Enemy extends AbstractGameObject {
         pY -= yS;
         if(pY > constants.getPixelHeight()){
             pX = (float) (Math.random() * constants.getPixelWidth());
-            pY = -300;
+            pY = -2000;
         }
     }
 

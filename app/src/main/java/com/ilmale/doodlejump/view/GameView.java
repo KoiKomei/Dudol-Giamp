@@ -15,6 +15,7 @@ import android.view.View;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
+import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.domain.AbstractGameObject;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
@@ -51,16 +52,17 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapBobLeft;
         Bitmap bitmapBobRight;
         Bitmap bitmapBobUp;
+        Bitmap bitmapBobJetLeft;
+        Bitmap bitmapBobJetRight;
         Bitmap bitmapPlatform;
         Bitmap bitmapBULLET;
-        Bitmap bitmapHAT;
         Bitmap bitmapJETPACK;
         Bitmap bitmapSPRINGS;
-        Bitmap bitmapSHIELD;
         Bitmap bitmapEnemy;
 
         GameEngine gameEngine;
         private Constants constants = Constants.getInstance();
+        private Records records = Records.getInstance();
 
         public GameView(Context context, GameEngine engine) {
             super(context);
@@ -75,6 +77,8 @@ public class GameView extends SurfaceView implements Runnable{
             bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
             bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bobup);
+            bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleftjet);
+            bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobrightjet);
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
             bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
@@ -109,7 +113,12 @@ public class GameView extends SurfaceView implements Runnable{
                 update();
 
                 // Draw the frame
-                draw();
+                if(!gameEngine.isGameOver()){
+                    draw();
+                }
+                else{
+                    endGame();
+                }
 
                 // Calculate the fps this frame
                 // We can then use the result to time animations and more.
@@ -137,28 +146,63 @@ public class GameView extends SurfaceView implements Runnable{
                 canvas.drawBitmap(bitmapBG, 0, 0, paint);
 
                 // Choose the brush color for drawing
-                paint.setColor(Color.argb(255,  249, 129, 0));
+                paint.setColor(Color.argb(255, 249, 129, 0));
 
                 // Make the text a bit bigger
                 paint.setTextSize(45);
 
                 // Display the current fps on the screen
-                canvas.drawText("FPS:" + fps, 20, 40, paint);
-                canvas.drawText("" + constants.getPoints(), constants.getPixelWidth()-200 , 40, paint);
+                //canvas.drawText("FPS:" + fps, 20, 40, paint);
+                canvas.drawText("Your Points:" + constants.getPoints(), 20, 85, paint);
+                canvas.drawText("Record:" + records.getRecords().get(0), 20, 40, paint);
 
-                for (Platform p: gameEngine.getPlatforms()) {
-                    Log.d(LOG_TAG, "platx:"+p.getpX()+", platy:"+p.getpY());
+                for (Platform p : gameEngine.getPlatforms()) {
+                    Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
-                    if(p.hasSprings()){
+                    if (p.hasSprings()) {
                         Log.d(LOG_TAG, "SPRINGS");
-                        canvas.drawBitmap(bitmapSPRINGS, p.getpX()+(bitmapPlatform.getWidth()/2-bitmapSPRINGS.getWidth()/2), p.getpY()-bitmapSPRINGS.getHeight(), paint);
+                        canvas.drawBitmap(bitmapSPRINGS, p.getpX() + (bitmapPlatform.getWidth() / 2 - bitmapSPRINGS.getWidth() / 2), p.getpY() - bitmapSPRINGS.getHeight(), paint);
                     }
 
                 }
 
-                // Draw bob at bobXPosition, bobYPosition
-                if (gameEngine.player.getVelX() > 0) canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                else canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                // Draw bob at bobXPosition, bobYPosition with jetpack and shootmode
+                if(gameEngine.player.hasJetpack()){
+                    boolean shootMode=false;
+                    for (Bullet b: gameEngine.bullets){
+                        if(b.getpY()>0){
+                            shootMode=true;
+                        }
+                    }
+                    if(!shootMode){
+                        if (gameEngine.player.getVelX() > 0)
+                            canvas.drawBitmap(bitmapBobJetLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                        else
+                            canvas.drawBitmap(bitmapBobJetRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                    }
+                    else{
+                        canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                    }
+                }
+                else{
+                    boolean shootMode=false;
+                    for (Bullet b: gameEngine.bullets){
+                        if(b.getpY()>0){
+                            shootMode=true;
+                        }
+                    }
+                    if(!shootMode){
+                        if (gameEngine.player.getVelX() > 0)
+                            canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                        else
+                            canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                    }
+                    else{
+                        canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                    }
+                }
+
+
 
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
@@ -172,6 +216,34 @@ public class GameView extends SurfaceView implements Runnable{
 
         }
 
+        public void endGame(){
+            if (ourHolder.getSurface().isValid()) {
+
+                gameEngine.platforms.clear();
+
+                Log.d(LOG_TAG, "drawing");
+                // Lock the canvas ready to draw
+                // Make the drawing surface our canvas item
+                canvas = ourHolder.lockCanvas();
+
+                // Draw the background color
+                canvas.drawBitmap(bitmapBG, 0, 0, paint);
+
+                Paint gameOverPaint = new Paint();
+                gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
+                gameOverPaint.setTextAlign(Paint.Align.CENTER);
+                gameOverPaint.setTextSize(100);
+                canvas.drawText("GAME OVER", canvas.getWidth()/2, (canvas.getHeight() / 2) - 100, gameOverPaint);
+
+                Paint textPaint = new Paint();
+                textPaint.setColor(Color.argb(255, 249, 129, 0));
+                textPaint.setTextAlign(Paint.Align.CENTER);
+                textPaint.setTextSize(100);
+                canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
+
+                ourHolder.unlockCanvasAndPost(canvas);
+            }
+        }
         // If SimpleGameEngine Activity is paused/stopped/shutdown our thread.
         public void pause() {
             Log.d(LOG_TAG, "Pausing game");
@@ -200,36 +272,5 @@ public class GameView extends SurfaceView implements Runnable{
             return super.onTouchEvent(event);
         }
 
-        public Bitmap getBitmapBobLeft() { return bitmapBobLeft; }
-
-        public Bitmap getBitmapBobRight() { return bitmapBobRight; }
-
-        public Bitmap getBitmapPlatform() {
-            return bitmapPlatform;
-        }
-
-        public Bitmap getBitmapBULLET() {
-            return bitmapBULLET;
-        }
-
-        public Bitmap getBitmapHAT() {
-            return bitmapHAT;
-        }
-
-        public Bitmap getBitmapJETPACK() {
-            return bitmapJETPACK;
-        }
-
-        public Bitmap getBitmapSPRINGS() {
-            return bitmapSPRINGS;
-        }
-
-        public Bitmap getBitmapSHIELD() {
-        return bitmapSHIELD;
-    }
-
-        public Bitmap getBitmapEnemy() {
-            return bitmapEnemy;
-        }
 
 }

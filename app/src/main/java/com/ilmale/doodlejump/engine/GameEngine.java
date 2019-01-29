@@ -61,14 +61,14 @@ public class GameEngine {
             if (collidesFromAbove(player, p)){
                 Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
-                    player.jump(60);
+                    player.jump(100);
                 }
                 else {
                     player.jump(40);
                 }
             }
         }
-        takeObject();
+        takeJetpack();
         killEnemy();
         if(isDeath()){
             endGame();
@@ -104,7 +104,7 @@ public class GameEngine {
         float y21 = obj2.getpY();
         float y22 = y21 + obj2.getHeight();
         if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
-            return (y12 <= y21 + 10 && y12 >= y21 - 10);
+            return (y12 <= y21 + 15 && y12 >= y21 - 15);
         }
         return false;
     }
@@ -113,46 +113,66 @@ public class GameEngine {
         return platforms;
     }
 
-    public void takeObject(){
+    public void takeJetpack(){
         if (collide(player,jetpack)){
             if(!player.hasJetpack()){
                 player.pickJetpack();
-                jetpack.setpX(player.getpX());
-                jetpack.setpY(player.getpY());
-                player.jump(70);
+                jetpack.replace();
+                player.jump(250);
             }
         }
     }
 
     public void killEnemy(){
+
         for(Bullet b:bullets){
-            if (collide(enemy,b)) {
+            if (collide(b,enemy)) {
                 enemy.replace();
             }
+        }
+        if (collidesFromAbove(player,enemy)){
+            enemy.replace();
+            player.jump(40);
         }
     }
 
     public boolean killedByEnemy(){
-        if (collide(player, enemy)){
-            return true;
+        if(!player.hasJetpack()){
+            if(!collidesFromAbove(player,enemy)){
+                if (collide(player, enemy)){
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     public boolean isDeath(){
-        if(player.getpX()>constants.getPixelHeight() || killedByEnemy()){
+        if(player.getpY()>constants.getPixelHeight() || killedByEnemy()){
             return true;
         }
         return false;
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(player.getpX(), player.getpY());
+        Bullet bullet = new Bullet(player.getpX()+53, player.getpY());
         bullets.add(bullet);
+    }
+
+    public void removeBullets(){
+        for(Bullet b: bullets){
+            if(b.getpY()<0){
+                bullets.remove(b);
+            }
+        }
     }
 
     public void endGame(){
         records.updateRecords();
+        gameOver=true;
     }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }
