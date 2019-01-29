@@ -40,6 +40,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String player;
     private int points;
     private List<Marker> markers;
+    Records records = Records.getInstance();
     //private List<User> users;
     //private OurDao ourDao;
 
@@ -75,14 +76,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        player = "123456789";
-        points = 999999;
+        player = "USER_NAME";
+        points = records.getRecords().get(0);
 
-        LatLng myPosition = myLocation.getLatLng();
-        MarkerOptions marker = new MarkerOptions().position(myPosition).title(player+":"+points);
-        mMap.addMarker(marker);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-
+        if(myLocation.getLatLng()!=null){
+            LatLng myPosition = myLocation.getLatLng();
+            MarkerOptions marker = new MarkerOptions().position(myPosition).title(player+":"+points);
+            mMap.addMarker(marker);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
+        }
 
         /*
             for(User u:users){
