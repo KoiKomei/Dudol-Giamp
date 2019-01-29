@@ -19,7 +19,7 @@ import com.ilmale.doodlejump.database.User;
  */
 public class AddUserFragment extends Fragment {
 
-    private EditText userId, userName, userEmail, userPassword;
+    private EditText userName, userEmail, userPassword;
     private Button bnRegister;
 
     public AddUserFragment() {
@@ -31,9 +31,8 @@ public class AddUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_add_user, container, false);
-        userId=view.findViewById(R.id.txt_user_id);
         userEmail=view.findViewById(R.id.txt_user_email);
-        userName=view.findViewById(R.id.txt_user_name);
+        userName=view.findViewById(R.id.txt_username);
         userPassword=view.findViewById(R.id.txt_user_password);
         bnRegister=view.findViewById(R.id.button);
 
@@ -41,7 +40,6 @@ public class AddUserFragment extends Fragment {
             @Override
             public void onClick(View v){
 
-                int UserId=Integer.parseInt(userId.getText().toString());
                 String UserName=userName.getText().toString();
                 String UserEmail=userEmail.getText().toString();
                 String UserPassword=userPassword.getText().toString();
@@ -49,7 +47,6 @@ public class AddUserFragment extends Fragment {
 
                 User user=new User();
                 user.setEmail(UserEmail);
-                user.setId(UserId);
                 user.setPassword(UserPassword);
                 user.setUsername(UserName);
                 user.setMoney(0);
@@ -69,7 +66,6 @@ public class AddUserFragment extends Fragment {
                 RegisterActivity.db.ourDao().setPossiede(pos);
                 Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
 
-                userId.setText("");
                 userEmail.setText("");
                 userName.setText("");
                 userPassword.setText("");

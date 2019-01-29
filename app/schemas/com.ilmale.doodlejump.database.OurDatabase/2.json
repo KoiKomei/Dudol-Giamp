@@ -1,0 +1,169 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "c07d6ab03c230e0685c405128ee47eca",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `Nome_Utente` TEXT, `Password` TEXT, `Email` TEXT NOT NULL, `Money` INTEGER NOT NULL, `Punteggio` INTEGER NOT NULL, `Latitudine` REAL NOT NULL, `Longitudine` REAL NOT NULL, PRIMARY KEY(`Email`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "Nome_Utente",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "Password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "Email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "money",
+            "columnName": "Money",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "punteggio",
+            "columnName": "Punteggio",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "Latitudine",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longi",
+            "columnName": "Longitudine",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "Email"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Negozio",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Id_oggetto` INTEGER NOT NULL, `Nome` TEXT, `Image` TEXT, `Costo` INTEGER NOT NULL, PRIMARY KEY(`Id_oggetto`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "Id_oggetto",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "Nome",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "Image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "costo",
+            "columnName": "Costo",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "Id_oggetto"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Possiede",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`user_email` TEXT NOT NULL, `bob` INTEGER NOT NULL, `blue_bob` INTEGER NOT NULL, `jungle_bob` INTEGER NOT NULL, `bunny_bob` INTEGER NOT NULL, PRIMARY KEY(`user_email`), FOREIGN KEY(`user_email`) REFERENCES `User`(`Email`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "email",
+            "columnName": "user_email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bob",
+            "columnName": "bob",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bluebob",
+            "columnName": "blue_bob",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "junglebob",
+            "columnName": "jungle_bob",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bunnybob",
+            "columnName": "bunny_bob",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "user_email"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "user_email"
+            ],
+            "referencedColumns": [
+              "Email"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c07d6ab03c230e0685c405128ee47eca\")"
+    ]
+  }
+}

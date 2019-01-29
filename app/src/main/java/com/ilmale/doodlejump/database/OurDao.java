@@ -22,11 +22,11 @@ public interface OurDao {
     @Query("select * from User")
     public List<User> getUsers();
 
-    @Delete
-    public void deleteUser(User user);
-
     @Update
     public void updateUser(User user);
+
+    @Query("DELETE FROM User WHERE Email=:email AND Password=:pass")
+    public void deleteUser(String email, String pass);
 
     @Query("UPDATE User SET Password=:newPass WHERE Email=:email AND Password=:oldPass")
     public void updatePass(String email, String newPass, String oldPass);

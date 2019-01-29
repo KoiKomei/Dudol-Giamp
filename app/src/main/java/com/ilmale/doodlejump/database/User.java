@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "User")
 public class User {
 
-    @ColumnInfo
-    private int id;
 
     @ColumnInfo(name="Nome_Utente")
     private String username;
@@ -33,14 +31,6 @@ public class User {
 
     @ColumnInfo(name="Longitudine")
     private double longi;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

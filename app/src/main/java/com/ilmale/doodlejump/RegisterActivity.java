@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.migration.Migration;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

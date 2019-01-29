@@ -32,7 +32,7 @@ public class DeleteUserFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_delete_user, container, false);
         txtUser=view.findViewById(R.id.txt_email_delete);
         txtPass=view.findViewById(R.id.txt_password_delete);
-        deleteButton=view.findViewById(R.id.bn_delete);
+        deleteButton=view.findViewById(R.id.delete);
 
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -41,10 +41,7 @@ public class DeleteUserFragment extends Fragment {
                 String email=txtUser.getText().toString();
                 String pass=txtPass.getText().toString();
 
-                User user=new User();
-                user.setEmail(email);
-                user.setPassword(pass);
-                RegisterActivity.db.ourDao().deleteUser(user);
+                RegisterActivity.db.ourDao().deleteUser(email, pass);
                 txtUser.setText("");
                 txtPass.setText("");
             }

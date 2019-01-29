@@ -37,7 +37,6 @@ public class ReadUserFragment extends Fragment {
         String txt="";
 
         for(User us:users){
-            int id=us.getId();
             String name=us.getUsername();
             String password=us.getPassword();
             String email=us.getEmail();
@@ -45,16 +44,9 @@ public class ReadUserFragment extends Fragment {
             int punteggio=us.getPunteggio();
             double lat=us.getLat();
             double lon=us.getLongi();
-            /*user.setEmail(UserEmail);
-            user.setId(UserId);
-            user.setPassword(UserPassword);
-            user.setUsername(UserName);
-            user.setMoney(0);
-            user.setPunteggio(0);
-            user.setLatitudine(0);
-            user.setLongitudine(0);*/
 
-            txt=txt+"\n\n"+"id: "+id+"\n Name: "+name+"\n password: "+password+"\n email: "+email+"\n ";
+
+            txt=txt+"\n\n"+"Name: "+name+"\n password: "+password+"\n email: "+email+"\n Soldi: "+money+"\n Punteggio: "+punteggio+"\n Latitudine: "+lat+"\n Longitudine: "+lon+"\n ";
         }
         for(Possiede pos:possess){
 

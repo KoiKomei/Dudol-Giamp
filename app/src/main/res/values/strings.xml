@@ -37,4 +37,8 @@
     <string name="nickname">Nickname</string>
     <string name="title_activity_score">ScoreActivity</string>
     <string name="scores">SCORES</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete">Delete</string>
+    <string name="something">Something</string>
+
 </resources>
