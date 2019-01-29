@@ -43,7 +43,7 @@ public class Player extends AbstractGameObject {
 
     public void pickJetpack(){
         this.hasJetpack = true;
-        velYjet = -500;
+        velYjet = -250;
     }
 
     public void jump(float force){
@@ -103,6 +103,7 @@ public class Player extends AbstractGameObject {
         if(hasJetpack && velYjet > 0){
             hasJetpack=false;
             velYjet=0;
+            velY=0;
             jetpack.replace();
         }
 
