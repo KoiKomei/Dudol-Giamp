@@ -58,8 +58,12 @@ public class AudioManager {
             }
         }
         else{
-            bg_audio.stop();
+            bg_audio.pause();
         }
+    }
+
+    public void pauseBg_audio(){
+        bg_audio.pause();
     }
 
     public void playWin_audio() {
@@ -87,6 +91,12 @@ public class AudioManager {
         }
     }
 
+    public void stopEnemy_audio() {
+        if(enemy_audio.isPlaying()){
+            enemy_audio.pause();
+        }
+    }
+
     public void playHat_audio() {
         if(!hat_audio.isPlaying() && settingsSI.isSound()){
             hat_audio.start();
@@ -96,6 +106,12 @@ public class AudioManager {
     public void playJetpack_audio() {
         if(!jetpack_audio.isPlaying() && settingsSI.isSound()){
             jetpack_audio.start();
+        }
+    }
+
+    public void stopJetpack_audio() {
+        if(jetpack_audio.isPlaying()){
+            jetpack_audio.pause();
         }
     }
 
@@ -133,5 +149,20 @@ public class AudioManager {
         if(!rain_audio.isPlaying() && settingsSI.isSound()){
             rain_audio.start();
         }
+    }
+
+    public void pauseAll(){
+        bg_audio.pause();
+        lose_audio.pause();
+        bullet_audio.pause();
+        enemy_audio.pause();
+        hat_audio.pause();
+        jetpack_audio.pause();
+        springs_audio.pause();
+        killEnemy_audio.pause();
+        jumpOnEnemy_audio.pause();
+        jump_audio.pause();
+        buttonClick_audio.pause();
+        rain_audio.pause();
     }
 }

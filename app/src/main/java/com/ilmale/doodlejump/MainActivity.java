@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     SettingsSI settingsSI = SettingsSI.getInstance();
     AudioManager audioManager = AudioManager.getInstance();
-    MyLocation userLocation = MyLocation.getInstance();
+    MyLocation myLocation = MyLocation.getInstance();
     Records records = Records.getInstance();
     ItemHandler dataHandler = new ItemHandler();
 
@@ -82,10 +82,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
-                latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                userLocation.setLatLng(latLng);
-                Log.d(LOG_TAG, "OnComplete: latitude: "+ latLng.latitude);
-                Log.d(LOG_TAG, "OnComplete: longitude: "+ latLng.longitude);
+                if(location!=null){
+                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    myLocation.setLatLng(latLng);
+                    Log.d(LOG_TAG, "OnComplete: latitude: "+ latLng.latitude);
+                    Log.d(LOG_TAG, "OnComplete: longitude: "+ latLng.longitude);
+                }
+
             }
         });
     }

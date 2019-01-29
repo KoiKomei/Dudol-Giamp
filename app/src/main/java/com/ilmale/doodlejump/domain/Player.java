@@ -2,6 +2,7 @@ package com.ilmale.doodlejump.domain;
 
 import android.util.Log;
 
+import com.ilmale.doodlejump.AudioManager;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
