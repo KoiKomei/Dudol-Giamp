@@ -1,8 +1,10 @@
 package com.ilmale.doodlejump;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
@@ -37,6 +39,8 @@ public class Records {
     }
 
     Context context;
+
+    public static OurDatabase db;
 
     public void setRecords(List<Integer> records) {
         this.records = records;
@@ -73,9 +77,10 @@ public class Records {
         editorPref.commit();
 
         if(loginUser.getEmail()!=null) {
-            RegisterActivity.db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
-            RegisterActivity.db.ourDao().updateLat((double) myLocation.getLatLng().latitude, loginUser.getEmail());
-            RegisterActivity.db.ourDao().updateLong((double) myLocation.getLatLng().longitude, loginUser.getEmail());
+            db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
+            db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
+            db.ourDao().updateLat((double) myLocation.getLatLng().latitude, loginUser.getEmail());
+            db.ourDao().updateLong((double) myLocation.getLatLng().longitude, loginUser.getEmail());
         }
     }
 

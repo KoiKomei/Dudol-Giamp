@@ -1,5 +1,6 @@
 package com.ilmale.doodlejump;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
@@ -30,6 +32,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<User> users;
     private LoginUser loginUser = LoginUser.getInstance();
 
+
+    public static OurDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        if(RegisterActivity.db!=null ){
-            users = RegisterActivity.db.ourDao().getUsers();
-        }
+        db = Room.databaseBuilder(this, OurDatabase.class,"userdb").allowMainThreadQueries().build();
+        users = db.ourDao().getUsers();
 
     }
 
@@ -76,22 +80,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
         }
-        if(users != null){
-            for(User u:users){
-                Log.d(LOG_TAG, "Username:" + u.getUsername() + "Email:" + u.getEmail() + "Punteggio:" + u.getPunteggio() +"Lat:" + u.getLat() +"Longi:" + u.getLongi());
-            }
-            for(User u:users){
-                if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0){
-                    player = u.getUsername();
-                    points = u.getPunteggio();
-                    LatLng position = new LatLng((float) u.getLat(), (float) u.getLat());
-                    MarkerOptions marker = new MarkerOptions().position(position).title(player+":"+points);
-                    mMap.addMarker(marker);
-                }
 
-            }
+        for(User u:users){
+            Log.d(LOG_TAG, "Username:" + u.getUsername() + "Email:" + u.getEmail() + "Punteggio:" + u.getPunteggio() +"Lat:" + u.getLat() +"Longi:" + u.getLongi());
         }
-
+        for(User u:users){
+            if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0){
+                player = u.getUsername();
+                points = u.getPunteggio();
+                LatLng position = new LatLng((float) u.getLat(), (float) u.getLat());
+                MarkerOptions marker = new MarkerOptions().position(position).title(player+":"+points);
+                mMap.addMarker(marker);
+           }
+        }
 
     }
 
