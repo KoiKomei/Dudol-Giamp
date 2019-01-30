@@ -37,8 +37,6 @@ public class ShopActivity extends AppCompatActivity {
 
         db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
 
-        loginUser.setMoney(100000);
-
         money = findViewById(R.id.money);
         money.setText(""+loginUser.getMoney());
 
