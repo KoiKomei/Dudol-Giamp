@@ -42,7 +42,7 @@ public class GameEngine {
 
     private boolean gameOver = false;
 
-    private int jumpForce = 50;
+    private int jumpForce = 40;
 
     public GameEngine(){
         lastUpdate = System.currentTimeMillis();

@@ -55,7 +55,7 @@ public class Player extends AbstractGameObject {
 
     public void updateControls() {
         //Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
-        velX = (accX * 100);
+        velX = (accX * 30);
         float xS = (velX / 2);
         pX -= xS;
         if (pX > constants.getPixelWidth()) {
@@ -68,7 +68,7 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(){
 
-        velY += (gravity * 6);
+        velY += (gravity * 5);
 
         yS = (velY / 2);
 
