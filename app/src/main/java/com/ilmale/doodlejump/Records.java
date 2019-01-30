@@ -81,6 +81,9 @@ public class Records {
             db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
             db.ourDao().updateLat((double) myLocation.getLatLng().latitude, loginUser.getEmail());
             db.ourDao().updateLong((double) myLocation.getLatLng().longitude, loginUser.getEmail());
+            int oldValue = loginUser.getMoney();
+            int newValue = oldValue + constants.getPoints();
+            db.ourDao().updateMoney(loginUser.getEmail(), newValue, oldValue);
         }
     }
 
