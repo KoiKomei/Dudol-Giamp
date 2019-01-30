@@ -12,8 +12,7 @@ public class Player extends AbstractGameObject {
 
     private static final String LOG_TAG = Player.class.getSimpleName();
 
-    private boolean hasJetpack;
-    private boolean isDeath = false;
+    private boolean hasJetpack = false;
 
     //current position of the player
     private float pX;
@@ -26,14 +25,16 @@ public class Player extends AbstractGameObject {
     private float accY;
 
     private float velYjet;
+    private float yS=0;
 
-    private float gravity = 0.2f;
+    private float gravity = 0.098f;
+    private int accCoeff = 1;
+    private double startTime;
+    private double endTime;
 
     private Constants constants = Constants.getInstance();
 
     private List<Platform> platforms;
-    private List<Bullet> bullets;
-    private Enemy enemy;
     private Jetpack jetpack;
 
     public Player(){
@@ -43,71 +44,55 @@ public class Player extends AbstractGameObject {
     }
 
     public void pickJetpack(){
-        this.hasJetpack = true;
-        velYjet = -250;
+        hasJetpack = true;
+        velYjet=-250;
+        startTime = System.currentTimeMillis();
+        endTime = startTime + jetpack.getDuration();
     }
 
     public void jump(float force){
-        Log.d(LOG_TAG, "jumping");
         velY = -force;
     }
 
-    @Override
-    public void update() {
-        Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
-        float frameTime = 0.666f;
-        velX += (accX * frameTime * 6);
-        velY += (gravity * frameTime * 6);
-        if(hasJetpack){
-            velYjet += (gravity * frameTime * 6);
-        }
+    public void updateControls() {
+        //Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
+        if (velX - accX > velX) velX += (accX * accCoeff * 3);
+        else velX += (accX * accCoeff);
 
         if (velX > SettingsSI.MaxVel) velX = SettingsSI.MaxVel;
         else if (velX < -SettingsSI.MaxVel) velX = -SettingsSI.MaxVel;
+
+        float xS = (velX / 2);
+        pX -= xS;
+        if (pX > constants.getPixelWidth()) {
+            pX = -this.getWidth();
+        } else if (pX < -this.getWidth()) {
+            pX = constants.getPixelWidth();
+        }
+    }
+
+    @Override
+    public void update(){
+
+        velY += (gravity * 6);
+
         if (velY > SettingsSI.MaxVel) velY = SettingsSI.MaxVel;
         else if (velY < -SettingsSI.MaxVel) velY = -SettingsSI.MaxVel;
 
-        float xS = (velX / 2) * frameTime;
-        pX -= xS;
-        if (pX > 980) {
-            pX = -100;
-        } else if (pX < -105) {
-            pX = 975;
-        }
+        yS = (velY / 2);
 
-        float yS = (velY / 2) * frameTime;
-
-        if(velYjet<0){
-            yS = (-SettingsSI.MaxVel / 2) * frameTime;
+        if(hasJetpack && velYjet<0){
+            velYjet += (gravity * 6);
+            yS = (-SettingsSI.MaxVel / 2);
         }
         pY += yS;
 
-        for(Bullet b: bullets){
-            float yB = ((float)100 / 2) * frameTime;
-            b.setpY(b.getpY()-yB);
-        }
-
-        if (pY < constants.getPixelHeight()/3) {
-            pY = constants.getPixelHeight()/3;
-            for(Platform p: platforms){
-                p.setyS(yS);
-                p.update();
-            }
-
-            enemy.setyS(yS);
-            enemy.update();
-            jetpack.setyS(yS);
-            jetpack.update();
-
-        }
-
-        if(hasJetpack && velYjet > 0){
+        if(hasJetpack && velYjet >= 0){
             hasJetpack=false;
             velYjet=0;
             velY=0;
             jetpack.replace();
         }
-
     }
 
     public float getAccX(){
@@ -156,16 +141,12 @@ public class Player extends AbstractGameObject {
         this.platforms = platforms;
     }
 
-    public void setEnemy(Enemy enemy) {
-        this.enemy = enemy;
-    }
-
     public void setJetpack(Jetpack jetpack) {
         this.jetpack = jetpack;
     }
 
-    public void setBullets(List<Bullet> bullets) {
-        this.bullets = bullets;
+    public float getyS() {
+        return yS;
     }
 
 }
