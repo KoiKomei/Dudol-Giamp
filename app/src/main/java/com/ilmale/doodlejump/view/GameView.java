@@ -10,16 +10,12 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import com.ilmale.doodlejump.Constants;
-import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
-import com.ilmale.doodlejump.domain.AbstractGameObject;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
-import com.ilmale.doodlejump.domain.Player;
 import com.ilmale.doodlejump.engine.GameEngine;
 
 public class GameView extends SurfaceView implements Runnable{
@@ -103,21 +99,22 @@ public class GameView extends SurfaceView implements Runnable{
 
         @Override
         public void run() {
-
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             while (playing) {
-                Log.d(LOG_TAG, "Running while");
+                //Log.d(LOG_TAG, "Running while");
 
                 // Capture the current time in milliseconds in startFrameTime
                 long startFrameTime = System.currentTimeMillis();
 
-                if(!gameEngine.isGameOver()){
+                draw();
+
+                if(!gameEngine.isGameOver()) {
                     // Update the frame
                     update();
-                    // Draw the frame
-                    draw();
-                }
-                else{
-                    endGame();
                 }
 
                 // Calculate the fps this frame
@@ -137,89 +134,125 @@ public class GameView extends SurfaceView implements Runnable{
         public synchronized void draw() {
             // Make sure our drawing surface is valid or we crash
             if (ourHolder.getSurface().isValid()) {
-                Log.d(LOG_TAG, "drawing");
+                //Log.d(LOG_TAG, "drawing");
                 // Lock the canvas ready to draw
                 // Make the drawing surface our canvas item
                 canvas = ourHolder.lockCanvas();
 
-                // Draw the background color
-                canvas.drawBitmap(bitmapBG, 0, 0, paint);
+                if (gameEngine.isGameOver()) {
 
-                // Choose the brush color for drawing
-                paint.setColor(Color.argb(255, 249, 129, 0));
+                    gameEngine.platforms.clear();//todo schifo
 
-                // Make the text a bit bigger
-                paint.setTextSize(45);
+                    // Draw the background
+                    canvas.drawBitmap(bitmapBG, 0, 0, paint);
 
-                // Display the current fps on the screen
-                //canvas.drawText("FPS:" + fps, 20, 40, paint);
-                canvas.drawText("Your Points:" + constants.getPoints(), 20, 85, paint);
-                canvas.drawText("Record:" + records.getRecords().get(0), 20, 40, paint);
+                    Paint gameOverPaint = new Paint();
+                    gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
+                    gameOverPaint.setTextAlign(Paint.Align.CENTER);
+                    gameOverPaint.setTextSize(100);
+                    canvas.drawText("GAME OVER", canvas.getWidth() / 2, (canvas.getHeight() / 2) - 100, gameOverPaint);
 
-                for (Platform p : gameEngine.getPlatforms()) {
-                    Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
-                    //canvas.drawRect(p.getpX(), p.getpY(), p.getpX() + p.getWidth(), p.getpY() + p.getHeight(), paint);
-                    canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
-                    if (p.hasSprings()) {
-                        Log.d(LOG_TAG, "SPRINGS");
-                        canvas.drawBitmap(bitmapSPRINGS, p.getpX() + (bitmapPlatform.getWidth() / 2 - bitmapSPRINGS.getWidth() / 2), p.getpY() - bitmapSPRINGS.getHeight(), paint);
-                    }
+                    Paint textPaint = new Paint();
+                    textPaint.setColor(Color.argb(255, 249, 129, 0));
+                    textPaint.setTextAlign(Paint.Align.CENTER);
+                    textPaint.setTextSize(100);
+                    canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
 
                 }
 
-                // Draw bob at bobXPosition, bobYPosition with jetpack and shootmode
-                if(gameEngine.player.hasJetpack()){
-                    boolean shootMode=false;
-                    for (Bullet b: gameEngine.bullets){
-                        if(b.getpY()>0){
-                            shootMode=true;
+                else {
+
+                    Paint textPaint = new Paint();
+                    textPaint.setColor(Color.argb(255, 249, 129, 0));
+                    textPaint.setTextAlign(Paint.Align.CENTER);
+                    textPaint.setTextSize(100);
+                    canvas.drawText("" + constants.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
+
+                    // Draw the background
+                    canvas.drawBitmap(bitmapBG, 0, 0, paint);
+
+                    // Choose the brush color for drawing
+                    paint.setColor(Color.argb(255, 249, 129, 0));
+
+                    // Make the text a bit bigger
+                    paint.setTextSize(45);
+
+                    // Display the current fps on the screen
+                    //canvas.drawText("FPS:" + fps, 20, 40, paint);
+                    canvas.drawText("Your Points:" + constants.getPoints(), 20, 85, paint);
+                    canvas.drawText("Record:" + records.getRecords().get(0), 20, 40, paint);
+
+                    for (Platform p : gameEngine.getPlatforms()) {
+                        //Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
+                        //canvas.drawRect(p.getpX(), p.getpY(), p.getpX() + p.getWidth(), p.getpY() + p.getHeight(), paint);
+                        canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
+                        if (p.hasSprings()) {
+                            //Log.d(LOG_TAG, "SPRINGS");
+                            canvas.drawBitmap(bitmapSPRINGS, p.getpX() + (bitmapPlatform.getWidth() / 2 - bitmapSPRINGS.getWidth() / 2), p.getpY() - bitmapSPRINGS.getHeight(), paint);
+                        }
+
+                    }
+
+                    // Draw bob at bobXPosition, bobYPosition with jetpack and shootmode
+                    if (gameEngine.player.hasJetpack()) {
+                        boolean shootMode = false;
+                        try {
+                            for (Bullet b : gameEngine.bullets) {
+                                if (b.getpY() > 0) {
+                                    shootMode = true;
+                                    break;
+                                }
+                            }
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                        if (!shootMode) {
+                            if (gameEngine.player.getVelX() > 0)
+                                canvas.drawBitmap(bitmapBobJetLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                            else
+                                canvas.drawBitmap(bitmapBobJetRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                        } else {
+                            canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                        }
+                    } else {
+                        boolean shootMode = false;
+                        try {
+                            for (Bullet b : gameEngine.bullets) {
+                                if (b.getpY() > 0) {
+                                    shootMode = true;
+                                    break;
+                                }
+                            }
+                        }catch(Exception e){
+                            e.printStackTrace();
+                        }
+                        if (!shootMode) {
+                            if (gameEngine.player.getVelX() > 0)
+                                canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                            else
+                                canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                        } else {
+                            canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                         }
                     }
-                    if(!shootMode){
-                        if (gameEngine.player.getVelX() > 0)
-                            canvas.drawBitmap(bitmapBobJetLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                        else
-                            canvas.drawBitmap(bitmapBobJetRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                    }
-                    else{
-                        canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                    }
-                }
-                else{
-                    boolean shootMode=false;
-                    for (Bullet b: gameEngine.bullets){
-                        if(b.getpY()>0){
-                            shootMode=true;
+
+                    canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
+                    canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
+                    try {
+                        for (Bullet b : gameEngine.bullets) {
+                            canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);
                         }
-                    }
-                    if(!shootMode){
-                        Player player = gameEngine.player; //TODO delete
-                        //canvas.drawRect(player.getpX(), player.getpY(), player.getpX() + player.getWidth(), player.getpY() + player.getHeight(), paint);
-                        if (gameEngine.player.getVelX() > 0)
-                            canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                        else
-                            canvas.drawBitmap(bitmapBobRight, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
-                    }
-                    else{
-                        canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
+                    }catch(Exception e){
+                        e.printStackTrace();
                     }
                 }
-
-
-
-                canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
-                canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
-                for (Bullet b: gameEngine.bullets){
-                    canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);
-                }
-
                 // Draw everything to the screen and unlock the drawing surface
                 ourHolder.unlockCanvasAndPost(canvas);
             }
 
         }
 
-        public void endGame(){
+        /*public void endGame(){
             if (ourHolder.getSurface().isValid()) {
 
                 gameEngine.platforms.clear();
@@ -246,7 +279,8 @@ public class GameView extends SurfaceView implements Runnable{
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
-        }
+        }*/
+
         // If SimpleGameEngine Activity is paused/stopped/shutdown our thread.
         public void pause() {
             Log.d(LOG_TAG, "Pausing game");
