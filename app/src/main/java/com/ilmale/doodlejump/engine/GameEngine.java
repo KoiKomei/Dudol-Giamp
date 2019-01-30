@@ -54,6 +54,9 @@ public class GameEngine {
 
         jetpack = new Jetpack();
         player.setJetpack(jetpack);
+
+        constants.setPoints(0);
+
     }
 
     public void update() {
@@ -199,8 +202,11 @@ public class GameEngine {
     }
 
     public boolean isDeath(){
-        if(player.getpY()>constants.getPixelHeight() || killedByEnemy()){
+        if((player.getpY()>constants.getPixelHeight() && constants.getPoints()>0 ) || killedByEnemy()){
             return true;
+        }
+        if((player.getpY()>constants.getPixelHeight() && constants.getPoints()==0 )){
+            player.jump(jumpForce*2);
         }
         return false;
     }
