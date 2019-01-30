@@ -1,48 +1,34 @@
 package com.ilmale.doodlejump;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import android.util.Log;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.ilmale.doodlejump.database.Negozio;
-import com.ilmale.doodlejump.database.OurDao;
-import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
+import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     private GoogleMap mMap;
     private MainActivity mainActivity;
     MyLocation myLocation = MyLocation.getInstance();
     private String player;
     private int points;
-    private List<Marker> markers;
     Records records = Records.getInstance();
-    //private List<User> users;
-    //private OurDao ourDao;
+    private List<User> users;
+    private LoginUser loginUser = LoginUser.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +39,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //users = ourDao.getUsers();
+        if(RegisterActivity.db!=null ){
+            users = RegisterActivity.db.ourDao().getUsers();
+        }
 
     }
 
@@ -74,9 +62,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        player = "USER_NAME";
+        player = "MY RECORD";
         points = records.getRecords().get(0);
+
+        if(loginUser.getEmail()!=null){
+            player = loginUser.getUsername();
+            points = loginUser.getPunteggio();
+        }
 
         if(myLocation.getLatLng()!=null){
             LatLng myPosition = myLocation.getLatLng();
@@ -84,16 +76,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
         }
-
-        /*
+        if(users != null){
             for(User u:users){
-                int point = ourDao.getPoints(u.getId());
-                LatLng position = ourDao.getPosition(u.getId());
-                MarkerOptions marker = new MarkerOptions().position(myPosition).title(player+":"+points);
-                mMap.addMarker(marker);
-                markers.add(marker);
+                Log.d(LOG_TAG, "Username:" + u.getUsername() + "Email:" + u.getEmail() + "Punteggio:" + u.getPunteggio() +"Lat:" + u.getLat() +"Longi:" + u.getLongi());
             }
-         */
+            for(User u:users){
+                if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0){
+                    player = u.getUsername();
+                    points = u.getPunteggio();
+                    LatLng position = new LatLng((float) u.getLat(), (float) u.getLat());
+                    MarkerOptions marker = new MarkerOptions().position(position).title(player+":"+points);
+                    mMap.addMarker(marker);
+                }
+
+            }
+        }
+
+
     }
 
 }

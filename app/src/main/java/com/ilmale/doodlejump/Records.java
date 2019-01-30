@@ -3,6 +3,10 @@ package com.ilmale.doodlejump;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ilmale.doodlejump.database.User;
+import com.ilmale.doodlejump.domain.LoginUser;
+import com.ilmale.doodlejump.domain.MyLocation;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +16,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Records {
 
     private Constants constants = Constants.getInstance();
+    private MyLocation myLocation = MyLocation.getInstance();
 
     private static final Records ourInstance = new Records();
 
@@ -20,6 +25,8 @@ public class Records {
     }
 
     private List<Integer> records;
+
+    public LoginUser loginUser = LoginUser.getInstance();
 
     public Records() {
         records = new ArrayList<Integer>();
@@ -64,6 +71,12 @@ public class Records {
         editorPref.putInt("fourth", records.get(3));
         editorPref.putInt("fifth", records.get(4));
         editorPref.commit();
+
+        if(loginUser.getEmail()!=null) {
+            RegisterActivity.db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
+            RegisterActivity.db.ourDao().updateLat((double) myLocation.getLatLng().latitude, loginUser.getEmail());
+            RegisterActivity.db.ourDao().updateLong((double) myLocation.getLatLng().longitude, loginUser.getEmail());
+        }
     }
 
 }

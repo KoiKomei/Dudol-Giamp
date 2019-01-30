@@ -8,6 +8,8 @@ import com.ilmale.doodlejump.AudioManager;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.GameActivity;
 import com.ilmale.doodlejump.Records;
+import com.ilmale.doodlejump.RegisterActivity;
+import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.*;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class GameEngine {
     public List<Bullet> bullets = new ArrayList<>();
     public Jetpack jetpack;
     public Enemy enemy;
+
     private Constants constants = Constants.getInstance();
     private Records records = Records.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
