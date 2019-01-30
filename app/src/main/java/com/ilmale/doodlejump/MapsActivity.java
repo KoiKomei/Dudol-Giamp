@@ -85,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d(LOG_TAG, "Username:" + u.getUsername() + "Email:" + u.getEmail() + "Punteggio:" + u.getPunteggio() +"Lat:" + u.getLat() +"Longi:" + u.getLongi());
         }
         for(User u:users){
-            if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0){
+            if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0 && !u.getEmail().equalsIgnoreCase(loginUser.getEmail())){
                 player = u.getUsername();
                 points = u.getPunteggio();
                 LatLng position = new LatLng((float) u.getLat(), (float) u.getLat());
