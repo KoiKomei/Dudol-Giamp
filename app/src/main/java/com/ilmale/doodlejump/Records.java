@@ -1,7 +1,13 @@
 package com.ilmale.doodlejump;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.ilmale.doodlejump.database.OurDatabase;
+import com.ilmale.doodlejump.database.User;
+import com.ilmale.doodlejump.domain.LoginUser;
+import com.ilmale.doodlejump.domain.MyLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +18,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class Records {
 
     private Constants constants = Constants.getInstance();
+    private MyLocation myLocation = MyLocation.getInstance();
 
     private static final Records ourInstance = new Records();
 
@@ -20,6 +27,8 @@ public class Records {
     }
 
     private List<Integer> records;
+
+    public LoginUser loginUser = LoginUser.getInstance();
 
     public Records() {
         records = new ArrayList<Integer>();
@@ -30,6 +39,8 @@ public class Records {
     }
 
     Context context;
+
+    public static OurDatabase db;
 
     public void setRecords(List<Integer> records) {
         this.records = records;
@@ -64,6 +75,13 @@ public class Records {
         editorPref.putInt("fourth", records.get(3));
         editorPref.putInt("fifth", records.get(4));
         editorPref.commit();
+
+        if(loginUser.getEmail()!=null) {
+            db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
+            db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
+            db.ourDao().updateLat((double) myLocation.getLatLng().latitude, loginUser.getEmail());
+            db.ourDao().updateLong((double) myLocation.getLatLng().longitude, loginUser.getEmail());
+        }
     }
 
 }

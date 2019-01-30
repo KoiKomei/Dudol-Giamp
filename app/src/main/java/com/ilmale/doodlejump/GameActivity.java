@@ -25,8 +25,6 @@ import java.security.PublicKey;
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
-
     GameEngine engine;
     GameView gameView;
 

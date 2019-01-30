@@ -47,5 +47,12 @@
     <string name="shop">SHOP</string>
     <string name="background">Background</string>
     <string name="more_coming_soon">More Coming Soon</string>
+    <string name="morecomingsoon">MoreComingSoon</string>
+    <string name="update">Update</string>
+    <string name="txt_old_password">Old password</string>
+    <string name="save">Save</string>
+    <string name="change_password">Change Password</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
 
 </resources>

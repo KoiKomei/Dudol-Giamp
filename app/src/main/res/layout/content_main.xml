@@ -31,19 +31,16 @@
         android:layout_marginStart="144dp"
         android:layout_marginTop="57dp"
         android:layout_marginEnd="145dp"
-        android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="@string/text_label_title"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.834"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_options"
@@ -63,8 +60,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.916" />
+        app:layout_constraintTop_toBottomOf="@+id/button_map"
+        app:layout_constraintVertical_bias="0.084" />
 
     <Button
         android:id="@+id/button_multi"
@@ -104,8 +101,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintTop_toBottomOf="@+id/text_title"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_shop"
@@ -117,6 +114,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/plat1"
         android:text="@string/button_label_shop"
+        android:onClick="launchShopActivity"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -174,13 +172,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/register"
         android:onClick="launchRegisterActivity"
+        android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.806" />
+        app:layout_constraintVertical_bias="0.482" />
 
 </android.support.constraint.ConstraintLayout>
