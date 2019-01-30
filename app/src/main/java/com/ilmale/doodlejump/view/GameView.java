@@ -17,6 +17,7 @@ import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.domain.Bullet;
+import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
 
@@ -62,13 +63,14 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapSPRINGS;
         Bitmap bitmapEnemy;
 
-        private boolean hasBob=false;
         private boolean hasBlueBob=false;
         private boolean hasJungleBob=false;
         private boolean hasBunnyBob=false;
 
+        private LoginUser loginUser = LoginUser.getInstance();
 
-    GameEngine gameEngine;
+
+        GameEngine gameEngine;
         private Constants constants = Constants.getInstance();
         private Records records = Records.getInstance();
 
@@ -86,27 +88,33 @@ public class GameView extends SurfaceView implements Runnable{
             initializeBobValue();
 
             // Initialize bitmaps of Bob
-            if(hasBob){
-                initializeBobBitmap();
-            }
-            if(hasBlueBob){
-                initializeBobBlueBitmap();
-            }
-            if(hasBunnyBob){
-                initializeBobBunnyBitmap();
-            }
-            if(hasJungleBob){
-                initializeBobJungleBitmap();
-            }
-
-
             bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
             bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bobup);
             bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleftjet);
             bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobrightjet);
 
-
+            if(hasBlueBob){
+                bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.blueleft);
+                bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.blueright);
+                bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.blueup);
+                bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.blueleftjet);
+                bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bluerightjet);
+            }
+            if(hasBunnyBob){
+                bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleft);
+                bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyright);
+                bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyup);
+                bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleftjet);
+                bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyrightjet);
+            }
+            if(hasJungleBob){
+                bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.jungleleft);
+                bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.jungleright);
+                bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.jungleup);
+                bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.jungleleftjet);
+                bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.junglerightjet);
+            }
 
             // Initialize bitmaps
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
@@ -314,47 +322,22 @@ public class GameView extends SurfaceView implements Runnable{
         }
 
     private void initializeBobValue() {
-        if(db.ourDao().getBob()){
-            hasBob=true;
-            hasBlueBob = false;
-            hasBunnyBob = false;
-            hasJungleBob = false;
+        if(loginUser.getEmail()!=null){
+            if(db.ourDao().getBlue(loginUser.getEmail())){
+                hasBlueBob = true;
+                hasBunnyBob = false;
+                hasJungleBob = false;
+            }
+            else if(db.ourDao().getJungle(loginUser.getEmail())){
+                hasJungleBob = true;
+                hasBlueBob = false;
+                hasBunnyBob = false;
+            }
+            else if(db.ourDao().getBunny(loginUser.getEmail())){
+                hasBunnyBob = true;
+                hasBlueBob = false;
+                hasJungleBob = false;
+            }
         }
-        if(db.ourDao().getBlue()){
-            hasBlueBob = true;
-            hasBob = false;
-            hasBunnyBob = false;
-            hasJungleBob = false;
-        }
-        if(db.ourDao().getJungle()){
-            hasJungleBob = true;
-            hasBlueBob = false;
-            hasBunnyBob = false;
-            hasBob = false;
-        }
-        if(db.ourDao().getBunny()){
-            hasBunnyBob = true;
-            hasBlueBob = false;
-            hasBob = false;
-            hasJungleBob = false;
-        }
-
     }
-
-    private void initializeBobBitmap(){
-
-    }
-
-    private void initializeBobBlueBitmap(){
-
-    }
-
-    private void initializeBobBunnyBitmap(){
-
-    }
-
-    private void initializeBobJungleBitmap(){
-
-    }
-
 }
