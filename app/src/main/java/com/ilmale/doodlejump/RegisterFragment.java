@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    private Button BnRegister, BnRead, BnDelete, BnUpdate;
+    private Button BnRegister, BnRead, BnDelete, BnUpdate, BnLogin;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -30,6 +30,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
         BnRead=view.findViewById(R.id.bn_read);
         BnRead.setOnClickListener(this);
+
+        BnLogin=view.findViewById(R.id.bn_login);
+        BnLogin.setOnClickListener(this);
 
         BnDelete=view.findViewById(R.id.bn_delete);
         BnDelete.setOnClickListener(this);
@@ -54,6 +57,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.bn_update:
                 RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new UpdateFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.bn_login:
+                RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new LoginFragment()).addToBackStack(null).commit();
                 break;
 
         }
