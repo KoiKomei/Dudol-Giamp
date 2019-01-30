@@ -24,7 +24,7 @@ public class Player extends AbstractGameObject {
     private float velY;
     private float accY;
 
-    private float velYjet=-250;
+    private float velYjet;
     private float yS=0;
 
     private float gravity = 0.098f;
@@ -45,6 +45,7 @@ public class Player extends AbstractGameObject {
 
     public void pickJetpack(){
         hasJetpack = true;
+        velYjet=-250;
         startTime = System.currentTimeMillis();
         endTime = startTime + jetpack.getDuration();
     }
