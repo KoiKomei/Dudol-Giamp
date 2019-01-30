@@ -55,5 +55,6 @@
     <string name="new_password">New Password</string>
     <string name="old_password">Old Password</string>
     <string name="login">Login</string>
+    <string name="money"></string>
 
 </resources>
