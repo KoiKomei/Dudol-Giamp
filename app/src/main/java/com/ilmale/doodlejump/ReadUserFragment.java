@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -34,6 +35,7 @@ public class ReadUserFragment extends Fragment {
 
         List<User> users=RegisterActivity.db.ourDao().getUsers();
         List<Possiede> possess=RegisterActivity.db.ourDao().getPossiede();
+        List<String> emails=RegisterActivity.db.ourDao().getEmail();
         String txt="";
 
         for(User us:users){
@@ -57,6 +59,11 @@ public class ReadUserFragment extends Fragment {
             boolean bunnybob=pos.isBunnybob();
 
             txt=txt+"\n"+"Email: "+em+"\n Bob: "+bob+"\n BlueBob: "+bluebob+"\n JungleBob: "+junglebob+"\n BunnyBob: "+bunnybob+"\n ";
+
+        }
+
+        for(Iterator<String> it=emails.iterator(); it.hasNext();){
+            txt=txt+"\n roba: "+it.next()+"\n size: "+emails.size()+"\n last item: "+emails.get(emails.size()-1);
 
         }
 

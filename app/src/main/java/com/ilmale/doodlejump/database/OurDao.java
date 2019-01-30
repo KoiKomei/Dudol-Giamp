@@ -22,6 +22,9 @@ public interface OurDao {
     @Query("select * from User")
     public List<User> getUsers();
 
+    @Query("select Email from User")
+    public List<String> getEmail();
+
     @Update
     public void updateUser(User user);
 

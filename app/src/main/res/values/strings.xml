@@ -40,5 +40,12 @@
     <string name="delete_account">Delete account</string>
     <string name="delete">Delete</string>
     <string name="something">Something</string>
+    <string name="bob">Bob</string>
+    <string name="bluebob">BlueBob</string>
+    <string name="junglebob">JungleBob</string>
+    <string name="bunnybob">BunnyBob</string>
+    <string name="shop">SHOP</string>
+    <string name="background">Background</string>
+    <string name="more_coming_soon">More Coming Soon</string>
 
 </resources>
