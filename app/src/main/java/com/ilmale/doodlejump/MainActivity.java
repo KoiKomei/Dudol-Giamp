@@ -317,4 +317,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchShopActivity(View view){
+        Log.d(LOG_TAG, "Scoreboard clicked!");
+        Intent intent=new Intent(this, ShopActivity.class);
+        startActivity(intent);
+    }
+
 }

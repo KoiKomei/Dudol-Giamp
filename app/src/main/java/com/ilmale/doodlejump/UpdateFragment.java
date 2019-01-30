@@ -29,12 +29,12 @@ public class UpdateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_update, container, false);
+        View view= inflater.inflate(R.layout.fragment_update,container, false);
 
         userEmail=view.findViewById(R.id.txt_email_update);
         userPassword=view.findViewById(R.id.txt_old_password);
         newPass=view.findViewById(R.id.txt_new_password);
-        bnUpdate=view.findViewById(R.id.bn_update);
+        bnUpdate=view.findViewById(R.id.bn_save);
 
         bnUpdate.setOnClickListener(new View.OnClickListener(){
             @Override
