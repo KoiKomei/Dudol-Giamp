@@ -10,16 +10,13 @@ public class AudioManager {
 
     private MediaPlayer bg_audio;
     private MediaPlayer lose_audio;
-    private MediaPlayer win_audio;
     private MediaPlayer bullet_audio;
     private MediaPlayer enemy_audio;
-    private MediaPlayer hat_audio;
     private MediaPlayer jetpack_audio;
     private MediaPlayer springs_audio;
     private MediaPlayer killEnemy_audio;
     private MediaPlayer jumpOnEnemy_audio;
     private MediaPlayer jump_audio;
-    private MediaPlayer buttonClick_audio;
     private MediaPlayer rain_audio;
 
     SettingsSI settingsSI = SettingsSI.getInstance();
@@ -37,16 +34,13 @@ public class AudioManager {
     public void create(Context context){
         bg_audio=MediaPlayer.create(context,R.raw.background_audio);
         lose_audio=MediaPlayer.create(context,R.raw.lose_audio);
-        win_audio=MediaPlayer.create(context,R.raw.win_audio);
         bullet_audio=MediaPlayer.create(context,R.raw.bullet_audio);
         enemy_audio=MediaPlayer.create(context,R.raw.enemy_audio);
-        hat_audio=MediaPlayer.create(context,R.raw.hat_audio);
         jetpack_audio=MediaPlayer.create(context,R.raw.jetpack_audio);
         springs_audio=MediaPlayer.create(context,R.raw.springs_audio);
         killEnemy_audio=MediaPlayer.create(context,R.raw.killenemy_audio);
         jumpOnEnemy_audio=MediaPlayer.create(context,R.raw.jumponenemy_audio);
         jump_audio=MediaPlayer.create(context,R.raw.jump_audio);
-        buttonClick_audio=MediaPlayer.create(context,R.raw.buttonclick_audio);
         rain_audio=MediaPlayer.create(context,R.raw.rain_audio);
     }
 
@@ -66,11 +60,6 @@ public class AudioManager {
         bg_audio.pause();
     }
 
-    public void playWin_audio() {
-        if(!win_audio.isPlaying() && settingsSI.isSound()){
-            win_audio.start();
-        }
-    }
 
     public void playLose_audio() {
         if(!lose_audio.isPlaying() && settingsSI.isSound()){
@@ -91,15 +80,9 @@ public class AudioManager {
         }
     }
 
-    public void stopEnemy_audio() {
+    public void pauseEnemy_audio() {
         if(enemy_audio.isPlaying()){
             enemy_audio.pause();
-        }
-    }
-
-    public void playHat_audio() {
-        if(!hat_audio.isPlaying() && settingsSI.isSound()){
-            hat_audio.start();
         }
     }
 
@@ -109,7 +92,7 @@ public class AudioManager {
         }
     }
 
-    public void stopJetpack_audio() {
+    public void pauseJetpack_audio() {
         if(jetpack_audio.isPlaying()){
             jetpack_audio.pause();
         }
@@ -139,12 +122,6 @@ public class AudioManager {
         }
     }
 
-    public void playButtonClick_audio() {
-        if(!buttonClick_audio.isPlaying() && settingsSI.isSound()){
-            buttonClick_audio.start();
-        }
-    }
-
     public void playRain_audio() {
         if(!rain_audio.isPlaying() && settingsSI.isSound()){
             rain_audio.start();
@@ -156,13 +133,11 @@ public class AudioManager {
         lose_audio.pause();
         bullet_audio.pause();
         enemy_audio.pause();
-        hat_audio.pause();
         jetpack_audio.pause();
         springs_audio.pause();
         killEnemy_audio.pause();
         jumpOnEnemy_audio.pause();
         jump_audio.pause();
-        buttonClick_audio.pause();
         rain_audio.pause();
     }
 }

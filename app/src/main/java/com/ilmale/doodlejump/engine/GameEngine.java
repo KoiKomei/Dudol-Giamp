@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
+import com.ilmale.doodlejump.AudioManager;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.GameActivity;
 import com.ilmale.doodlejump.Records;
@@ -34,30 +35,30 @@ public class GameEngine {
     public Enemy enemy;
     private Constants constants = Constants.getInstance();
     private Records records = Records.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     private boolean gameOver=false;
 
-    private int points=0;
-
-    private int jumpForce = 50;
+    private int jumpForce = 30;
 
     public GameEngine(){
         lastUpdate = System.currentTimeMillis();
+
         player = new Player();
 
         Platform platform = new Platform();
         platform.createRandomPlatform(platforms);
         player.setPlatforms(platforms);
-        player.setBullets(bullets);
 
         enemy = new Enemy();
+
         jetpack = new Jetpack();
-        player.setEnemy(enemy);
         player.setJetpack(jetpack);
     }
 
     public void update() {
         //Log.d(LOG_TAG, "updating gameengine");
+
         player.update();
 
         for (Platform p: platformsNearThePlayer) {
@@ -65,9 +66,11 @@ public class GameEngine {
                 //Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
                     player.jump(jumpForce * 3);
+                    audioManager.playSprings_audio();
                 }
                 else {
                     player.jump(jumpForce);
+                    audioManager.playJump_audio();
                 }
             }
         }
@@ -79,19 +82,20 @@ public class GameEngine {
         if (player.getpY() < constants.getPixelHeight()/3) {
             player.setpY(constants.getPixelHeight()/3);
             for(Platform p: platforms){
-                p.setyS(player.getVelY() / 2);
+                p.setyS(player.getyS());
                 p.update();
             }
-            enemy.setyS((player.getVelY() / 2));
+            enemy.setyS((player.getyS()));
             enemy.update();
-            jetpack.setyS((player.getVelY() / 2));
+            jetpack.setyS((player.getyS()));
             jetpack.update();
         }
-
         if (contatore == 0){
             aggiornaPiattaforme();
         }
 
+        audioEnemy();
+        audioJetpack();
         takeJetpack();
         killEnemy();
 
@@ -133,9 +137,20 @@ public class GameEngine {
         float y12 = y11 + obj1.getHeight();
         float y21 = obj2.getpY();
         if ((x11 >= x21 && x11 <= (x22 - player.getHeight()/4)) || (x12 >= (x21 + player.getHeight()/4) && x12 <= x22)) {
-            if (y12 <= y21 + 15 && y12 >= y21 - 45){
+            if (y12 <= y21 + 25 && y12 >= y21 - 60){
                 return player.getVelY() >= 0;
             }
+        }
+        return false;
+    }
+
+    public boolean isOnScreen(AbstractGameObject object){
+        float x1 = object.getpX();
+        float x2 = x1+object.getWidth();
+        float y1 = object.getpY();
+        float y2 = y1+object.getHeight();
+        if(y1<constants.getPixelHeight() && y2>0 && x2>0 && x1<constants.getPixelWidth()){
+            return true;
         }
         return false;
     }
@@ -158,11 +173,13 @@ public class GameEngine {
         for(Bullet b:bullets){
             if (collide(b,enemy)) {
                 enemy.replace();
+                audioManager.playKillEnemy_audio();
             }
         }
         if (collidesFromAbove(player,enemy)){
             enemy.replace();
-            player.jump(40);
+            player.jump(jumpForce);
+            audioManager.playJumpOnEnemy_audio();
         }
     }
 
@@ -187,19 +204,13 @@ public class GameEngine {
     public void shoot() {
         Bullet bullet = new Bullet(player.getpX()+53, player.getpY());
         bullets.add(bullet);
-    }
-
-    public void removeBullets(){
-        for(Bullet b: bullets){
-            if(b.getpY()<0){
-                bullets.remove(b);
-            }
-        }
+        audioManager.playBullet_audio();
     }
 
     public void endGame(){
         if(!gameOver){
             records.updateRecords();
+            audioManager.playLose_audio();
         }
         gameOver=true;
     }
@@ -218,4 +229,21 @@ public class GameEngine {
             }
         }
     }
+
+    public void audioEnemy(){
+        if(isOnScreen(enemy)){
+            audioManager.playEnemy_audio();
+        }else{
+            audioManager.pauseEnemy_audio();
+        }
+    }
+
+    public void audioJetpack(){
+        if(player.hasJetpack()){
+            audioManager.playJetpack_audio();
+        }else{
+            audioManager.pauseJetpack_audio();
+        }
+    }
+
 }

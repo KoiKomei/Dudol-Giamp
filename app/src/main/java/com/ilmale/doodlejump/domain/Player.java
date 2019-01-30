@@ -24,29 +24,27 @@ public class Player extends AbstractGameObject {
     private float velY;
     private float accY;
 
-    private float velYjet;
+    private float velYjet=-250;
+    private float yS=0;
 
-    private float gravity = 0.22f;
-    private int accCoeff = 2;
+    private float gravity = 0.098f;
+    private int accCoeff = 1;
     private double startTime;
     private double endTime;
 
     private Constants constants = Constants.getInstance();
 
     private List<Platform> platforms;
-    private List<Bullet> bullets;
-    private Enemy enemy;
     private Jetpack jetpack;
 
     public Player(){
         super();
         pX = constants.getPixelWidth()/2;
-        pY = constants.getPixelHeight()/3;
+        pY = constants.getPixelHeight()/4;
     }
 
     public void pickJetpack(){
         hasJetpack = true;
-        velYjet = -250;
         startTime = System.currentTimeMillis();
         endTime = startTime + jetpack.getDuration();
     }
@@ -66,10 +64,10 @@ public class Player extends AbstractGameObject {
 
         float xS = (velX / 2);
         pX -= xS;
-        if (pX > 980) {
-            pX = -100;
-        } else if (pX < -105) {
-            pX = 975;
+        if (pX > constants.getPixelWidth()) {
+            pX = -this.getWidth();
+        } else if (pX < -this.getWidth()) {
+            pX = constants.getPixelWidth();
         }
     }
 
@@ -78,21 +76,18 @@ public class Player extends AbstractGameObject {
 
         velY += (gravity * 6);
 
-        if(hasJetpack){
-            velYjet += (gravity * 6);
-        }
-
         if (velY > SettingsSI.MaxVel) velY = SettingsSI.MaxVel;
         else if (velY < -SettingsSI.MaxVel) velY = -SettingsSI.MaxVel;
 
-        float yS = (velY / 2);
+        yS = (velY / 2);
 
-        if(velYjet<0){
+        if(hasJetpack && velYjet<0){
+            velYjet += (gravity * 6);
             yS = (-SettingsSI.MaxVel / 2);
         }
         pY += yS;
 
-        if(hasJetpack && velYjet > 0){
+        if(hasJetpack && velYjet >= 0){
             hasJetpack=false;
             velYjet=0;
             velY=0;
@@ -146,16 +141,12 @@ public class Player extends AbstractGameObject {
         this.platforms = platforms;
     }
 
-    public void setEnemy(Enemy enemy) {
-        this.enemy = enemy;
-    }
-
     public void setJetpack(Jetpack jetpack) {
         this.jetpack = jetpack;
     }
 
-    public void setBullets(List<Bullet> bullets) {
-        this.bullets = bullets;
+    public float getyS() {
+        return yS;
     }
 
 }

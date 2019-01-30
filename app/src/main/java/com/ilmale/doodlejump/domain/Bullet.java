@@ -6,6 +6,7 @@ public class Bullet extends AbstractGameObject {
 
     private float pX;
     private float pY;
+    private float velY=100;
 
     private Constants constants = Constants.getInstance();
 
@@ -32,7 +33,7 @@ public class Bullet extends AbstractGameObject {
 
     @Override
     public void update() {
-        float yB = ((float) 100 / 2);
+        float yB = ( velY / 2);
         setpY(pY - yB);
     }
 

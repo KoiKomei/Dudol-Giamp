@@ -110,11 +110,10 @@ public class GameView extends SurfaceView implements Runnable{
                 // Capture the current time in milliseconds in startFrameTime
                 long startFrameTime = System.currentTimeMillis();
 
-                // Update the frame
-                update();
-
-                // Draw the frame
                 if(!gameEngine.isGameOver()){
+                    // Update the frame
+                    update();
+                    // Draw the frame
                     draw();
                 }
                 else{
@@ -159,7 +158,7 @@ public class GameView extends SurfaceView implements Runnable{
 
                 for (Platform p : gameEngine.getPlatforms()) {
                     Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
-                    canvas.drawRect(p.getpX(), p.getpY(), p.getpX() + p.getWidth(), p.getpY() + p.getHeight(), paint);
+                    //canvas.drawRect(p.getpX(), p.getpY(), p.getpX() + p.getWidth(), p.getpY() + p.getHeight(), paint);
                     canvas.drawBitmap(bitmapPlatform, p.getpX(), p.getpY(), paint);
                     if (p.hasSprings()) {
                         Log.d(LOG_TAG, "SPRINGS");
@@ -195,7 +194,7 @@ public class GameView extends SurfaceView implements Runnable{
                     }
                     if(!shootMode){
                         Player player = gameEngine.player; //TODO delete
-                        canvas.drawRect(player.getpX(), player.getpY(), player.getpX() + player.getWidth(), player.getpY() + player.getHeight(), paint);
+                        //canvas.drawRect(player.getpX(), player.getpY(), player.getpX() + player.getWidth(), player.getpY() + player.getHeight(), paint);
                         if (gameEngine.player.getVelX() > 0)
                             canvas.drawBitmap(bitmapBobLeft, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                         else
