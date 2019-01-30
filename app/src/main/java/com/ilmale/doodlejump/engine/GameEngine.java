@@ -40,9 +40,9 @@ public class GameEngine {
     private Records records = Records.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
 
-    private boolean gameOver=false;
+    private boolean gameOver = false;
 
-    private int jumpForce = 30;
+    private int jumpForce = 50;
 
     public GameEngine(){
         lastUpdate = System.currentTimeMillis();

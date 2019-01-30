@@ -25,10 +25,9 @@ public class Player extends AbstractGameObject {
     private float accY;
 
     private float velYjet;
-    private float yS=0;
+    private float yS = 0;
 
-    private float gravity = 0.098f;
-    private int accCoeff = 1;
+    private float gravity = 0.198f;
     private double startTime;
     private double endTime;
 
@@ -45,7 +44,7 @@ public class Player extends AbstractGameObject {
 
     public void pickJetpack(){
         hasJetpack = true;
-        velYjet=-250;
+        velYjet = -250;
         startTime = System.currentTimeMillis();
         endTime = startTime + jetpack.getDuration();
     }
@@ -56,12 +55,7 @@ public class Player extends AbstractGameObject {
 
     public void updateControls() {
         //Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
-        if (velX - accX > velX) velX += (accX * accCoeff * 3);
-        else velX += (accX * accCoeff);
-
-        if (velX > SettingsSI.MaxVel) velX = SettingsSI.MaxVel;
-        else if (velX < -SettingsSI.MaxVel) velX = -SettingsSI.MaxVel;
-
+        velX = (accX * 100);
         float xS = (velX / 2);
         pX -= xS;
         if (pX > constants.getPixelWidth()) {
@@ -76,12 +70,9 @@ public class Player extends AbstractGameObject {
 
         velY += (gravity * 6);
 
-        if (velY > SettingsSI.MaxVel) velY = SettingsSI.MaxVel;
-        else if (velY < -SettingsSI.MaxVel) velY = -SettingsSI.MaxVel;
-
         yS = (velY / 2);
 
-        if(hasJetpack && velYjet<0){
+        if(hasJetpack && velYjet < 0){
             velYjet += (gravity * 6);
             yS = (-SettingsSI.MaxVel / 2);
         }
