@@ -66,11 +66,15 @@ public class GameEngine {
                 //Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
                     player.jump(jumpForce * 3);
-                    audioManager.playSprings_audio();
+                    if(!player.hasJetpack()){
+                        audioManager.playSprings_audio();
+                    }
                 }
                 else {
                     player.jump(jumpForce);
-                    audioManager.playJump_audio();
+                    if(!player.hasJetpack()){
+                        audioManager.playJump_audio();
+                    }
                 }
             }
         }

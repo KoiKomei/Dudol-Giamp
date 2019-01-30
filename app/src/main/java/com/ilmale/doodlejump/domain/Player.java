@@ -40,7 +40,7 @@ public class Player extends AbstractGameObject {
     public Player(){
         super();
         pX = constants.getPixelWidth()/2;
-        pY = constants.getPixelHeight()/4;
+        pY = constants.getPixelHeight()/3;
     }
 
     public void pickJetpack(){
@@ -51,7 +51,6 @@ public class Player extends AbstractGameObject {
     }
 
     public void jump(float force){
-        //Log.d(LOG_TAG, "jumping");
         velY = -force;
     }
 
