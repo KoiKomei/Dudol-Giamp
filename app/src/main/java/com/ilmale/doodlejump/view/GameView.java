@@ -1,5 +1,6 @@
 package com.ilmale.doodlejump.view;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.view.SurfaceView;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
+import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
@@ -44,6 +46,9 @@ public class GameView extends SurfaceView implements Runnable{
         // This is used to help calculate the fps
         private long timeThisFrame;
 
+        //database to get bob
+        public static OurDatabase db;
+
         // Declare an item of type Bitmap
         Bitmap bitmapBG;
         Bitmap bitmapBobLeft;
@@ -57,7 +62,13 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapSPRINGS;
         Bitmap bitmapEnemy;
 
-        GameEngine gameEngine;
+        private boolean hasBob=false;
+        private boolean hasBlueBob=false;
+        private boolean hasJungleBob=false;
+        private boolean hasBunnyBob=false;
+
+
+    GameEngine gameEngine;
         private Constants constants = Constants.getInstance();
         private Records records = Records.getInstance();
 
@@ -70,12 +81,34 @@ public class GameView extends SurfaceView implements Runnable{
             ourHolder = getHolder();
             paint = new Paint();
 
-            // Initialize bitmaps
+            db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
+
+            initializeBobValue();
+
+            // Initialize bitmaps of Bob
+            if(hasBob){
+                initializeBobBitmap();
+            }
+            if(hasBlueBob){
+                initializeBobBlueBitmap();
+            }
+            if(hasBunnyBob){
+                initializeBobBunnyBitmap();
+            }
+            if(hasJungleBob){
+                initializeBobJungleBitmap();
+            }
+
+
             bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
             bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bobup);
             bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleftjet);
             bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobrightjet);
+
+
+
+            // Initialize bitmaps
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
             bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
@@ -252,35 +285,6 @@ public class GameView extends SurfaceView implements Runnable{
 
         }
 
-        /*public void endGame(){
-            if (ourHolder.getSurface().isValid()) {
-
-                gameEngine.platforms.clear();
-
-                Log.d(LOG_TAG, "drawing");
-                // Lock the canvas ready to draw
-                // Make the drawing surface our canvas item
-                canvas = ourHolder.lockCanvas();
-
-                // Draw the background color
-                canvas.drawBitmap(bitmapBG, 0, 0, paint);
-
-                Paint gameOverPaint = new Paint();
-                gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
-                gameOverPaint.setTextAlign(Paint.Align.CENTER);
-                gameOverPaint.setTextSize(100);
-                canvas.drawText("GAME OVER", canvas.getWidth()/2, (canvas.getHeight() / 2) - 100, gameOverPaint);
-
-                Paint textPaint = new Paint();
-                textPaint.setColor(Color.argb(255, 249, 129, 0));
-                textPaint.setTextAlign(Paint.Align.CENTER);
-                textPaint.setTextSize(100);
-                canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
-
-                ourHolder.unlockCanvasAndPost(canvas);
-            }
-        }*/
-
         // If SimpleGameEngine Activity is paused/stopped/shutdown our thread.
         public void pause() {
             Log.d(LOG_TAG, "Pausing game");
@@ -309,5 +313,48 @@ public class GameView extends SurfaceView implements Runnable{
             return super.onTouchEvent(event);
         }
 
+    private void initializeBobValue() {
+        if(db.ourDao().getBob()){
+            hasBob=true;
+            hasBlueBob = false;
+            hasBunnyBob = false;
+            hasJungleBob = false;
+        }
+        if(db.ourDao().getBlue()){
+            hasBlueBob = true;
+            hasBob = false;
+            hasBunnyBob = false;
+            hasJungleBob = false;
+        }
+        if(db.ourDao().getJungle()){
+            hasJungleBob = true;
+            hasBlueBob = false;
+            hasBunnyBob = false;
+            hasBob = false;
+        }
+        if(db.ourDao().getBunny()){
+            hasBunnyBob = true;
+            hasBlueBob = false;
+            hasBob = false;
+            hasJungleBob = false;
+        }
+
+    }
+
+    private void initializeBobBitmap(){
+
+    }
+
+    private void initializeBobBlueBitmap(){
+
+    }
+
+    private void initializeBobBunnyBitmap(){
+
+    }
+
+    private void initializeBobJungleBitmap(){
+
+    }
 
 }

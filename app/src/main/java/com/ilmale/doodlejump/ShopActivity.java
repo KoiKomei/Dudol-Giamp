@@ -28,7 +28,6 @@ public class ShopActivity extends AppCompatActivity {
     private int contShopBlueBob=1;
     private int contShopJungleBob=1;
     private int contShopBunnyBob=1;
-
     public static OurDatabase db;
 
     @Override
@@ -36,9 +35,11 @@ public class ShopActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
 
         loginUser.setMoney(100000);
+
+
 
         money = findViewById(R.id.money);
         money.setText(""+loginUser.getMoney());
@@ -56,6 +57,9 @@ public class ShopActivity extends AppCompatActivity {
                 blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                db.ourDao().updateBunny(false,loginUser.getEmail());
+                db.ourDao().updateBlue(false,loginUser.getEmail());
+                db.ourDao().updateJungle(false,loginUser.getEmail());
                 return false;
             }
         });
@@ -69,6 +73,9 @@ public class ShopActivity extends AppCompatActivity {
                     bob.setColorFilter(Color.argb(0, 0, 0, 0));
                     jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                     bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                    db.ourDao().updateBlue(true,loginUser.getEmail());
+                    db.ourDao().updateBunny(false,loginUser.getEmail());
+                    db.ourDao().updateJungle(false,loginUser.getEmail());
                     contShopBlueBob=0;
                     contShopJungleBob=1;
                     contShopBunnyBob=1;
@@ -88,6 +95,9 @@ public class ShopActivity extends AppCompatActivity {
                     blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                     bob.setColorFilter(Color.argb(0, 0, 0, 0));
                     bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                    db.ourDao().updateJungle(true,loginUser.getEmail());
+                    db.ourDao().updateBlue(false,loginUser.getEmail());
+                    db.ourDao().updateBunny(false,loginUser.getEmail());
                     contShopJungleBob=0;
                     contShopBlueBob=1;
                     contShopBunnyBob=1;
@@ -107,6 +117,9 @@ public class ShopActivity extends AppCompatActivity {
                     blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                     jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                     bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                    db.ourDao().updateBunny(true,loginUser.getEmail());
+                    db.ourDao().updateBlue(false,loginUser.getEmail());
+                    db.ourDao().updateJungle(false,loginUser.getEmail());
                     contShopBunnyBob=0;
                     contShopBlueBob=1;
                     contShopJungleBob=1;
@@ -119,5 +132,7 @@ public class ShopActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }
