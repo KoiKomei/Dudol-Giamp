@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 /**
@@ -14,7 +15,8 @@ import android.widget.Button;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    private Button BnRegister, BnRead, BnDelete, BnUpdate, BnLogin;
+    private Button BnRead, BnDelete;
+    private ImageButton BnRegister, BnUpdate, BnLogin;
 
     public RegisterFragment() {
         // Required empty public constructor
