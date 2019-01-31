@@ -3,6 +3,7 @@ package com.ilmale.doodlejump;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
@@ -79,11 +80,15 @@ public class Records {
         if(loginUser.getEmail()!=null) {
             db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
             db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
-            db.ourDao().updateLat((double) myLocation.getLatLng().latitude, loginUser.getEmail());
-            db.ourDao().updateLong((double) myLocation.getLatLng().longitude, loginUser.getEmail());
+            db.ourDao().updateLat( myLocation.getLatLng().latitude, loginUser.getEmail());
+            db.ourDao().updateLong( myLocation.getLatLng().longitude, loginUser.getEmail());
+            loginUser.setPunteggio(records.get(0));
+            loginUser.setLat(myLocation.getLatLng().latitude);
+            loginUser.setLongi(myLocation.getLatLng().longitude);
             int oldValue = loginUser.getMoney();
-            int newValue = oldValue + constants.getPoints();
+            int newValue = oldValue + constants.getPoints()/10;
             db.ourDao().updateMoney(loginUser.getEmail(), newValue, oldValue);
+            loginUser.setMoney(newValue);
         }
     }
 

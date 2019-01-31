@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ilmale.doodlejump.database.User;
+import com.ilmale.doodlejump.domain.LoginUser;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class LoginFragment extends Fragment {
     EditText userEmail, userPassword;
     Button bnLogin;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private LoginUser loginUser = LoginUser.getInstance();
 
     public LoginFragment() {
         // Required empty public constructor
@@ -48,10 +51,11 @@ public class LoginFragment extends Fragment {
 
                 for(User us:users){
                     Log.d(LOG_TAG, "Dentro al for");
-                    if(UserEmail==us.getEmail() && UserPassword==us.getPassword()){
+                    if(UserEmail.equalsIgnoreCase(us.getEmail()) && UserPassword.equalsIgnoreCase(us.getPassword())){
                         Log.d(LOG_TAG, "Dentro all'if");
                         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
                         login=true;
+                        setLoginUser(us);
                         break;
                     }
                     else{
@@ -67,6 +71,16 @@ public class LoginFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setLoginUser(User us) {
+        loginUser.setEmail(us.getEmail());
+        loginUser.setUsername(us.getUsername());
+        loginUser.setPassword(us.getPassword());
+        loginUser.setMoney(us.getMoney());
+        loginUser.setPunteggio(us.getPunteggio());
+        loginUser.setLat(us.getLat());
+        loginUser.setLongi(us.getLongi());
     }
 
 }
