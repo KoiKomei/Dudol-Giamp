@@ -48,6 +48,8 @@ public class ShopActivity extends AppCompatActivity {
             jungleBob = findViewById(R.id.jungleBob);
             bunnyBob = findViewById(R.id.bunnyBob);
 
+            initializeBobValue();
+
             bob.setOnTouchListener(new View.OnTouchListener() {
 
                 @Override
@@ -128,6 +130,35 @@ public class ShopActivity extends AppCompatActivity {
                     return false;
                 }
             });
+        }
+    }
+
+    private void initializeBobValue() {
+        if(loginUser.getEmail()!=null){
+            if(db.ourDao().getBob(loginUser.getEmail())){
+                bob.setColorFilter(Color.argb(100, 0, 0, 0));
+                blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+            }
+            if(db.ourDao().getBlue(loginUser.getEmail())){
+                bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                blueBob.setColorFilter(Color.argb(100, 0, 0, 0));
+                jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+            }
+            else if(db.ourDao().getJungle(loginUser.getEmail())){
+                bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                jungleBob.setColorFilter(Color.argb(100, 0, 0, 0));
+                bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+            }
+            else if(db.ourDao().getBunny(loginUser.getEmail())){
+                bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                bunnyBob.setColorFilter(Color.argb(100, 0, 0, 0));
+            }
         }
     }
 }
