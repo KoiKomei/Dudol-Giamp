@@ -3,13 +3,16 @@ package com.ilmale.doodlejump;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
+import com.ilmale.doodlejump.domain.LoginUser;
 
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +24,8 @@ import java.util.List;
 public class ReadUserFragment extends Fragment {
 
     private TextView info;
+    private ImageView bobImageView;
+    private LoginUser loginUser = LoginUser.getInstance();
 
     public ReadUserFragment() {
         // Required empty public constructor
@@ -32,11 +37,13 @@ public class ReadUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_read_user, container, false);
         info=view.findViewById(R.id.txt_display_info);
-
+        bobImageView = view.findViewById(R.id.bob_imageView);
+        String txt="";
+        /*
         List<User> users=RegisterActivity.db.ourDao().getUsers();
         List<Possiede> possess=RegisterActivity.db.ourDao().getPossiede();
         List<String> emails=RegisterActivity.db.ourDao().getEmail();
-        String txt="";
+
 
         for(User us:users){
             String name=us.getUsername();
@@ -66,8 +73,27 @@ public class ReadUserFragment extends Fragment {
             txt=txt+"\n roba: "+it.next()+"\n size: "+emails.size()+"\n last item: "+emails.get(emails.size()-1);
 
         }
-
+        */
+        txt+="Email: "+loginUser.getEmail()+"\n";
+        txt+="Username: "+loginUser.getUsername()+"\n";
+        txt+="Password: "+loginUser.getPassword()+"\n";
+        txt+="Money: "+loginUser.getMoney()+"\n";
+        txt+="Punteggio: "+loginUser.getPunteggio()+"\n";
+        txt+="Posizione: "+loginUser.getLat()+", "+loginUser.getLongi();
         info.setText(txt);
+
+        boolean blueBob = RegisterActivity.db.ourDao().getBlue(loginUser.getEmail());
+        boolean bunnyBob = RegisterActivity.db.ourDao().getBunny(loginUser.getEmail());
+        boolean jungleBob = RegisterActivity.db.ourDao().getJungle(loginUser.getEmail());
+
+        if(blueBob){
+            bobImageView.setImageResource(R.drawable.blueright);
+        }else if(bunnyBob){
+            bobImageView.setImageResource(R.drawable.bunnyright);
+        }else if(jungleBob){
+            bobImageView.setImageResource(R.drawable.jungleright);
+        }
+
 
         return view;
     }

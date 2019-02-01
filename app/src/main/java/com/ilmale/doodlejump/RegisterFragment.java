@@ -18,8 +18,8 @@ import com.ilmale.doodlejump.domain.LoginUser;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    private Button BnRead, BnDelete;
-    private ImageButton BnRegister, BnUpdate, BnLogin, BnLogout;
+    private Button BnDelete;
+    private ImageButton BnRegister, BnUpdate, BnLogin, BnLogout, BnInfo;
     private LoginUser loginUser = LoginUser.getInstance();
 
     public RegisterFragment() {
@@ -33,7 +33,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         View view= inflater.inflate(R.layout.fragment_register, container, false);
 
         BnRegister=view.findViewById(R.id.bn_register);
-        BnRead=view.findViewById(R.id.bn_read);
+        BnInfo=view.findViewById(R.id.bn_info);
         BnLogout=view.findViewById(R.id.bn_logout);
         BnLogin=view.findViewById(R.id.bn_login);
         BnDelete=view.findViewById(R.id.bn_delete);
@@ -43,10 +43,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         BnLogout.setOnClickListener(this);
         BnUpdate.setOnClickListener(this);
         BnDelete.setOnClickListener(this);
-        BnRead.setOnClickListener(this);
+        BnInfo.setOnClickListener(this);
 
         if(loginUser.getEmail()!=null){
-            setLogoutUpdateButton(view);
+            setLogoutUpdateInfoButton(view);
         }else{
             setLoginRegisterButton(view);
         }
@@ -60,7 +60,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             case R.id.bn_register:
                 RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new AddUserFragment()).addToBackStack(null).commit();
                 break;
-            case R.id.bn_read:
+            case R.id.bn_info:
                 RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new ReadUserFragment()).addToBackStack(null).commit();
                 break;
             case R.id.bn_delete:
@@ -85,11 +85,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         BnLogin.setVisibility(view.VISIBLE);
         BnLogout.setVisibility(view.INVISIBLE);
         BnUpdate.setVisibility(view.INVISIBLE);
+        BnInfo.setVisibility(view.INVISIBLE);
 
     }
-    public void setLogoutUpdateButton(View view){
+    public void setLogoutUpdateInfoButton(View view){
         BnLogout.setVisibility(view.VISIBLE);
         BnUpdate.setVisibility(view.VISIBLE);
+        BnInfo.setVisibility(view.VISIBLE);
         BnRegister.setVisibility(view.INVISIBLE);
         BnLogin.setVisibility(view.INVISIBLE);
     }
