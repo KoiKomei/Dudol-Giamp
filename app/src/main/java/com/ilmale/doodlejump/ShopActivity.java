@@ -80,6 +80,7 @@ public class ShopActivity extends AppCompatActivity {
                         contShopBlueBob = 0;
                         contShopJungleBob = 1;
                         contShopBunnyBob = 1;
+                        db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyBlueBob, loginUser.getMoney());
                         loginUser.setMoney(loginUser.getMoney() - moneyBlueBob);
                         money.setText("" + loginUser.getMoney());
                     }
@@ -102,6 +103,7 @@ public class ShopActivity extends AppCompatActivity {
                         contShopJungleBob = 0;
                         contShopBlueBob = 1;
                         contShopBunnyBob = 1;
+                        db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyJungleBob, loginUser.getMoney());
                         loginUser.setMoney(loginUser.getMoney() - moneyJungleBob);
                         money.setText("" + loginUser.getMoney());
                     }
@@ -124,6 +126,7 @@ public class ShopActivity extends AppCompatActivity {
                         contShopBunnyBob = 0;
                         contShopBlueBob = 1;
                         contShopJungleBob = 1;
+                        db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyBunnyBob, loginUser.getMoney());
                         loginUser.setMoney(loginUser.getMoney() - moneyBunnyBob);
                         money.setText("" + loginUser.getMoney());
                     }
