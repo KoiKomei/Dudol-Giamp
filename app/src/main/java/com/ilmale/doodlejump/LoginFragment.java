@@ -56,6 +56,7 @@ public class LoginFragment extends Fragment {
                         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
                         login=true;
                         loginUser.setLoginUser(us);
+                        loginUser.initializeBobEquipped();
                         break;
                     }
                     else{

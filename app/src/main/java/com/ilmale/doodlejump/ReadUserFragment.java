@@ -82,15 +82,11 @@ public class ReadUserFragment extends Fragment {
         txt+="Posizione: "+loginUser.getLat()+", "+loginUser.getLongi();
         info.setText(txt);
 
-        boolean blueBob = RegisterActivity.db.ourDao().getBlue(loginUser.getEmail());
-        boolean bunnyBob = RegisterActivity.db.ourDao().getBunny(loginUser.getEmail());
-        boolean jungleBob = RegisterActivity.db.ourDao().getJungle(loginUser.getEmail());
-
-        if(blueBob){
+        if(loginUser.isEquippedBlueBob()){
             bobImageView.setImageResource(R.drawable.blueright);
-        }else if(bunnyBob){
+        }else if(loginUser.isEquippedBunnyBob()){
             bobImageView.setImageResource(R.drawable.bunnyright);
-        }else if(jungleBob){
+        }else if(loginUser.isEquippedJungleBob()){
             bobImageView.setImageResource(R.drawable.jungleright);
         }
 

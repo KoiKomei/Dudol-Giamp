@@ -63,9 +63,9 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapSPRINGS;
         Bitmap bitmapEnemy;
 
-        private boolean hasBlueBob=false;
-        private boolean hasJungleBob=false;
-        private boolean hasBunnyBob=false;
+        private boolean BlueBob=false;
+        private boolean JungleBob=false;
+        private boolean BunnyBob=false;
 
         private LoginUser loginUser = LoginUser.getInstance();
 
@@ -94,21 +94,21 @@ public class GameView extends SurfaceView implements Runnable{
             bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleftjet);
             bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobrightjet);
 
-            if(hasBlueBob){
+            if(BlueBob){
                 bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.blueleft);
                 bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.blueright);
                 bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.blueup);
                 bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.blueleftjet);
                 bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bluerightjet);
             }
-            if(hasBunnyBob){
+            if(BunnyBob){
                 bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleft);
                 bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyright);
                 bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyup);
                 bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleftjet);
                 bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyrightjet);
             }
-            if(hasJungleBob){
+            if(JungleBob){
                 bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.jungleleft);
                 bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.jungleright);
                 bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.jungleup);
@@ -323,20 +323,20 @@ public class GameView extends SurfaceView implements Runnable{
 
     private void initializeBobValue() {
         if(loginUser.getEmail()!=null){
-            if(db.ourDao().getBlue(loginUser.getEmail())){
-                hasBlueBob = true;
-                hasBunnyBob = false;
-                hasJungleBob = false;
+            if(loginUser.isEquippedBlueBob()){
+                BlueBob = true;
+                BunnyBob = false;
+                JungleBob = false;
             }
-            else if(db.ourDao().getJungle(loginUser.getEmail())){
-                hasJungleBob = true;
-                hasBlueBob = false;
-                hasBunnyBob = false;
+            else if(loginUser.isEquippedJungleBob()){
+                JungleBob = true;
+                BlueBob = false;
+                BunnyBob = false;
             }
-            else if(db.ourDao().getBunny(loginUser.getEmail())){
-                hasBunnyBob = true;
-                hasBlueBob = false;
-                hasJungleBob = false;
+            else if(loginUser.isEquippedBunnyBob()){
+                BunnyBob = true;
+                BlueBob = false;
+                JungleBob = false;
             }
         }
     }

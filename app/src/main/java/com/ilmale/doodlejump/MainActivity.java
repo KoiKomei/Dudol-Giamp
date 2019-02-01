@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         loginUser.initializeLoginUser(this);
         if(loginUser.getEmail()!=null){
             account.setText(loginUser.getUsername());
+            loginUser.initializeBobEquipped();
         }
         else{
             account.setText(R.string.register);

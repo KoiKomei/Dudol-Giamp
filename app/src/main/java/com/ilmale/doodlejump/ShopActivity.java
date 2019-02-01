@@ -25,9 +25,6 @@ public class ShopActivity extends AppCompatActivity {
     private int moneyJungleBob=1000;
     private int moneyBunnyBob=1500;
 
-    private int contShopBlueBob=1;
-    private int contShopJungleBob=1;
-    private int contShopBunnyBob=1;
     public static OurDatabase db;
 
     @Override
@@ -58,9 +55,7 @@ public class ShopActivity extends AppCompatActivity {
                     blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                     jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                     bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
-                    db.ourDao().updateBunny(false, loginUser.getEmail());
-                    db.ourDao().updateBlue(false, loginUser.getEmail());
-                    db.ourDao().updateJungle(false, loginUser.getEmail());
+                    loginUser.setEquippedBob(true);
                     return false;
                 }
             });
@@ -69,20 +64,25 @@ public class ShopActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (loginUser.getMoney() >= moneyBlueBob && contShopBlueBob == 1) {
+                    if (loginUser.getMoney() >= moneyBlueBob && !loginUser.isBlueBob()) {
                         blueBob.setColorFilter(Color.argb(100, 0, 0, 0));
                         bob.setColorFilter(Color.argb(0, 0, 0, 0));
                         jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                         bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        blueBob.setImageResource(R.drawable.shopbluebought);
+                        loginUser.setBlueBob(true);
+                        loginUser.setEquippedBlueBob(true);
                         db.ourDao().updateBlue(true, loginUser.getEmail());
-                        db.ourDao().updateBunny(false, loginUser.getEmail());
-                        db.ourDao().updateJungle(false, loginUser.getEmail());
-                        contShopBlueBob = 0;
-                        contShopJungleBob = 1;
-                        contShopBunnyBob = 1;
                         db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyBlueBob, loginUser.getMoney());
                         loginUser.setMoney(loginUser.getMoney() - moneyBlueBob);
                         money.setText("" + loginUser.getMoney());
+                    }
+                    else if(loginUser.isBlueBob()){
+                        blueBob.setColorFilter(Color.argb(100, 0, 0, 0));
+                        bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        loginUser.setEquippedBlueBob(true);
                     }
                     return false;
                 }
@@ -92,20 +92,25 @@ public class ShopActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (loginUser.getMoney() >= moneyJungleBob && contShopJungleBob == 1) {
+                    if (loginUser.getMoney() >= moneyJungleBob && !loginUser.isJungleBob()) {
                         jungleBob.setColorFilter(Color.argb(100, 0, 0, 0));
                         blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                         bob.setColorFilter(Color.argb(0, 0, 0, 0));
                         bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        jungleBob.setImageResource(R.drawable.shopjunglebought);
+                        loginUser.setJungleBob(true);
+                        loginUser.setEquippedJungleBob(true);
                         db.ourDao().updateJungle(true, loginUser.getEmail());
-                        db.ourDao().updateBlue(false, loginUser.getEmail());
-                        db.ourDao().updateBunny(false, loginUser.getEmail());
-                        contShopJungleBob = 0;
-                        contShopBlueBob = 1;
-                        contShopBunnyBob = 1;
                         db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyJungleBob, loginUser.getMoney());
                         loginUser.setMoney(loginUser.getMoney() - moneyJungleBob);
                         money.setText("" + loginUser.getMoney());
+                    }
+                    else if(loginUser.isJungleBob()){
+                        jungleBob.setColorFilter(Color.argb(100, 0, 0, 0));
+                        blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        loginUser.setEquippedJungleBob(true);
                     }
                     return false;
                 }
@@ -115,20 +120,25 @@ public class ShopActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (loginUser.getMoney() >= moneyBunnyBob && contShopBunnyBob == 1) {
+                    if (loginUser.getMoney() >= moneyBunnyBob && !loginUser.isBunnyBob()) {
                         bunnyBob.setColorFilter(Color.argb(100, 0, 0, 0));
                         blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                         jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                         bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        bunnyBob.setImageResource(R.drawable.shopbunnybought);
+                        loginUser.setBunnyBob(true);
+                        loginUser.setEquippedBunnyBob(true);
                         db.ourDao().updateBunny(true, loginUser.getEmail());
-                        db.ourDao().updateBlue(false, loginUser.getEmail());
-                        db.ourDao().updateJungle(false, loginUser.getEmail());
-                        contShopBunnyBob = 0;
-                        contShopBlueBob = 1;
-                        contShopJungleBob = 1;
                         db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyBunnyBob, loginUser.getMoney());
                         loginUser.setMoney(loginUser.getMoney() - moneyBunnyBob);
                         money.setText("" + loginUser.getMoney());
+                    }
+                    else if(loginUser.isBunnyBob()){
+                        bunnyBob.setColorFilter(Color.argb(100, 0, 0, 0));
+                        blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        bob.setColorFilter(Color.argb(0, 0, 0, 0));
+                        loginUser.setEquippedBunnyBob(true);
                     }
                     return false;
                 }
@@ -138,29 +148,38 @@ public class ShopActivity extends AppCompatActivity {
 
     private void initializeBobValue() {
         if(loginUser.getEmail()!=null){
-            if(db.ourDao().getBob(loginUser.getEmail())){
+            if(loginUser.isEquippedBob()){
                 bob.setColorFilter(Color.argb(100, 0, 0, 0));
                 blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
             }
-            if(db.ourDao().getBlue(loginUser.getEmail())){
+            if(loginUser.isEquippedBlueBob()){
                 bob.setColorFilter(Color.argb(0, 0, 0, 0));
                 blueBob.setColorFilter(Color.argb(100, 0, 0, 0));
                 jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
             }
-            else if(db.ourDao().getJungle(loginUser.getEmail())){
+            else if(loginUser.isEquippedJungleBob()){
                 bob.setColorFilter(Color.argb(0, 0, 0, 0));
                 blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 jungleBob.setColorFilter(Color.argb(100, 0, 0, 0));
                 bunnyBob.setColorFilter(Color.argb(0, 0, 0, 0));
             }
-            else if(db.ourDao().getBunny(loginUser.getEmail())){
+            else if(loginUser.isEquippedBunnyBob()){
                 bob.setColorFilter(Color.argb(0, 0, 0, 0));
                 blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 bunnyBob.setColorFilter(Color.argb(100, 0, 0, 0));
+            }
+            if(loginUser.isBlueBob()){
+                blueBob.setImageResource(R.drawable.shopbluebought);
+            }
+            if(loginUser.isJungleBob()){
+                jungleBob.setImageResource(R.drawable.shopjunglebought);
+            }
+            if(loginUser.isBunnyBob()){
+                bunnyBob.setImageResource(R.drawable.shopbunnybought);
             }
         }
     }
