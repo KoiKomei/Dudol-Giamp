@@ -28,7 +28,7 @@
     <string name="button_label_map">MAP</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDxn_pt1EHrqZ8utuFj_7yG2s4cKZeDAzQ</string>
-    <string name="register">Register</string>
+    <string name="register">Account</string>
     <string name="add_user">Add User</string>
     <string name="complete">Complete</string>
     <string name="password">Password</string>
@@ -39,7 +39,7 @@
     <string name="scores">SCORES</string>
     <string name="delete_account">Delete account</string>
     <string name="delete">Delete</string>
-    <string name="something">Something</string>
+    <string name="something"></string>
     <string name="bob">Bob</string>
     <string name="bluebob">BlueBob</string>
     <string name="junglebob">JungleBob</string>
@@ -54,5 +54,7 @@
     <string name="change_password">Change Password</string>
     <string name="new_password">New Password</string>
     <string name="old_password">Old Password</string>
+    <string name="login">Login</string>
+    <string name="money"></string>
 
 </resources>

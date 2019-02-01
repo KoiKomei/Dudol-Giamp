@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ilmale.doodlejump.database.OurDatabase;
@@ -77,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(myLocation.getLatLng()!=null){
             LatLng myPosition = myLocation.getLatLng();
             MarkerOptions marker = new MarkerOptions().position(myPosition).title(player+":"+points);
+            marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
         }
@@ -85,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.d(LOG_TAG, "Username:" + u.getUsername() + "Email:" + u.getEmail() + "Punteggio:" + u.getPunteggio() +"Lat:" + u.getLat() +"Longi:" + u.getLongi());
         }
         for(User u:users){
-            if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0){
+            if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0 && !u.getEmail().equalsIgnoreCase(loginUser.getEmail())){
                 player = u.getUsername();
                 points = u.getPunteggio();
                 LatLng position = new LatLng((float) u.getLat(), (float) u.getLat());

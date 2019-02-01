@@ -1,5 +1,6 @@
 package com.ilmale.doodlejump.view;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +15,9 @@ import android.view.SurfaceView;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
+import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.domain.Bullet;
+import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
 
@@ -44,6 +47,9 @@ public class GameView extends SurfaceView implements Runnable{
         // This is used to help calculate the fps
         private long timeThisFrame;
 
+        //database to get bob
+        public static OurDatabase db;
+
         // Declare an item of type Bitmap
         Bitmap bitmapBG;
         Bitmap bitmapBobLeft;
@@ -56,6 +62,13 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapJETPACK;
         Bitmap bitmapSPRINGS;
         Bitmap bitmapEnemy;
+
+        private boolean BlueBob=false;
+        private boolean JungleBob=false;
+        private boolean BunnyBob=false;
+
+        private LoginUser loginUser = LoginUser.getInstance();
+
 
         GameEngine gameEngine;
         private Constants constants = Constants.getInstance();
@@ -70,12 +83,40 @@ public class GameView extends SurfaceView implements Runnable{
             ourHolder = getHolder();
             paint = new Paint();
 
-            // Initialize bitmaps
+            db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
+
+            initializeBobValue();
+
+            // Initialize bitmaps of Bob
             bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
             bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobright);
             bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bobup);
             bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bobleftjet);
             bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bobrightjet);
+
+            if(BlueBob){
+                bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.blueleft);
+                bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.blueright);
+                bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.blueup);
+                bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.blueleftjet);
+                bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bluerightjet);
+            }
+            if(BunnyBob){
+                bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleft);
+                bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyright);
+                bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyup);
+                bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleftjet);
+                bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyrightjet);
+            }
+            if(JungleBob){
+                bitmapBobLeft = BitmapFactory.decodeResource(getResources(), R.drawable.jungleleft);
+                bitmapBobRight = BitmapFactory.decodeResource(getResources(), R.drawable.jungleright);
+                bitmapBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.jungleup);
+                bitmapBobJetLeft = BitmapFactory.decodeResource(getResources(), R.drawable.jungleleftjet);
+                bitmapBobJetRight = BitmapFactory.decodeResource(getResources(), R.drawable.junglerightjet);
+            }
+
+            // Initialize bitmaps
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
             bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
@@ -252,35 +293,6 @@ public class GameView extends SurfaceView implements Runnable{
 
         }
 
-        /*public void endGame(){
-            if (ourHolder.getSurface().isValid()) {
-
-                gameEngine.platforms.clear();
-
-                Log.d(LOG_TAG, "drawing");
-                // Lock the canvas ready to draw
-                // Make the drawing surface our canvas item
-                canvas = ourHolder.lockCanvas();
-
-                // Draw the background color
-                canvas.drawBitmap(bitmapBG, 0, 0, paint);
-
-                Paint gameOverPaint = new Paint();
-                gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
-                gameOverPaint.setTextAlign(Paint.Align.CENTER);
-                gameOverPaint.setTextSize(100);
-                canvas.drawText("GAME OVER", canvas.getWidth()/2, (canvas.getHeight() / 2) - 100, gameOverPaint);
-
-                Paint textPaint = new Paint();
-                textPaint.setColor(Color.argb(255, 249, 129, 0));
-                textPaint.setTextAlign(Paint.Align.CENTER);
-                textPaint.setTextSize(100);
-                canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
-
-                ourHolder.unlockCanvasAndPost(canvas);
-            }
-        }*/
-
         // If SimpleGameEngine Activity is paused/stopped/shutdown our thread.
         public void pause() {
             Log.d(LOG_TAG, "Pausing game");
@@ -309,5 +321,23 @@ public class GameView extends SurfaceView implements Runnable{
             return super.onTouchEvent(event);
         }
 
-
+    private void initializeBobValue() {
+        if(loginUser.getEmail()!=null){
+            if(loginUser.isEquippedBlueBob()){
+                BlueBob = true;
+                BunnyBob = false;
+                JungleBob = false;
+            }
+            else if(loginUser.isEquippedJungleBob()){
+                JungleBob = true;
+                BlueBob = false;
+                BunnyBob = false;
+            }
+            else if(loginUser.isEquippedBunnyBob()){
+                BunnyBob = true;
+                BlueBob = false;
+                JungleBob = false;
+            }
+        }
+    }
 }

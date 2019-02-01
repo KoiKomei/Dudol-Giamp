@@ -94,16 +94,16 @@ public interface OurDao {
     @Query("UPDATE Possiede SET bunny_bob=:newValue WHERE user_email=:email")
     public void updateBunny(boolean newValue, String email);
 
-    @Query("select bob from Possiede")
-    public boolean getBob();
+    @Query("select bob from Possiede WHERE user_email=:email")
+    public boolean getBob(String email);
 
-    @Query("select blue_bob from Possiede")
-    public boolean getBlue();
+    @Query("select blue_bob from Possiede WHERE user_email=:email")
+    public boolean getBlue(String email);
 
-    @Query("select jungle_bob from Possiede")
-    public boolean getJungle();
+    @Query("select jungle_bob from Possiede WHERE user_email=:email")
+    public boolean getJungle(String email);
 
-    @Query("select bunny_bob from Possiede")
-    public boolean getBunny();
+    @Query("select bunny_bob from Possiede WHERE user_email=:email")
+    public boolean getBunny(String email);
 
 }

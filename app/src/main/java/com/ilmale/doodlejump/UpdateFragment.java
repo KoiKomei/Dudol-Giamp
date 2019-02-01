@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ilmale.doodlejump.database.User;
+import com.ilmale.doodlejump.domain.LoginUser;
 
 
 /**
@@ -19,6 +20,7 @@ public class UpdateFragment extends Fragment {
 
     private EditText userEmail, userPassword, newPass;
     private Button bnUpdate;
+    private LoginUser loginUser = LoginUser.getInstance();
 
     public UpdateFragment() {
         // Required empty public constructor
@@ -46,6 +48,7 @@ public class UpdateFragment extends Fragment {
                 userEmail.setText("");
                 userPassword.setText("");
                 newPass.setText("");
+                loginUser.setPassword(newp);
 
             }
 
