@@ -25,7 +25,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShopActivity"></activity>
+        <activity android:name=".LoadActivity"></activity>
+        <activity
+            android:name=".MultiActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_multi"
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".ShopActivity" />
         <activity
             android:name=".ScoreActivity"
             android:label="@string/title_activity_score"

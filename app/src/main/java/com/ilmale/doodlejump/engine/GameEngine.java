@@ -23,7 +23,7 @@ public class GameEngine {
     // gameView will be the view of the game
     // and respond to screen touches as well
     //GameView gameView;
-    private long lastUpdate;
+    protected long lastUpdate;
 
     List<AbstractGameObject> objects = new ArrayList<>();
 
@@ -36,15 +36,16 @@ public class GameEngine {
     public Jetpack jetpack;
     public Enemy enemy;
 
-    private Constants constants = Constants.getInstance();
-    private Records records = Records.getInstance();
-    private AudioManager audioManager = AudioManager.getInstance();
+    protected Constants constants = Constants.getInstance();
+    protected Records records = Records.getInstance();
+    protected AudioManager audioManager = AudioManager.getInstance();
 
-    private boolean gameOver = false;
+    protected boolean gameOver = false;
 
-    private int jumpForce = 40;
+    protected int jumpForce = 40;
 
     public GameEngine(){
+
         lastUpdate = System.currentTimeMillis();
 
         player = new Player();
@@ -123,7 +124,7 @@ public class GameEngine {
         player.updateControls();
     }
 
-    private boolean collide(AbstractGameObject obj1, AbstractGameObject obj2) {
+    protected boolean collide(AbstractGameObject obj1, AbstractGameObject obj2) {
         float x11 = obj1.getpX();
         float x12 = x11 + obj1.getWidth();
         float x21 = obj2.getpX();
@@ -138,7 +139,7 @@ public class GameEngine {
         return false;
     }
 
-    private boolean collidesFromAbove(AbstractGameObject obj1, AbstractGameObject obj2) {
+    protected boolean collidesFromAbove(AbstractGameObject obj1, AbstractGameObject obj2) {
         float x11 = obj1.getpX();
         float x12 = x11 + obj1.getWidth();
         float x21 = obj2.getpX();

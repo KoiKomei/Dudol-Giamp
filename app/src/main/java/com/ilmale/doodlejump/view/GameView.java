@@ -63,16 +63,16 @@ public class GameView extends SurfaceView implements Runnable{
         Bitmap bitmapSPRINGS;
         Bitmap bitmapEnemy;
 
-        private boolean BlueBob=false;
-        private boolean JungleBob=false;
-        private boolean BunnyBob=false;
+        protected boolean BlueBob=false;
+        protected boolean JungleBob=false;
+        protected boolean BunnyBob=false;
 
-        private LoginUser loginUser = LoginUser.getInstance();
+        protected LoginUser loginUser = LoginUser.getInstance();
 
 
         GameEngine gameEngine;
-        private Constants constants = Constants.getInstance();
-        private Records records = Records.getInstance();
+        protected Constants constants = Constants.getInstance();
+        protected Records records = Records.getInstance();
 
         public GameView(Context context, GameEngine engine) {
             super(context);
@@ -140,6 +140,7 @@ public class GameView extends SurfaceView implements Runnable{
 
         @Override
         public void run() {
+            //QUESTO FIXA IL BUG DELL INSTANT GAMEOVER
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
