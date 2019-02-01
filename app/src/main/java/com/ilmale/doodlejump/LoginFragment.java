@@ -55,7 +55,7 @@ public class LoginFragment extends Fragment {
                         Log.d(LOG_TAG, "Dentro all'if");
                         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
                         login=true;
-                        setLoginUser(us);
+                        loginUser.setLoginUser(us);
                         break;
                     }
                     else{
@@ -71,16 +71,6 @@ public class LoginFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private void setLoginUser(User us) {
-        loginUser.setEmail(us.getEmail());
-        loginUser.setUsername(us.getUsername());
-        loginUser.setPassword(us.getPassword());
-        loginUser.setMoney(us.getMoney());
-        loginUser.setPunteggio(us.getPunteggio());
-        loginUser.setLat(us.getLat());
-        loginUser.setLongi(us.getLongi());
     }
 
 }

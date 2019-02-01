@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.ilmale.doodlejump.database.ItemHandler;
+import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
@@ -44,10 +46,13 @@ public class MainActivity extends AppCompatActivity {
     AudioManager audioManager = AudioManager.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     Records records = Records.getInstance();
+    LoginUser loginUser = LoginUser.getInstance();
     ItemHandler dataHandler = new ItemHandler();
 
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
+
+    private Button account;
 
     private LatLng latLng;
 
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+        account = this.findViewById(R.id.button_account);
+        checkLogin();
         audioManager.create(this);
         records.initializeRecords(this);
         for(Integer i: records.getRecords()){
@@ -63,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setDimension();
+    }
+
+    private void checkLogin() {
+        loginUser.initializeLoginUser(this);
+        if(loginUser.getEmail()!=null){
+            account.setText(loginUser.getUsername());
+        }
+        else{
+            account.setText(R.string.register);
+        }
     }
 
     public void setDimension(){
@@ -228,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        checkLogin();
         initializeSettings();
         playMusic();
         if(checkMapServices()){

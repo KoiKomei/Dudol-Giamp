@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.ilmale.doodlejump.domain.LoginUser;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +19,8 @@ import android.widget.ImageButton;
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private Button BnRead, BnDelete;
-    private ImageButton BnRegister, BnUpdate, BnLogin;
+    private ImageButton BnRegister, BnUpdate, BnLogin, BnLogout;
+    private LoginUser loginUser = LoginUser.getInstance();
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -27,20 +31,25 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_register, container, false);
-        BnRegister=view.findViewById(R.id.bn_register);
-        BnRegister.setOnClickListener(this);
 
+        BnRegister=view.findViewById(R.id.bn_register);
         BnRead=view.findViewById(R.id.bn_read);
+        BnLogout=view.findViewById(R.id.bn_logout);
+        BnLogin=view.findViewById(R.id.bn_login);
+        BnDelete=view.findViewById(R.id.bn_delete);
+        BnUpdate=view.findViewById(R.id.bn_update);
+        BnRegister.setOnClickListener(this);
+        BnLogin.setOnClickListener(this);
+        BnLogout.setOnClickListener(this);
+        BnUpdate.setOnClickListener(this);
+        BnDelete.setOnClickListener(this);
         BnRead.setOnClickListener(this);
 
-        BnLogin=view.findViewById(R.id.bn_login);
-        BnLogin.setOnClickListener(this);
-
-        BnDelete=view.findViewById(R.id.bn_delete);
-        BnDelete.setOnClickListener(this);
-
-        BnUpdate=view.findViewById(R.id.bn_update);
-        BnUpdate.setOnClickListener(this);
+        if(loginUser.getEmail()!=null){
+            setLogoutUpdateButton(view);
+        }else{
+            setLoginRegisterButton(view);
+        }
 
         return view;
     }
@@ -63,7 +72,26 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             case R.id.bn_login:
                 RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new LoginFragment()).addToBackStack(null).commit();
                 break;
+            case R.id.bn_logout:
+                loginUser.logout();
+                setLoginRegisterButton(v);
+                break;
 
         }
     }
+
+    public void setLoginRegisterButton(View view){
+        BnRegister.setVisibility(view.VISIBLE);
+        BnLogin.setVisibility(view.VISIBLE);
+        BnLogout.setVisibility(view.INVISIBLE);
+        BnUpdate.setVisibility(view.INVISIBLE);
+
+    }
+    public void setLogoutUpdateButton(View view){
+        BnLogout.setVisibility(view.VISIBLE);
+        BnUpdate.setVisibility(view.VISIBLE);
+        BnRegister.setVisibility(view.INVISIBLE);
+        BnLogin.setVisibility(view.INVISIBLE);
+    }
+
 }

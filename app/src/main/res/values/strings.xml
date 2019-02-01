@@ -28,7 +28,7 @@
     <string name="button_label_map">MAP</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDxn_pt1EHrqZ8utuFj_7yG2s4cKZeDAzQ</string>
-    <string name="register">Register</string>
+    <string name="register">Account</string>
     <string name="add_user">Add User</string>
     <string name="complete">Complete</string>
     <string name="password">Password</string>
