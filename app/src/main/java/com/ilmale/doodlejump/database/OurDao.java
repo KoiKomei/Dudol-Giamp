@@ -52,6 +52,9 @@ public interface OurDao {
     @Query("UPDATE User set Longitudine=:newLong WHERE Email=:email")
     public void updateLong(double newLong, String email);
 
+    @Query("Select * from User WHERE Email=:email")
+    public User getUtente(String email);
+
     /*                */
     /*Roba del negozio*/
     /*                */
@@ -70,6 +73,15 @@ public interface OurDao {
 
     @Query("UPDATE Negozio SET Costo=:costo WHERE Id_oggetto=:id")
     public void updateCosto(int costo, int id);
+
+    @Query("select Costo from Negozio where Nome=:name")
+    public void getPrezzoBob(String name);
+    /*Nomi Bob attuali:
+    Bob
+    BlueBob
+    JungleBob
+    BunnyBob
+     */
 
 
     /*                                                 */
