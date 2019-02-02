@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setDimension();
+
+        mapsZoneChanged();
+        playNotify();
     }
 
     private void checkLogin() {
@@ -319,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
+
     public void launchMultiPlayerActivity(View view) {
         Log.d(LOG_TAG, "Button multi player clicked!");
         Intent intent = new Intent(this, MultiActivity.class);

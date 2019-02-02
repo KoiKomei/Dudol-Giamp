@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -12,16 +13,22 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.view.GameView;
 
 import java.security.PublicKey;
+
+import static android.view.View.INVISIBLE;
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -32,14 +39,12 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
 
     private Constants constants = Constants.getInstance();
-    private Records records = Records.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -47,6 +52,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         gameView = new GameView(this, engine);
         setContentView(gameView);
         constants.setPoints(0);
+
     }
 
     @Override

@@ -54,39 +54,39 @@ public class AddUserFragment extends Fragment {
                     }
 
                 }
-                    if(un) {
-                        User user = new User();
-                        user.setEmail(UserEmail);
-                        user.setPassword(UserPassword);
-                        user.setUsername(UserName);
-                        user.setMoney(0);
-                        user.setPunteggio(0);
-                        user.setLat(0);
-                        user.setLongi(0);
+                if(un) {
+                    User user = new User();
+                    user.setEmail(UserEmail);
+                    user.setPassword(UserPassword);
+                    user.setUsername(UserName);
+                    user.setMoney(0);
+                    user.setPunteggio(0);
+                    user.setLat(0);
+                    user.setLongi(0);
 
-                        Possiede pos = new Possiede();
+                    Possiede pos = new Possiede();
 
-                        pos.setEmail(UserEmail);
-                        pos.setBob(true);
-                        pos.setBluebob(false);
-                        pos.setJunglebob(false);
-                        pos.setBunnybob(false);
+                    pos.setEmail(UserEmail);
+                    pos.setBob(true);
+                    pos.setBluebob(false);
+                    pos.setJunglebob(false);
+                    pos.setBunnybob(false);
 
-                        RegisterActivity.db.ourDao().setUser(user);
-                        RegisterActivity.db.ourDao().setPossiede(pos);
-                        Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
+                    RegisterActivity.db.ourDao().setUser(user);
+                    RegisterActivity.db.ourDao().setPossiede(pos);
+                    Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
 
-                        userEmail.setText("");
-                        userName.setText("");
-                        userPassword.setText("");
-                    }
-                    else{
-                        Toast.makeText(getActivity(), "user already exists", Toast.LENGTH_SHORT).show();
-                        userEmail.setText("");
-                        userName.setText("");
-                        userPassword.setText("");
+                    userEmail.setText("");
+                    userName.setText("");
+                    userPassword.setText("");
+                }
+                else{
+                    Toast.makeText(getActivity(), "user already exists", Toast.LENGTH_SHORT).show();
+                    userEmail.setText("");
+                    userName.setText("");
+                    userPassword.setText("");
 
-                    }
+                }
 
 
             }

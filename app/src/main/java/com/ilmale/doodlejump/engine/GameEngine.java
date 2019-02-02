@@ -223,7 +223,6 @@ public class GameEngine {
 
     public void endGame(){
         if(!gameOver){
-            records.updateRecords();
             audioManager.playLose_audio();
         }
         gameOver=true;

@@ -11,6 +11,7 @@ public class Constants {
     private float pixelWidth=0;
     private float pixelHeight=0;
     private int points = 0;
+    private String name = null;
 
     private static final Constants ourInstance = new Constants();
 
@@ -42,5 +43,13 @@ public class Constants {
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

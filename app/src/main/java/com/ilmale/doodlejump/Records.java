@@ -28,24 +28,26 @@ public class Records {
     }
 
     private List<Integer> records;
+    private List<String> sRecords;
 
     public LoginUser loginUser = LoginUser.getInstance();
 
     public Records() {
         records = new ArrayList<Integer>();
+        sRecords = new ArrayList<String>();
     }
 
     public List<Integer> getRecords() {
         return records;
     }
 
+    public List<String> getSRecords() {
+        return sRecords;
+    }
+
     Context context;
 
     public static OurDatabase db;
-
-    public void setRecords(List<Integer> records) {
-        this.records = records;
-    }
 
     public void initializeRecords(Context context) {
         this.context=context;
@@ -55,18 +57,30 @@ public class Records {
         int third = pref.getInt("third", 0);
         int fourth = pref.getInt("fourth", 0);
         int fifth = pref.getInt("fifth", 0);
+        String sFirst = pref.getString("sfirst", "");
+        String sSecond = pref.getString("ssecond", "");
+        String sThird = pref.getString("sthird", "");
+        String sFourth = pref.getString("sfourth", "");
+        String sFifth = pref.getString("sfifth", "");
         records.add(first);
         records.add(second);
         records.add(third);
         records.add(fourth);
         records.add(fifth);
+        sRecords.add(sFirst);
+        sRecords.add(sSecond);
+        sRecords.add(sThird);
+        sRecords.add(sFourth);
+        sRecords.add(sFifth);
     }
 
     public void updateRecords() {
         records.add(constants.getPoints());
-        Collections.sort(records, Collections.reverseOrder());
+        sRecords.add(constants.getName());
+        sortRecords();
         if(records.size()>5){
             records.remove(records.size()-1);
+            sRecords.remove(sRecords.size()-1);
         }
         final SharedPreferences pref = context.getSharedPreferences("RECORDS_PREF", context.MODE_PRIVATE);
         final SharedPreferences.Editor editorPref = pref.edit();
@@ -75,20 +89,42 @@ public class Records {
         editorPref.putInt("third", records.get(2));
         editorPref.putInt("fourth", records.get(3));
         editorPref.putInt("fifth", records.get(4));
+        editorPref.putString("sfirst", sRecords.get(0));
+        editorPref.putString("ssecond", sRecords.get(1));
+        editorPref.putString("sthird", sRecords.get(2));
+        editorPref.putString("sfourth", sRecords.get(3));
+        editorPref.putString("sfifth", sRecords.get(4));
         editorPref.commit();
 
         if(loginUser.getEmail()!=null) {
             db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
-            db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
-            db.ourDao().updateLat( myLocation.getLatLng().latitude, loginUser.getEmail());
-            db.ourDao().updateLong( myLocation.getLatLng().longitude, loginUser.getEmail());
-            loginUser.setPunteggio(records.get(0));
-            loginUser.setLat(myLocation.getLatLng().latitude);
-            loginUser.setLongi(myLocation.getLatLng().longitude);
+            if(records.get(0)>loginUser.getPunteggio() && sRecords.get(0).equalsIgnoreCase(loginUser.getUsername())) {
+                db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
+                db.ourDao().updateLat(myLocation.getLatLng().latitude, loginUser.getEmail());
+                db.ourDao().updateLong(myLocation.getLatLng().longitude, loginUser.getEmail());
+                loginUser.setPunteggio(records.get(0));
+                loginUser.setLat(myLocation.getLatLng().latitude);
+                loginUser.setLongi(myLocation.getLatLng().longitude);
+            }
             int oldValue = loginUser.getMoney();
             int newValue = oldValue + constants.getPoints()/10;
             db.ourDao().updateMoney(loginUser.getEmail(), newValue, oldValue);
             loginUser.setMoney(newValue);
+        }
+    }
+
+    private void sortRecords() {
+        for(int i=0; i<records.size(); i++) {
+            for (int j = i+1; j < records.size(); j++) {
+                if(records.get(j)>records.get(i)){
+                    int temp = records.get(i);
+                    String tempS = sRecords.get(i);
+                    records.set(i, records.get(j));
+                    sRecords.set(i, sRecords.get(j));
+                    records.set(j, temp);
+                    sRecords.set(j,tempS);
+                }
+            }
         }
     }
 

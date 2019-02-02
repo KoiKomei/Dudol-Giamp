@@ -2,6 +2,7 @@ package com.ilmale.doodlejump.view;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,6 +14,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.EndGameActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.database.OurDatabase;
@@ -23,7 +25,7 @@ import com.ilmale.doodlejump.engine.GameEngine;
 
 public class GameView extends SurfaceView implements Runnable{
 
-    private static final String LOG_TAG = GameView.class.getSimpleName();
+        private static final String LOG_TAG = GameView.class.getSimpleName();
 
         // This is our thread
         Thread gameThread = null;
@@ -182,24 +184,8 @@ public class GameView extends SurfaceView implements Runnable{
                 canvas = ourHolder.lockCanvas();
 
                 if (gameEngine.isGameOver()) {
-
-                    gameEngine.platforms.clear();//todo schifo
-
-                    // Draw the background
-                    canvas.drawBitmap(bitmapBG, 0, 0, paint);
-
-                    Paint gameOverPaint = new Paint();
-                    gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
-                    gameOverPaint.setTextAlign(Paint.Align.CENTER);
-                    gameOverPaint.setTextSize(100);
-                    canvas.drawText("GAME OVER", canvas.getWidth() / 2, (canvas.getHeight() / 2) - 100, gameOverPaint);
-
-                    Paint textPaint = new Paint();
-                    textPaint.setColor(Color.argb(255, 249, 129, 0));
-                    textPaint.setTextAlign(Paint.Align.CENTER);
-                    textPaint.setTextSize(100);
-                    canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
-
+                    Intent intent = new Intent(getContext(), EndGameActivity.class);
+                    getContext().startActivity(intent);
                 }
 
                 else {
@@ -341,4 +327,7 @@ public class GameView extends SurfaceView implements Runnable{
             }
         }
     }
+
+
+
 }

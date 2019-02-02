@@ -74,6 +74,7 @@ public interface OurDao {
     @Query("UPDATE Negozio SET Costo=:costo WHERE Id_oggetto=:id")
     public void updateCosto(int costo, int id);
 
+    /*
     @Query("select Costo from Negozio where Nome=:name")
     public void getPrezzoBob(String name);
     /*Nomi Bob attuali:
