@@ -23,6 +23,8 @@ public class Records {
 
     private static final Records ourInstance = new Records();
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     public static Records getInstance() {
         return ourInstance;
     }
@@ -75,26 +77,49 @@ public class Records {
     }
 
     public void updateRecords() {
+        Log.d(LOG_TAG, "-------------BEFORE ADDING--------------");
+
+        for(int i=0; i<sRecords.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
+        }
+        for(int i=0; i<records.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
+        }
+
         records.add(constants.getPoints());
         sRecords.add(constants.getName());
+
+        Log.d(LOG_TAG, "-------------BEFORE SORTING--------------");
+        for(int i=0; i<sRecords.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
+        }
+        for(int i=0; i<records.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
+        }
+
+
         sortRecords();
+
+        Log.d(LOG_TAG, "-------------BEFORE REMOVING--------------");
+        for(int i=0; i<sRecords.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
+        }
+        for(int i=0; i<records.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
+        }
+
         if(records.size()>5){
             records.remove(records.size()-1);
             sRecords.remove(sRecords.size()-1);
         }
-        final SharedPreferences pref = context.getSharedPreferences("RECORDS_PREF", context.MODE_PRIVATE);
-        final SharedPreferences.Editor editorPref = pref.edit();
-        editorPref.putInt("first", records.get(0));
-        editorPref.putInt("second", records.get(1));
-        editorPref.putInt("third", records.get(2));
-        editorPref.putInt("fourth", records.get(3));
-        editorPref.putInt("fifth", records.get(4));
-        editorPref.putString("sfirst", sRecords.get(0));
-        editorPref.putString("ssecond", sRecords.get(1));
-        editorPref.putString("sthird", sRecords.get(2));
-        editorPref.putString("sfourth", sRecords.get(3));
-        editorPref.putString("sfifth", sRecords.get(4));
-        editorPref.commit();
+
+        Log.d(LOG_TAG, "-------------AFTER REMOVING--------------");
+        for(int i=0; i<sRecords.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
+        }
+        for(int i=0; i<records.size(); i++){
+            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
+        }
 
         if(loginUser.getEmail()!=null) {
             db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
@@ -111,6 +136,21 @@ public class Records {
             db.ourDao().updateMoney(loginUser.getEmail(), newValue, oldValue);
             loginUser.setMoney(newValue);
         }
+
+        final SharedPreferences pref = context.getSharedPreferences("RECORDS_PREF", context.MODE_PRIVATE);
+        final SharedPreferences.Editor editorPref = pref.edit();
+        editorPref.putInt("first", records.get(0));
+        editorPref.putInt("second", records.get(1));
+        editorPref.putInt("third", records.get(2));
+        editorPref.putInt("fourth", records.get(3));
+        editorPref.putInt("fifth", records.get(4));
+        editorPref.putString("sfirst", sRecords.get(0));
+        editorPref.putString("ssecond", sRecords.get(1));
+        editorPref.putString("sthird", sRecords.get(2));
+        editorPref.putString("sfourth", sRecords.get(3));
+        editorPref.putString("sfifth", sRecords.get(4));
+        editorPref.commit();
+
     }
 
     private void sortRecords() {
@@ -118,11 +158,11 @@ public class Records {
             for (int j = i+1; j < records.size(); j++) {
                 if(records.get(j)>records.get(i)){
                     int temp = records.get(i);
-                    String tempS = sRecords.get(i);
                     records.set(i, records.get(j));
-                    sRecords.set(i, sRecords.get(j));
                     records.set(j, temp);
-                    sRecords.set(j,tempS);
+                    String tempS = sRecords.get(i);
+                    sRecords.set(i, sRecords.get(j));
+                    sRecords.set(j, tempS);
                 }
             }
         }

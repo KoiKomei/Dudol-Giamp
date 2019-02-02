@@ -13,6 +13,8 @@ import com.ilmale.doodlejump.domain.LoginUser;
 
 public class EndGameActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     public EditText name;
     public Button save, playAgain, exit;
     public TextView points;
@@ -21,10 +23,14 @@ public class EndGameActivity extends AppCompatActivity {
     private Records records = Records.getInstance();
     private Constants constants = Constants.getInstance();
 
+    boolean clicked;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
+
+        clicked=false;
 
         name = findViewById(R.id.nameText);
         save = findViewById(R.id.save);
@@ -38,11 +44,14 @@ public class EndGameActivity extends AppCompatActivity {
         constants.setName(name.getText().toString());
 
     }
-    public void updateRecords(View view){
-        constants.setName(name.getText().toString());
-        records.updateRecords();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+    public void updateRecords(View view) {
+        if(!clicked){
+            clicked=true;
+            constants.setName(name.getText().toString());
+            records.updateRecords();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void launchSinglePlayerActivity(View view) {
