@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
     private LatLng latLng;
 
+    private boolean active=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -310,6 +312,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() { }
 
     public void launchOptionsActivity(View view) {
         Log.d(LOG_TAG, "Button options clicked!");

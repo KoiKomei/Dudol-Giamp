@@ -98,11 +98,11 @@ public class Records {
 
         if(loginUser.getEmail()!=null) {
             db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
-            if(records.get(0)>loginUser.getPunteggio() && sRecords.get(0).equalsIgnoreCase(loginUser.getUsername())) {
-                db.ourDao().updatePunteggio(records.get(0), loginUser.getEmail());
+            if(constants.getPoints()>loginUser.getPunteggio()) {
+                db.ourDao().updatePunteggio(constants.getPoints(), loginUser.getEmail());
                 db.ourDao().updateLat(myLocation.getLatLng().latitude, loginUser.getEmail());
                 db.ourDao().updateLong(myLocation.getLatLng().longitude, loginUser.getEmail());
-                loginUser.setPunteggio(records.get(0));
+                loginUser.setPunteggio(constants.getPoints());
                 loginUser.setLat(myLocation.getLatLng().latitude);
                 loginUser.setLongi(myLocation.getLatLng().longitude);
             }
