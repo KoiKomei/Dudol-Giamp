@@ -29,6 +29,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.ilmale.doodlejump.NotificationSystem.MapsZoneChanged;
+import com.ilmale.doodlejump.NotificationSystem.PlayNotify;
 import com.ilmale.doodlejump.database.ItemHandler;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
@@ -345,6 +347,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Scoreboard clicked!");
         Intent intent=new Intent(this, ShopActivity.class);
         startActivity(intent);
+    }
+
+    public void mapsZoneChanged(){
+        MapsZoneChanged.notify(this);
+    }
+
+    public void playNotify() {
+        PlayNotify.notify(this);
     }
 
 }

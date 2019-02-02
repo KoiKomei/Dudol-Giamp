@@ -1,4 +1,4 @@
-package com.ilmale.doodlejump;
+package com.ilmale.doodlejump.NotificationSystem;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -13,15 +13,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.ilmale.doodlejump.MainActivity;
+import com.ilmale.doodlejump.R;
+
 
 public class MapsZoneChanged {
 
     private static final String NOTIFICATION_TAG = "MapsZoneChanged";
 
-    public static void notify(final Context context, final int number) {
+    public static void notify(final Context context) {
         final Resources res = context.getResources();
-
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
 
         final String title = res.getString(R.string.maps_zone_changed_notification_title);
         final String text = res.getString(R.string.maps_zone_changed_notification_text);
@@ -47,26 +48,6 @@ public class MapsZoneChanged {
                         .setBigContentTitle(title)
                         .setSummaryText("Dummy summary text"))
 
-                // Example additional actions for this notification. These will
-                // only show on devices running Android 4.1 or later, so you
-                // should ensure that the activity in this notification's
-                // content intent provides access to the same actions in
-                // another way.
-                .addAction(
-                        R.drawable.ic_action_stat_share,
-                        res.getString(R.string.action_share),
-                        PendingIntent.getActivity(
-                                context,
-                                0,
-                                Intent.createChooser(new Intent(Intent.ACTION_SEND)
-                                        .setType("text/plain")
-                                        .putExtra(Intent.EXTRA_TEXT, "Dummy text"), "Dummy title"),
-                                PendingIntent.FLAG_UPDATE_CURRENT))
-                .addAction(
-                        R.drawable.ic_action_stat_reply,
-                        res.getString(R.string.action_reply),
-                        null)
-
                 // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
 
@@ -75,8 +56,7 @@ public class MapsZoneChanged {
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     private static void notify(final Context context, final Notification notification) {
-        final NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
             nm.notify(NOTIFICATION_TAG, 0, notification);
         } else {
@@ -86,8 +66,7 @@ public class MapsZoneChanged {
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     public static void cancel(final Context context) {
-        final NotificationManager nm = (NotificationManager) context
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        final NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
             nm.cancel(NOTIFICATION_TAG, 0);
         } else {
