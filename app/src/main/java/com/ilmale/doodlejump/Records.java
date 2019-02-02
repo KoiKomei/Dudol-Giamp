@@ -52,7 +52,7 @@ public class Records {
     public static OurDatabase db;
 
     public void initializeRecords(Context context) {
-        this.context=context;
+        this.context = context;
         final SharedPreferences pref = context.getSharedPreferences("RECORDS_PREF", MODE_PRIVATE);
         int first = pref.getInt("first", 0);
         int second = pref.getInt("second", 0);
@@ -77,53 +77,19 @@ public class Records {
     }
 
     public void updateRecords() {
-        Log.d(LOG_TAG, "-------------BEFORE ADDING--------------");
 
-        for(int i=0; i<sRecords.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
-        }
-        for(int i=0; i<records.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
-        }
+        int points = constants.getPoints();
+        String name = constants.getName();
+        int pos = -1;
 
-        records.add(constants.getPoints());
-        sRecords.add(constants.getName());
-
-        Log.d(LOG_TAG, "-------------BEFORE SORTING--------------");
-        for(int i=0; i<sRecords.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
-        }
-        for(int i=0; i<records.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
+        pos = findPosition(points);
+        if (pos >= 0) {
+            shiftRecords(pos, points, name);
         }
 
-
-        sortRecords();
-
-        Log.d(LOG_TAG, "-------------BEFORE REMOVING--------------");
-        for(int i=0; i<sRecords.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
-        }
-        for(int i=0; i<records.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
-        }
-
-        if(records.size()>5){
-            records.remove(records.size()-1);
-            sRecords.remove(sRecords.size()-1);
-        }
-
-        Log.d(LOG_TAG, "-------------AFTER REMOVING--------------");
-        for(int i=0; i<sRecords.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+sRecords.get(i) );
-        }
-        for(int i=0; i<records.size(); i++){
-            Log.d(LOG_TAG, (i+1)+" "+records.get(i) );
-        }
-
-        if(loginUser.getEmail()!=null) {
-            db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
-            if(constants.getPoints()>loginUser.getPunteggio()) {
+        if (loginUser.getEmail() != null) {
+            db = Room.databaseBuilder(context, OurDatabase.class, "userdb").allowMainThreadQueries().build();
+            if (constants.getPoints() > loginUser.getPunteggio()) {
                 db.ourDao().updatePunteggio(constants.getPoints(), loginUser.getEmail());
                 db.ourDao().updateLat(myLocation.getLatLng().latitude, loginUser.getEmail());
                 db.ourDao().updateLong(myLocation.getLatLng().longitude, loginUser.getEmail());
@@ -132,7 +98,7 @@ public class Records {
                 loginUser.setLongi(myLocation.getLatLng().longitude);
             }
             int oldValue = loginUser.getMoney();
-            int newValue = oldValue + constants.getPoints()/10;
+            int newValue = oldValue + constants.getPoints() / 10;
             db.ourDao().updateMoney(loginUser.getEmail(), newValue, oldValue);
             loginUser.setMoney(newValue);
         }
@@ -153,19 +119,22 @@ public class Records {
 
     }
 
-    private void sortRecords() {
-        for(int i=0; i<records.size(); i++) {
-            for (int j = i+1; j < records.size(); j++) {
-                if(records.get(j)>records.get(i)){
-                    int temp = records.get(i);
-                    records.set(i, records.get(j));
-                    records.set(j, temp);
-                    String tempS = sRecords.get(i);
-                    sRecords.set(i, sRecords.get(j));
-                    sRecords.set(j, tempS);
-                }
+    private void shiftRecords(int pos, int points, String name) {
+        for (int i = records.size() - 1; i > pos; i--) {
+            records.set(i, records.get(i - 1));
+            sRecords.set(i, sRecords.get(i - 1));
+        }
+        records.set(pos, points);
+        sRecords.set(pos, name);
+    }
+
+    private int findPosition(int points){
+        for (int i = 0; i < records.size(); i++) {
+            if (points > records.get(i)) {
+                return i;
             }
         }
+        return -1;
     }
 
 }
