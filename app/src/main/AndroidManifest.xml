@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ilmale.doodlejump">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -25,7 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoadActivity"></activity>
+        <activity android:name=".LoadActivity" />
         <activity
             android:name=".MultiActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
