@@ -6,7 +6,6 @@ import android.graphics.Paint;
 
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
-import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.engine.MultiEngine;
 
 public class MultiGameView extends GameView {

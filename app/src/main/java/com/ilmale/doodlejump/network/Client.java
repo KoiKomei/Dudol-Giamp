@@ -40,16 +40,17 @@ public class Client {
 
             Log.d(LOG_TAG,"Stiamo per partire");
 
+
+//            ReaderThreadUtil read = new ReaderThreadUtil();
+//            read.start();
+//
+//            while (!canStart){
+//                Thread.sleep(100);
+//            }
+//
+//            read.interrupt();
+
             // exchanging information between client and server
-            ReaderThreadUtil read = new ReaderThreadUtil();
-            read.start();
-
-            while (!canStart){
-                Thread.sleep(100);
-            }
-
-            read.interrupt();
-
             ReaderThread reader = new ReaderThread();
             WriterThread write = new WriterThread();
             reader.start(); write.start();
