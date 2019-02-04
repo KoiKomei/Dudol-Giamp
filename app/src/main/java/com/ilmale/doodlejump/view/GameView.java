@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.EndGameActivity;
+import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.database.OurDatabase;
@@ -119,7 +120,9 @@ public class GameView extends SurfaceView implements Runnable{
             }
 
             // Initialize bitmaps
-            bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            //bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            initializeBG();
+
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
             bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
             bitmapSPRINGS = BitmapFactory.decodeResource(getResources(), R.drawable.molla);
@@ -138,6 +141,22 @@ public class GameView extends SurfaceView implements Runnable{
             gameEngine.jetpack.setWidth(bitmapJETPACK.getHeight());
 
             playing = true;
+        }
+
+        private void initializeBG() {
+            String weather = MainActivity.weather;
+            if(weather.equalsIgnoreCase("Rain")){
+                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundrain);
+            }
+            else if(weather.equalsIgnoreCase("Snow")){
+                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsnow);
+            }
+            else if(weather.equalsIgnoreCase("Clouds")){
+                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcloud);
+            }
+            else{
+                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsun);
+            }
         }
 
         @Override

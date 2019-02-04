@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -38,6 +40,14 @@ import com.ilmale.doodlejump.domain.MyLocation;
 import com.ilmale.doodlejump.services.LocationService;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import static com.ilmale.doodlejump.Constants.ERROR_DIALOG_REQUEST;
 import static com.ilmale.doodlejump.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.ilmale.doodlejump.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
@@ -58,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
     private OurDatabase db;
 
+    JSONObject data = null;
+    public static String weather = "";
+
     private Button account;
 
     private LatLng latLng;
@@ -68,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         account = this.findViewById(R.id.button_account);
-        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         checkLogin();
         audioManager.create(this);
         records.initializeRecords(this);
@@ -114,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(LOG_TAG, "OnComplete: latitude: "+ latLng.latitude);
                     Log.d(LOG_TAG, "OnComplete: longitude: "+ latLng.longitude);
                     startLocationService();
+                    getJSON(latLng);
                 }
             }
         });
@@ -379,5 +393,61 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(LOG_TAG, "isLocationServiceRunning: location service is not running.");
         return false;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void getJSON(final LatLng latLng) {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+
+                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?lat="+latLng.latitude+"&lon="+latLng.longitude+"&APPID=ea574594b9d36ab688642d5fbeab847e");
+
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    StringBuffer json = new StringBuffer(1024);
+                    String tmp = "";
+
+                    while((tmp = reader.readLine()) != null)
+                        json.append(tmp).append("\n");
+                    reader.close();
+
+                    data = new JSONObject(json.toString());
+                    JSONArray arrayWeather =  data.getJSONArray("weather");
+                    JSONObject wObject = arrayWeather.getJSONObject(0);
+                    weather = wObject.getString("main");
+
+                    if(data.getInt("cod") != 200) {
+                        System.out.println("Cancelled");
+                        return null;
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Exception "+ e.getMessage());
+                    return null;
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void Void) {
+                if(data!=null){
+                    Log.d("my weather received",weather);
+                }
+
+            }
+        }.execute();
+
     }
 }
