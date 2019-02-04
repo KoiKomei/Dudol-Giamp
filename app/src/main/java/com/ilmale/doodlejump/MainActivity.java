@@ -1,7 +1,9 @@
 package com.ilmale.doodlejump;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,11 +31,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.ilmale.doodlejump.NotificationSystem.MapsZoneChanged;
-import com.ilmale.doodlejump.NotificationSystem.PlayNotify;
 import com.ilmale.doodlejump.database.ItemHandler;
+import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
+import com.ilmale.doodlejump.services.LocationService;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
 import static com.ilmale.doodlejump.Constants.ERROR_DIALOG_REQUEST;
@@ -54,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
 
+    private OurDatabase db;
+
     private Button account;
 
     private LatLng latLng;
-
-    private boolean active=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         account = this.findViewById(R.id.button_account);
+        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         checkLogin();
         audioManager.create(this);
         records.initializeRecords(this);
@@ -75,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setDimension();
 
-        mapsZoneChanged();
-        playNotify();
     }
 
     private void checkLogin() {
@@ -112,12 +113,11 @@ public class MainActivity extends AppCompatActivity {
                     myLocation.setLatLng(latLng);
                     Log.d(LOG_TAG, "OnComplete: latitude: "+ latLng.latitude);
                     Log.d(LOG_TAG, "OnComplete: longitude: "+ latLng.longitude);
+                    startLocationService();
                 }
-
             }
         });
     }
-
     private boolean checkMapServices(){
         if(isServicesOK()){
             if(isMapsEnabled()){
@@ -358,12 +358,26 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void mapsZoneChanged(){
-        MapsZoneChanged.notify(this);
+    private void startLocationService(){
+        if(!isLocationServiceRunning()){
+            Intent serviceIntent = new Intent(this, LocationService.class);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
+                MainActivity.this.startForegroundService(serviceIntent);
+            }else{
+                startService(serviceIntent);
+            }
+        }
     }
 
-    public void playNotify() {
-        PlayNotify.notify(this);
+    private boolean isLocationServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if("com.codingwithmitch.googledirectionstest.services.LocationService".equals(service.service.getClassName())) {
+                Log.d(LOG_TAG, "isLocationServiceRunning: location service is already running.");
+                return true;
+            }
+        }
+        Log.d(LOG_TAG, "isLocationServiceRunning: location service is not running.");
+        return false;
     }
-
 }
