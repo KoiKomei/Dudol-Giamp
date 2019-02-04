@@ -92,6 +92,7 @@ public class GameEngine {
 
         if (player.getpY() < constants.getPixelHeight()/3) {
             player.setpY(constants.getPixelHeight()/3);
+            constants.setPoints(constants.getPoints() - (int)player.getyS());
             for(Platform p: platforms){
                 p.setyS(player.getyS());
                 p.update();

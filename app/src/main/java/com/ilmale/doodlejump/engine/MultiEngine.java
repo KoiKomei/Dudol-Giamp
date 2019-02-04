@@ -8,13 +8,13 @@ import com.ilmale.doodlejump.network.Client;
 public class MultiEngine extends GameEngine {
 
     public RemotePlayer player2;
-    public Client c;
+    public Client client;
 
     public MultiEngine(){
         super();
 
         player2 = new RemotePlayer();
-        Client client = new Client(player, player2);
+        client = new Client(player, player2);
         client.start();
 
     }
@@ -58,6 +58,7 @@ public class MultiEngine extends GameEngine {
 
         if (player.getpY() < constants.getPixelHeight()/3) {
             player.setpY(constants.getPixelHeight()/3);
+            constants.setPoints(constants.getPoints() - (int)player.getyS());
             for(Platform p: platforms){
                 p.setyS(player.getyS());
                 p.update();
@@ -84,6 +85,16 @@ public class MultiEngine extends GameEngine {
             contatore = 0;
         }
         contatore++;
+    }
+
+    @Override
+    public void endGame(){
+        if(!gameOver){
+            audioManager.playLose_audio();
+        }
+        client.setIsGameOver(true);
+        gameOver = true;
+        //c.setIsGameOver(true);
     }
 
 }

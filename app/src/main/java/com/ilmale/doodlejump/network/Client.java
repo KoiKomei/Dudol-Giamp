@@ -2,6 +2,7 @@ package com.ilmale.doodlejump.network;
 
 import android.util.Log;
 
+import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.domain.Player;
 import com.ilmale.doodlejump.domain.RemotePlayer;
 
@@ -10,9 +11,11 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Client {
+public class Client extends Thread{
 
     private static final String LOG_TAG = Client.class.getSimpleName();
+
+    private Constants constants = Constants.getInstance();
 
     private Player localplayer;
     private RemotePlayer remoteplayer;
@@ -20,25 +23,37 @@ public class Client {
     BufferedReader dis;
     PrintWriter dos;
 
+    //WriterThread write;
+    ReaderThread reader;
+
+    public boolean isGameOver;
+    boolean shutdown = false; //variabile di controllo del thread writer sul thread reader
+
     private boolean canStart = false;
 
     public Client(Player p1, RemotePlayer p2){
+        isGameOver = false;
         localplayer = p1;
         remoteplayer = p2;
     }
 
-    public void start() {
+    public void setIsGameOver(boolean value){
+        this.isGameOver = value;
+    }
+
+    @Override
+    public void run() { //public void start(){
 
         try {
 
             // establish the connection with server port 5555
-            s = new Socket("95.235.197.88", 5555);
+            s = new Socket("95.238.119.125", 5555);
 
             // obtaining input and out streams
             dis = new BufferedReader(new InputStreamReader(s.getInputStream()));
             dos = new PrintWriter(s.getOutputStream(), true);
 
-            Log.d(LOG_TAG,"Stiamo per partire");
+            Log.d(LOG_TAG,"Stiamo per startare WriterThread e ReadeThread");
 
 
 //            ReaderThreadUtil read = new ReaderThreadUtil();
@@ -51,33 +66,26 @@ public class Client {
 //            read.interrupt();
 
             // exchanging information between client and server
-            ReaderThread reader = new ReaderThread();
-            WriterThread write = new WriterThread();
-            reader.start(); write.start();
+            reader = new ReaderThread();
+            //write = new WriterThread();
+            reader.start(); //write.start();
 
-        } catch(Exception e) {
+            while (!shutdown) {
 
-            e.printStackTrace();
-
-        }
-    }
-
-
-
-    private class WriterThread extends Thread {
-
-        public void run() {
-
-            while (true) {
-
-                long yourmilliseconds = System.currentTimeMillis();
-                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
-                Date resultdate = new Date(yourmilliseconds);
-
-                String tosend = sdf.format(resultdate);
-                dos.println(
+//                long yourmilliseconds = System.currentTimeMillis();
+//                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+//                Date resultdate = new Date(yourmilliseconds);
+//
+//                String tosend = sdf.format(resultdate);
+                String tosend = //dos.println(
                         //tosend + " " +
-                        localplayer.getpX() + " " + localplayer.getpY());
+                        localplayer.getpX() + " " + (localplayer.getpY() - constants.getPoints());//);
+
+                if (isGameOver){
+                    tosend = "Exit";
+                }
+
+                dos.println(tosend);
 
                 // If client sends exit,close this connection
                 // and then break from the while loop
@@ -86,9 +94,11 @@ public class Client {
                     Log.d(LOG_TAG,"Closing this connection : " + s);
                     try {
                         s.close();
+                        Log.d(LOG_TAG,"socket closed");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    closeConnection();
                     Log.d(LOG_TAG,"Connection closed");
                     break;
                 }
@@ -102,15 +112,36 @@ public class Client {
 
             }//WHILE TRUE
 
+            //dos.println("Exit");
+
             //closing resources
             dos.close();
             try {
+                if (!s.isClosed()) {
+                    s.close();
+                    Log.d(LOG_TAG,"socket closed");
+                }
                 dis.close();
+                Log.d(LOG_TAG,"Closed dis");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
 
+        } catch(Exception e) {
+
+            e.printStackTrace();
+
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            //write.join();
+            shutdown = true;
+            reader.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private class ReaderThread extends Thread {
@@ -120,12 +151,21 @@ public class Client {
 
             try {
 
-                while (true) {
+                while (!shutdown) {
 
                     // printing date or time as requested by client
                     if (dis.ready()) {
                         String received = dis.readLine();
-                        Log.d(LOG_TAG,received);
+                        if (received.equals("Exit")) {
+                            shutdown = true;
+                            Log.d(LOG_TAG,"Now shutdown is:" + shutdown);
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Log.d(LOG_TAG,"Received: " + received);
                         remoteplayer.receiveMessage(received);
                     }
 
@@ -137,10 +177,75 @@ public class Client {
                     }
 
                 }//WHILE TRUE
+
+                Log.d(LOG_TAG, "Shutting down readerTread");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    /*private class WriterThread extends Thread {
+
+        public void run() {
+
+            while (!shutdown) {
+
+//                long yourmilliseconds = System.currentTimeMillis();
+//                SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+//                Date resultdate = new Date(yourmilliseconds);
+//
+//                String tosend = sdf.format(resultdate);
+                String tosend = //dos.println(
+                        //tosend + " " +
+                        localplayer.getpX() + " " + localplayer.getpY();//);
+
+                if (isGameOver){
+                    tosend = "Exit";
+                }
+
+                dos.println(tosend);
+
+                // If client sends exit,close this connection
+                // and then break from the while loop
+                if(tosend.equals("Exit")) {
+
+                    Log.d(LOG_TAG,"Closing this connection : " + s);
+                    try {
+                        s.close();
+                        Log.d(LOG_TAG,"socket closed");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    closeConnection();
+                    Log.d(LOG_TAG,"Connection closed");
+                    break;
+                }
+
+                //PICCOLO SLEEP PER QUESTIONI DI EFFICIENZA E PERCHE ANCORA FACCIO SCHIFO CON I WAIT E NOTIFY
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }//WHILE TRUE
+
+            //closing resources
+            dos.close();
+            try {
+                if (!s.isClosed()) {
+                    s.close();
+                    Log.d(LOG_TAG, "socket closed");
+                }
+                dis.close();
+                Log.d(LOG_TAG,"Closed dis");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private class ReaderThreadUtil extends Thread {
@@ -155,9 +260,18 @@ public class Client {
                     // printing date or time as requested by client
                     if (dis.ready()) {
                         String received = dis.readLine();
-                        Log.d(LOG_TAG,received);
+                        Log.d(LOG_TAG, received);
                         if (received == "CANSTART"){
                             canStart = true;
+                        }
+                        else if (received.equals("Exit")) {
+                            shutdown = true;
+                            System.out.println("Now shutdown is:" + shutdown);
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 
@@ -168,12 +282,13 @@ public class Client {
                         e.printStackTrace();
                     }
 
+                    //Log.d(LOG_TAG, "Shutting down readerTread");
+
                 }//WHILE TRUE
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
-
-}
+}//CLIENT

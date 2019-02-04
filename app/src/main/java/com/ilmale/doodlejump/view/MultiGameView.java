@@ -1,9 +1,12 @@
 package com.ilmale.doodlejump.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.MultiEngine;
@@ -11,10 +14,14 @@ import com.ilmale.doodlejump.engine.MultiEngine;
 public class MultiGameView extends GameView {
 
     MultiEngine enginee;
+    Bitmap boolBobDown;
+    Bitmap boolBobUp;
 
     public MultiGameView(Context context, MultiEngine engine){
         super(context, engine);
         enginee = engine;
+        boolBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.balloonupleft);
+        boolBobDown = BitmapFactory.decodeResource(getResources(), R.drawable.balloondownleft);
     }
 
     public synchronized void draw() {
@@ -121,9 +128,15 @@ public class MultiGameView extends GameView {
                         canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                     }
                 }
-
-                //if (enginee.player2 != null)
+                if (enginee.player2.pY > -100 && enginee.player2.pY < 2000){
                     canvas.drawBitmap(bitmapBobLeft, enginee.player2.pX, enginee.player2.pY, paint);
+                }
+                else if (enginee.player2.pY < - 101) {
+                    canvas.drawBitmap(boolBobUp, enginee.player2.pX, 0, paint);
+                }
+                else if (enginee.player2.pY > 1700) {
+                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, 1700, paint);
+                }
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
                 try {

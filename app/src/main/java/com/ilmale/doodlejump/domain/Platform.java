@@ -58,9 +58,7 @@ public class Platform extends AbstractGameObject {
     public void update() {
         pY -= yS;
         if(pY > (constants.getPixelHeight()-50)){
-            if(constants.getPoints()<=10000){
-                constants.setPoints(constants.getPoints()+10);
-            }
+            //constants.setPoints(constants.getPoints() - (int)yS);
             pX = (float) (Math.random() * (constants.getPixelWidth()-114));
             pY = 0;
             setHasSprings(false);

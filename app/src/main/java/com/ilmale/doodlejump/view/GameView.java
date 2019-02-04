@@ -171,7 +171,7 @@ public class GameView extends SurfaceView implements Runnable{
         }
 
         public void update() {
-            Log.d(LOG_TAG, "updating gameview");
+            //Log.d(LOG_TAG, "updating gameview");
             gameEngine.update();
         }
 

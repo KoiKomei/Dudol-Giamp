@@ -45,7 +45,7 @@ public class EndGameActivity extends AppCompatActivity {
 
     }
     public void updateRecords(View view) {
-        if(!clicked){
+        if(!clicked) {
             clicked=true;
             constants.setName(name.getText().toString());
             records.updateRecords();
