@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private boolean checkMapServices(){
         if(isServicesOK()){
             if(isMapsEnabled()){
