@@ -98,13 +98,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0 && !u.getEmail().equalsIgnoreCase(loginUser.getEmail())){
                 player = u.getUsername();
                 points = u.getPunteggio();
-                LatLng position = new LatLng((float) u.getLat(), (float) u.getLongi());
+                LatLng position = new LatLng(u.getLat(), u.getLongi());
                 MarkerOptions marker = new MarkerOptions().position(position).title(player+":"+points);
                 mMap.addMarker(marker);
             }
         }
     }
-    
+
     private void startUserLocationsRunnable(){
         Log.d(LOG_TAG, "startUserLocationsRunnable: starting runnable for retrieving updated locations.");
         mHandler.postDelayed(mRunnable = new Runnable() {
