@@ -3,21 +3,25 @@ package com.ilmale.doodlejump;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ilmale.doodlejump.ChainScore.HandlerScore1;
+import com.ilmale.doodlejump.ChainScore.HandlerScore100;
+import com.ilmale.doodlejump.ChainScore.HandlerScore1000;
+import com.ilmale.doodlejump.ChainScore.HandlerScore30;
+import com.ilmale.doodlejump.ChainScore.HandlerScoreWorld;
 import com.ilmale.doodlejump.domain.LoginUser;
 
 public class EndGameActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = EndGameActivity.class.getSimpleName();
 
     public EditText name;
     public Button save, playAgain, exit;
-    public TextView points;
+    public TextView points, textPoints;
 
     private LoginUser loginUser = LoginUser.getInstance();
     private Records records = Records.getInstance();
@@ -38,12 +42,15 @@ public class EndGameActivity extends AppCompatActivity {
         exit = findViewById(R.id.exit);
         points = findViewById(R.id.points);
         points.setText(""+constants.getPoints());
+        textPoints = findViewById(R.id.textPoints);
+        textPoints.setText(checkScore());
         if(loginUser.getEmail()!=null){
             name.setText(loginUser.getUsername());
         }
         constants.setName(name.getText().toString());
 
     }
+
     public void updateRecords(View view) {
         if(!clicked) {
             clicked=true;
@@ -71,4 +78,16 @@ public class EndGameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private String checkScore(){
+        HandlerScoreWorld handlerScoreWorld = new HandlerScoreWorld(this);
+        HandlerScore1000 handlerScore1000 = new HandlerScore1000(this);
+        HandlerScore100 handlerScore100 = new HandlerScore100(this);
+        HandlerScore30 handlerScore30 = new HandlerScore30(this);
+        HandlerScore1 handlerScore1 = new HandlerScore1(this);
+        handlerScoreWorld.setSuccessor(handlerScore1000);
+        handlerScore1000.setSuccessor(handlerScore100);
+        handlerScore100.setSuccessor(handlerScore30);
+        handlerScore30.setSuccessor(handlerScore1);
+        return handlerScoreWorld.processScore(constants.getPoints());
+    }
 }
