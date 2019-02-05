@@ -20,6 +20,7 @@ public class OptionsActivity extends AppCompatActivity {
     // initiate Switch
     Switch musicSwitch;
     Switch soundSwitch;
+    Switch weatherSwitch;
     // initiate Button
     Button save;
 
@@ -31,19 +32,23 @@ public class OptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        final SharedPreferences pref = getSharedPreferences("AUDIO_PREF",this.MODE_PRIVATE);
+        final SharedPreferences pref = getSharedPreferences("SETTINGS_PREF",this.MODE_PRIVATE);
         boolean musicInOn = pref.getBoolean("music_is_on", true);
         boolean soundIsOn = pref.getBoolean("sound_is_on", true);
+        boolean weatherIsOn = pref.getBoolean("weather_is_on", true);
         settingsSI.setMusic(musicInOn);
         settingsSI.setSound(soundIsOn);
+        settingsSI.setWeatherCondition(weatherIsOn);
 
         final SharedPreferences.Editor editorPref = pref.edit();
 
         // initiate Switch
         musicSwitch = (Switch) findViewById(R.id.MUSIC);
         soundSwitch = (Switch) findViewById(R.id.SOUND);
+        weatherSwitch = (Switch) findViewById(R.id.WEATHER);
         musicSwitch.setChecked(settingsSI.isMusic());
         soundSwitch.setChecked(settingsSI.isSound());
+        weatherSwitch.setChecked(settingsSI.isWeatherCondition());
 
         // initiate Button
         save = (Button) findViewById(R.id.saveButton);
@@ -71,9 +76,18 @@ public class OptionsActivity extends AppCompatActivity {
                     settingsSI.setSound(false);
                     Log.d(LOG_TAG, "sound off");
                 }
+                if (weatherSwitch.isChecked()){
+                    settingsSI.setWeatherCondition(true);
+                    Log.d(LOG_TAG, "weather on");
+                }
+                else{
+                    settingsSI.setWeatherCondition(false);
+                    Log.d(LOG_TAG, "weather off");
+                }
 
                 editorPref.putBoolean("music_is_on",musicSwitch.isChecked());
                 editorPref.putBoolean("sound_is_on",soundSwitch.isChecked());
+                editorPref.putBoolean("weather_is_on",weatherSwitch.isChecked());
                 editorPref.commit();
 
 

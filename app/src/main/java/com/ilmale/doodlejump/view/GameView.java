@@ -23,6 +23,7 @@ import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
+import com.ilmale.doodlejump.settings.SettingsSI;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -71,6 +72,7 @@ public class GameView extends SurfaceView implements Runnable{
         protected boolean BunnyBob=false;
 
         protected LoginUser loginUser = LoginUser.getInstance();
+        protected SettingsSI settingsSI = SettingsSI.getInstance();
 
 
         GameEngine gameEngine;
@@ -330,10 +332,10 @@ public class GameView extends SurfaceView implements Runnable{
                 }
             }
         }
-        
+
         private void changeBG() {
             String weather = MainActivity.weather;
-            if(!weather.equalsIgnoreCase("")) {
+            if(!weather.equalsIgnoreCase("") && settingsSI.isWeatherCondition()) {
                 if (weather.equalsIgnoreCase("Rain") && weather.equalsIgnoreCase("Drizzle") && weather.equalsIgnoreCase("Thunderstorm")) {
                     bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundrain);
                 } else if (weather.equalsIgnoreCase("Snow")) {

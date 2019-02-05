@@ -24,7 +24,7 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private static final String LOG_TAG = MapsActivity.class.getSimpleName();
-    private static final int LOCATION_UPDATE_INTERVAL = 3000;
+    private static final int LOCATION_UPDATE_INTERVAL = 10000;
 
     private GoogleMap mMap = null;
     private MarkerOptions myMarker;
@@ -118,8 +118,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void setUpdateMarker() {
         myMarker.position(new LatLng(myLocation.getLatLng().latitude, myLocation.getLatLng().longitude));
-        Log.d(LOG_TAG, "latitude: "+ myLocation.getLatLng().latitude);
-        Log.d(LOG_TAG, "longitude: "+ myLocation.getLatLng().longitude);
     }
 
     private void stopLocationUpdates(){
