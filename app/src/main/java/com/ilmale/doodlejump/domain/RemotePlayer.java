@@ -35,7 +35,7 @@ public class RemotePlayer {
         StringTokenizer st = new StringTokenizer(s, " ", false);
         setpX(Float.parseFloat(st.nextToken()));
         setpY(Float.parseFloat(st.nextToken()) + constants.getPoints());
-        setX(Integer.parseInt(st.nextToken()));
+        //setX(Integer.parseInt(st.nextToken()));
 
     }
 
