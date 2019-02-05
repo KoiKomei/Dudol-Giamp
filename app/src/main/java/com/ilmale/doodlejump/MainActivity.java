@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -349,12 +350,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchSinglePlayerActivity(View view) {
         Log.d(LOG_TAG, "Button single player clicked!");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 
     public void launchMultiPlayerActivity(View view) {
         Log.d(LOG_TAG, "Button multi player clicked!");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = new Intent(this, MultiActivity.class);
         startActivity(intent);
     }

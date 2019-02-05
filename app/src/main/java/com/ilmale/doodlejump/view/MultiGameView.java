@@ -1,11 +1,13 @@
 package com.ilmale.doodlejump.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.ilmale.doodlejump.EndGameActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
@@ -34,22 +36,24 @@ public class MultiGameView extends GameView {
 
             if (gameEngine.isGameOver()) {
 
-                gameEngine.platforms.clear();//todo schifo
+                //gameEngine.platforms.clear();//todo schifo
 
-                // Draw the background
-                canvas.drawBitmap(bitmapBG, 0, 0, paint);
-
-                Paint gameOverPaint = new Paint();
-                gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
-                gameOverPaint.setTextAlign(Paint.Align.CENTER);
-                gameOverPaint.setTextSize(100);
-                canvas.drawText("GAME OVER", canvas.getWidth() / 2, (canvas.getHeight() / 2) - 100, gameOverPaint);
-
-                Paint textPaint = new Paint();
-                textPaint.setColor(Color.argb(255, 249, 129, 0));
-                textPaint.setTextAlign(Paint.Align.CENTER);
-                textPaint.setTextSize(100);
-                canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
+                Intent intent = new Intent(getContext(), EndGameActivity.class);
+                getContext().startActivity(intent);
+//                // Draw the background
+//                canvas.drawBitmap(bitmapBG, 0, 0, paint);
+//
+//                Paint gameOverPaint = new Paint();
+//                gameOverPaint.setColor(Color.argb(255, 249, 129, 0));
+//                gameOverPaint.setTextAlign(Paint.Align.CENTER);
+//                gameOverPaint.setTextSize(100);
+//                canvas.drawText("GAME OVER", canvas.getWidth() / 2, (canvas.getHeight() / 2) - 100, gameOverPaint);
+//
+//                Paint textPaint = new Paint();
+//                textPaint.setColor(Color.argb(255, 249, 129, 0));
+//                textPaint.setTextAlign(Paint.Align.CENTER);
+//                textPaint.setTextSize(100);
+//                canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
 
             }
 
@@ -59,7 +63,7 @@ public class MultiGameView extends GameView {
                 textPaint.setColor(Color.argb(255, 249, 129, 0));
                 textPaint.setTextAlign(Paint.Align.CENTER);
                 textPaint.setTextSize(100);
-                canvas.drawText("" + constants.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
+                //canvas.drawText("" + constants.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
 
                 // Draw the background
                 canvas.drawBitmap(bitmapBG, 0, 0, paint);
@@ -69,11 +73,6 @@ public class MultiGameView extends GameView {
 
                 // Make the text a bit bigger
                 paint.setTextSize(45);
-
-                // Display the current fps on the screen
-                //canvas.drawText("FPS:" + fps, 20, 40, paint);
-                canvas.drawText("Your Points:" + constants.getPoints(), 20, 85, paint);
-                canvas.drawText("Record:" + records.getRecords().get(0), 20, 40, paint);
 
                 for (Platform p : gameEngine.getPlatforms()) {
                     //Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
@@ -134,11 +133,15 @@ public class MultiGameView extends GameView {
                 else if (enginee.player2.pY < - 101) {
                     canvas.drawBitmap(boolBobUp, enginee.player2.pX, 0, paint);
                 }
-                else if (enginee.player2.pY > 1700) {
-                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, 1700, paint);
+                else if (enginee.player2.pY > 1600) {
+                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, 1600, paint);
                 }
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
+                // Display the current fps on the screen
+                canvas.drawText("FPS:" + fps, 30, 80, paint);
+                canvas.drawText("Your Points:" + constants.getPoints(), 30, 185, paint);
+                canvas.drawText("Record:" + records.getRecords().get(0), 30, 140, paint);
                 try {
                     for (Bullet b : gameEngine.bullets) {
                         canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);

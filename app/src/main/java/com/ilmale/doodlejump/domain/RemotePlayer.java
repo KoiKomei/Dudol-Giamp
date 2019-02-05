@@ -36,8 +36,11 @@ public class RemotePlayer {
         //java.lang.NumberFormatException: For input string: "Exit"
         //        at java.lang.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1306)
         //        at java.lang.Float.parseFloat(Float.java:459)
-        setpX(Float.parseFloat(st.nextToken()));
-        setpY(Float.parseFloat(st.nextToken()) + constants.getPoints());
+        String string = st.nextToken();
+        if (!string.equals("Exit")){
+            setpX(Float.parseFloat(string));
+            setpY(Float.parseFloat(st.nextToken()) + constants.getPoints());
+        }
         //setX(Integer.parseInt(st.nextToken()));
 
     }
