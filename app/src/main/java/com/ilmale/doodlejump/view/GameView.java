@@ -145,17 +145,17 @@ public class GameView extends SurfaceView implements Runnable{
 
         private void initializeBG() {
             String weather = MainActivity.weather;
-            if(weather.equalsIgnoreCase("Rain")){
+            if(weather.equalsIgnoreCase("Rain") && weather.equalsIgnoreCase("Drizzle") && weather.equalsIgnoreCase("Thunderstorm")){
                 bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundrain);
             }
             else if(weather.equalsIgnoreCase("Snow")){
                 bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsnow);
             }
-            else if(weather.equalsIgnoreCase("Clouds")){
-                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcloud);
+            else if(weather.equalsIgnoreCase("Clear")){
+                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsun);
             }
             else{
-                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsun);
+                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcloud);
             }
         }
 
