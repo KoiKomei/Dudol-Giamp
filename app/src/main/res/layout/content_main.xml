@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.521"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/dudol_giamp_background" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="261dp"
         android:layout_height="79dp"
         android:layout_marginStart="144dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="145dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="@string/text_label_title"
@@ -38,7 +38,7 @@
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,20 +58,20 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_map"
-        app:layout_constraintVertical_bias="0.084" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.915" />
 
     <Button
         android:id="@+id/button_multi"
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="420dp"
-        android:background="@drawable/plat1"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/plat2"
         android:onClick="launchMultiPlayerActivity"
         android:text="@string/button_label_multi"
         android:textAlignment="center"
@@ -81,8 +81,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_single"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43" />
 
     <Button
         android:id="@+id/button_single"
@@ -91,7 +91,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/plat1"
+        android:background="@drawable/plat2"
         android:onClick="launchSinglePlayerActivity"
         android:text="@string/button_label_single"
         android:textAlignment="center"
@@ -100,29 +100,29 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.284" />
 
     <Button
         android:id="@+id/button_shop"
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/plat1"
-        android:text="@string/button_label_shop"
         android:onClick="launchShopActivity"
+        android:text="@string/button_label_shop"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_multi"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.61"
         tools:text="SHOP" />
 
     <Button
@@ -130,19 +130,19 @@
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/plat1"
+        android:background="@drawable/plat3"
         android:onClick="launchScoreboardActivity"
         android:text="@string/button_label_score"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_shop"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.771"
         tools:text="SCOREBOARD" />
 
     <Button
@@ -150,19 +150,19 @@
         android:layout_width="150dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/plat1"
+        android:background="@drawable/plat4"
         android:onClick="launchMapsActivity"
         android:text="@string/button_label_map"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/image1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_scoreboard"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.842"
         tools:text="MAP" />
 
     <Button
