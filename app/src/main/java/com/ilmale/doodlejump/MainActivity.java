@@ -351,8 +351,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchMapsActivity(View view) {
         Log.d(LOG_TAG, "Button map clicked!");
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        if(checkMapServices()){
+            if(mLocationPermissionGranted){
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }
+            else{
+                getLocationPermission();
+            }
+        }
     }
 
     public void launchRegisterActivity(View view){
