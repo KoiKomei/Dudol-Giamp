@@ -1,6 +1,8 @@
 package com.ilmale.doodlejump.services;
 
 import android.Manifest;
+import android.animation.PropertyValuesHolder;
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,6 +10,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,9 +18,11 @@ import android.location.Location;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -26,7 +31,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.ilmale.doodlejump.GameActivity;
 import com.ilmale.doodlejump.MainActivity;
+import com.ilmale.doodlejump.MyAlertDialog;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.database.OurDatabase;
@@ -36,92 +45,93 @@ import com.ilmale.doodlejump.domain.MyLocation;
 
 import java.util.List;
 
-public class LocationService extends Service {
+public class LocationService extends IntentService {
 
     private static final String TAG = "LocationService";
+    private static final String CHANNEL_ID = "Locations Channel";
 
     private FusedLocationProviderClient mFusedLocationClient;
-    private final static long UPDATE_INTERVAL = 4 * 1000;  /* 4 secs */
-    private final static long FASTEST_INTERVAL = 3 * 1000; /* 3 sec */
 
     public final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
 
     private OurDatabase db;
     private List<User> users;
 
-    private LoginUser loginUser = LoginUser.getInstance();
-    private MyLocation myLocation = MyLocation.getInstance();
-    private Records records = Records.getInstance();
+    LoginUser loginUser = LoginUser.getInstance();
+    MyLocation myLocation = MyLocation.getInstance();
+    MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    private boolean notificationSend = false;
+
+    public LocationService() {
+        super("location service");
     }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        while (true){
+            if (intent == null) {
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location != null) {
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            myLocation.setLatLng(latLng);
+                            Log.d(TAG, "OnComplete: latitude: " + latLng.latitude);
+                            Log.d(TAG, "OnComplete: longitude: " + latLng.longitude);
+                            checkPoints();
+                        }
+                    }
+                });
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null) {
+                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        myLocation.setLatLng(latLng);
+                        Log.d(TAG, "OnComplete: latitude: " + latLng.latitude + " OnComplete: longitude: " + latLng.longitude);
+                        checkPoints();
+                    }
+                }
+            });
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {}
 
     @Override
     public void onCreate() {
         super.onCreate();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         users = db.ourDao().getUsers();
-        if (Build.VERSION.SDK_INT >= 26) {
-            String CHANNEL_ID = "my_channel_01";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,"My Channel", NotificationManager.IMPORTANCE_DEFAULT);
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("").setContentText("").build();
-            startForeground(1, notification);
-        }
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand: called.");
-        getLocation();
-        return START_NOT_STICKY;
-    }
-
-    private void getLocation() {
-        // ---------------------------------- LocationRequest ------------------------------------
-        // Create the location request to start receiving updates
-        LocationRequest mLocationRequestHighAccuracy = new LocationRequest();
-        mLocationRequestHighAccuracy.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequestHighAccuracy.setInterval(UPDATE_INTERVAL);
-        mLocationRequestHighAccuracy.setFastestInterval(FASTEST_INTERVAL);
-
-        // new Google API SDK v11 uses getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "getLocation: stopping the location service.");
-            stopSelf();
-            return;
-        }
-        Log.d(TAG, "getLocation: getting location information.");
-        mFusedLocationClient.requestLocationUpdates(mLocationRequestHighAccuracy, new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        Log.d(TAG, "onLocationResult: got location result.");
-                        Location location = locationResult.getLastLocation();
-                        if (location != null) {
-                            myLocation.setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                            checkPoints();
-                        }
-                    }
-                },
-                Looper.myLooper()); // Looper.myLooper tells this to repeat forever until thread is destroyed
-    }
-
-    private int calculateDistanceInKilometer(double userLat, double userLng, double venueLat, double venueLng) {
-
-        double latDistance = Math.toRadians(userLat - venueLat);
-        double lngDistance = Math.toRadians(userLng - venueLng);
-
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(userLat)) * Math.cos(Math.toRadians(venueLat))
-                * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return (int) (Math.round(AVERAGE_RADIUS_OF_EARTH_KM * c));
     }
 
     private void checkPoints() {
@@ -136,27 +146,25 @@ public class LocationService extends Service {
             }
             i++;
         }
-        if (max > loginUser.getPunteggio()) {
-            notifyToPlay(users.get(pos));
+        if (max > loginUser.getPunteggio() && !notificationSend) {
+            myAlertDialog.notifyToPlay(users.get(pos));
+            notificationSend=true;
         }
 
     }
 
-    private void notifyToPlay(User user){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.bobleft)
-                .setContentTitle(user.getUsername()+" ha un punteggio maggiore del tuo")
-                .setContentText("Prova a batterlo se ci riesci");
+    private int calculateDistanceInKilometer(double userLat, double userLng, double venueLat, double venueLng) {
 
-        // Creates the intent needed to show the notification
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
+        double latDistance = Math.toRadians(userLat - venueLat);
+        double lngDistance = Math.toRadians(userLng - venueLng);
 
-        // Add as notification
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(1, builder.build());
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(userLat)) * Math.cos(Math.toRadians(venueLat))
+                * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
 
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return (int) (Math.round(AVERAGE_RADIUS_OF_EARTH_KM * c));
     }
 
 }
