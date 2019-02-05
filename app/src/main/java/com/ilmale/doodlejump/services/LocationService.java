@@ -128,7 +128,7 @@ public class LocationService extends Service {
         int pos=0, i=0, max=0;
         for(User u:users) {
             if (u.getLat() != 0.0 && u.getLongi() != 0.0 && u.getPunteggio() != 0 && !u.getEmail().equalsIgnoreCase(loginUser.getEmail())) {
-                int distance = calculateDistanceInKilometer(myLocation.getLatLng().latitude, myLocation.getLatLng().latitude, u.getLat(), u.getLongi());
+                int distance = calculateDistanceInKilometer(myLocation.getLatLng().latitude, myLocation.getLatLng().longitude, u.getLat(), u.getLongi());
                 if(u.getPunteggio()>max && distance<30){
                     max=u.getPunteggio();
                     pos=i;
@@ -136,14 +136,13 @@ public class LocationService extends Service {
             }
             i++;
         }
-        if (max > records.getRecords().get(0)) {
+        if (max > loginUser.getPunteggio()) {
             notifyToPlay(users.get(pos));
         }
 
     }
 
     private void notifyToPlay(User user){
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.bobleft)
                 .setContentTitle(user.getUsername()+" ha un punteggio maggiore del tuo")
