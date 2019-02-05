@@ -12,6 +12,7 @@ public class SettingsSI {
 
     private boolean sound = true;
     private boolean music = true;
+    private boolean weatherCondition = true;
     public static final float MaxVel = 100;
 
     public void setSound(boolean v){
@@ -28,5 +29,13 @@ public class SettingsSI {
 
     public boolean isMusic() {
         return music;
+    }
+
+    public boolean isWeatherCondition() {
+        return weatherCondition;
+    }
+
+    public void setWeatherCondition(boolean weatherCondition) {
+        this.weatherCondition = weatherCondition;
     }
 }

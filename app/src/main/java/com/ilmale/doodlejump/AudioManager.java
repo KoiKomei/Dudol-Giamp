@@ -20,6 +20,7 @@ public class AudioManager {
     private MediaPlayer rain_audio;
 
     SettingsSI settingsSI = SettingsSI.getInstance();
+    boolean bgaudioactive = false;
 
     private static final AudioManager audioManagerInstance = new AudioManager();
 
@@ -46,9 +47,10 @@ public class AudioManager {
 
     public void playBg_audio() {
         if(settingsSI.isMusic()){
-            if(!bg_audio.isPlaying()){
+            if(!bgaudioactive){
                 bg_audio.start();
                 bg_audio.setLooping(true);
+                bgaudioactive = true;
             }
         }
         else{

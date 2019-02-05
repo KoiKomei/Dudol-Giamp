@@ -105,7 +105,7 @@ public class Client extends Thread{
 
                 //PICCOLO SLEEP PER QUESTIONI DI EFFICIENZA E PERCHE ANCORA FACCIO SCHIFO CON I WAIT E NOTIFY
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(25);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

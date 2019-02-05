@@ -23,6 +23,7 @@ import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
+import com.ilmale.doodlejump.settings.SettingsSI;
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -71,6 +72,7 @@ public class GameView extends SurfaceView implements Runnable{
         protected boolean BunnyBob=false;
 
         protected LoginUser loginUser = LoginUser.getInstance();
+        protected SettingsSI settingsSI = SettingsSI.getInstance();
 
 
         GameEngine gameEngine;
@@ -120,8 +122,8 @@ public class GameView extends SurfaceView implements Runnable{
             }
 
             // Initialize bitmaps
-            //bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-            initializeBG();
+            bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            changeBG();
 
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
             bitmapEnemy = BitmapFactory.decodeResource(getResources(), R.drawable.enemy1);
@@ -141,22 +143,6 @@ public class GameView extends SurfaceView implements Runnable{
             gameEngine.jetpack.setWidth(bitmapJETPACK.getHeight());
 
             playing = true;
-        }
-
-        private void initializeBG() {
-            String weather = MainActivity.weather;
-            if(weather.equalsIgnoreCase("Rain")){
-                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundrain);
-            }
-            else if(weather.equalsIgnoreCase("Snow")){
-                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsnow);
-            }
-            else if(weather.equalsIgnoreCase("Clouds")){
-                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcloud);
-            }
-            else{
-                bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsun);
-            }
         }
 
         @Override
@@ -327,26 +313,39 @@ public class GameView extends SurfaceView implements Runnable{
             return super.onTouchEvent(event);
         }
 
-    private void initializeBobValue() {
-        if(loginUser.getEmail()!=null){
-            if(loginUser.isEquippedBlueBob()){
-                BlueBob = true;
-                BunnyBob = false;
-                JungleBob = false;
-            }
-            else if(loginUser.isEquippedJungleBob()){
-                JungleBob = true;
-                BlueBob = false;
-                BunnyBob = false;
-            }
-            else if(loginUser.isEquippedBunnyBob()){
-                BunnyBob = true;
-                BlueBob = false;
-                JungleBob = false;
+        private void initializeBobValue() {
+            if(loginUser.getEmail()!=null){
+                if(loginUser.isEquippedBlueBob()){
+                    BlueBob = true;
+                    BunnyBob = false;
+                    JungleBob = false;
+                }
+                else if(loginUser.isEquippedJungleBob()){
+                    JungleBob = true;
+                    BlueBob = false;
+                    BunnyBob = false;
+                }
+                else if(loginUser.isEquippedBunnyBob()){
+                    BunnyBob = true;
+                    BlueBob = false;
+                    JungleBob = false;
+                }
             }
         }
-    }
 
-
+        private void changeBG() {
+            String weather = MainActivity.weather;
+            if(!weather.equalsIgnoreCase("") && settingsSI.isWeatherCondition()) {
+                if (weather.equalsIgnoreCase("Rain") && weather.equalsIgnoreCase("Drizzle") && weather.equalsIgnoreCase("Thunderstorm")) {
+                    bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundrain);
+                } else if (weather.equalsIgnoreCase("Snow")) {
+                    bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsnow);
+                } else if (weather.equalsIgnoreCase("Clear")) {
+                    bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundsun);
+                } else {
+                    bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.backgroundcloud);
+                }
+            }
+        }
 
 }

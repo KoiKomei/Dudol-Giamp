@@ -2,7 +2,6 @@ package com.ilmale.doodlejump;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -35,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.ilmale.doodlejump.database.ItemHandler;
 import com.ilmale.doodlejump.database.OurDatabase;
+import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 import com.ilmale.doodlejump.services.LocationService;
@@ -45,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     Records records = Records.getInstance();
     LoginUser loginUser = LoginUser.getInstance();
     ItemHandler dataHandler = new ItemHandler();
+    MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
 
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         account = this.findViewById(R.id.button_account);
+        myAlertDialog.setContext(this);
         db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         checkLogin();
         audioManager.create(this);
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         }
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setDimension();
-
     }
 
     private void checkLogin() {
@@ -124,14 +126,16 @@ public class MainActivity extends AppCompatActivity {
                 if(location!=null){
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     myLocation.setLatLng(latLng);
-                    Log.d(LOG_TAG, "OnComplete: latitude: "+ latLng.latitude);
-                    Log.d(LOG_TAG, "OnComplete: longitude: "+ latLng.longitude);
+                    Log.d(LOG_TAG, "OnComplete: latitude: " + latLng.latitude + " OnComplete: longitude: " + latLng.longitude);
                     startLocationService();
-                    getJSON(latLng);
+                    if(settingsSI.isWeatherCondition()){
+                        getJSON(latLng);
+                    }
                 }
             }
         });
     }
+
     private boolean checkMapServices(){
         if(isServicesOK()){
             if(isMapsEnabled()){
@@ -236,11 +240,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initializeSettings(){
-        final SharedPreferences pref = getSharedPreferences("AUDIO_PREF",this.MODE_PRIVATE);
+        final SharedPreferences pref = getSharedPreferences("SETTINGS_PREF",this.MODE_PRIVATE);
         boolean musicInOn = pref.getBoolean("music_is_on", true);
         boolean soundIsOn = pref.getBoolean("sound_is_on", true);
+        boolean weatherIsOn = pref.getBoolean("weather_is_on", true);
         settingsSI.setMusic(musicInOn);
         settingsSI.setSound(soundIsOn);
+        settingsSI.setWeatherCondition(weatherIsOn);
         if(settingsSI.isMusic()){
             Log.d(LOG_TAG, "music off");
         }else{
@@ -250,6 +256,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "sound off");
         }else{
             Log.d(LOG_TAG, "sound on");
+        }
+        if(settingsSI.isWeatherCondition()){
+            Log.d(LOG_TAG, "weather off");
+        }else{
+            Log.d(LOG_TAG, "weather on");
         }
     }
 
@@ -350,8 +361,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchMapsActivity(View view) {
         Log.d(LOG_TAG, "Button map clicked!");
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
+        if(checkMapServices()){
+            if(mLocationPermissionGranted){
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivity(intent);
+            }
+            else{
+                getLocationPermission();
+            }
+        }
     }
 
     public void launchRegisterActivity(View view){
@@ -373,26 +391,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startLocationService(){
-        if(!isLocationServiceRunning()){
-            Intent serviceIntent = new Intent(this, LocationService.class);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O){
-                MainActivity.this.startForegroundService(serviceIntent);
-            }else{
-                startService(serviceIntent);
-            }
-        }
-    }
-
-    private boolean isLocationServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
-            if("com.codingwithmitch.googledirectionstest.services.LocationService".equals(service.service.getClassName())) {
-                Log.d(LOG_TAG, "isLocationServiceRunning: location service is already running.");
-                return true;
-            }
-        }
-        Log.d(LOG_TAG, "isLocationServiceRunning: location service is not running.");
-        return false;
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        startService(serviceIntent);
     }
 
     @SuppressLint("StaticFieldLeak")
