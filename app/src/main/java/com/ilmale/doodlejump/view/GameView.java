@@ -269,7 +269,7 @@ public class GameView extends SurfaceView implements Runnable{
                     canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                     canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
                     // Display the current fps on the screen
-                    canvas.drawText("FPS:" + fps, 30, 80, paint);
+                    canvas.drawText("FPS:" + fps, 30, 95, paint);
                     canvas.drawText("Your Points:" + constants.getPoints(), 30, 185, paint);
                     canvas.drawText("Record:" + records.getRecords().get(0), 30, 140, paint);
                     try {

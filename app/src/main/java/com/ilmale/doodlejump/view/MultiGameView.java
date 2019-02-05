@@ -36,7 +36,7 @@ public class MultiGameView extends GameView {
 
             if (gameEngine.isGameOver()) {
 
-                //gameEngine.platforms.clear();//todo schifo
+                //gameEngine.platforms.clear();
 
                 Intent intent = new Intent(getContext(), EndGameActivity.class);
                 getContext().startActivity(intent);
@@ -133,13 +133,13 @@ public class MultiGameView extends GameView {
                 else if (enginee.player2.pY < - 101) {
                     canvas.drawBitmap(boolBobUp, enginee.player2.pX, 0, paint);
                 }
-                else if (enginee.player2.pY > 1600) {
-                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, 1600, paint);
+                else if (enginee.player2.pY > constants.getPixelHeight() - 100) {
+                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, constants.getPixelHeight() - 450, paint);
                 }
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
                 // Display the current fps on the screen
-                canvas.drawText("FPS:" + fps, 30, 80, paint);
+                canvas.drawText("FPS:" + fps, 30, 95, paint);
                 canvas.drawText("Your Points:" + constants.getPoints(), 30, 185, paint);
                 canvas.drawText("Record:" + records.getRecords().get(0), 30, 140, paint);
                 try {
