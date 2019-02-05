@@ -147,7 +147,7 @@ public class LocationService extends IntentService {
             i++;
         }
         if (max > loginUser.getPunteggio() && !notificationSend) {
-            myAlertDialog.notifyToPlay(users.get(pos));
+            //myAlertDialog.notifyToPlay(users.get(pos));
             notificationSend=true;
         }
 
