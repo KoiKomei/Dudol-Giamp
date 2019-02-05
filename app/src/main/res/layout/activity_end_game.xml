@@ -19,6 +19,22 @@
         app:srcCompat="@drawable/background" />
 
     <TextView
+        android:id="@+id/textPoints"
+        android:layout_width="303dp"
+        android:layout_height="129dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/points"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
         android:id="@+id/gameover"
         android:layout_width="205dp"
         android:layout_height="61dp"
@@ -32,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintVertical_bias="0.062" />
 
     <TextView
         android:id="@+id/points"
@@ -72,12 +88,13 @@
 
     <Button
         android:id="@+id/save"
-        android:layout_width="wrap_content"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/plat1"
         android:onClick="updateRecords"
         android:text="SAVE"
         android:textSize="24sp"
@@ -90,12 +107,13 @@
 
     <Button
         android:id="@+id/play_again"
-        android:layout_width="174dp"
-        android:layout_height="wrap_content"
+        android:layout_width="184dp"
+        android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/plat1"
         android:onClick="launchSinglePlayerActivity"
         android:text="PLAY AGAIN"
         android:textSize="24sp"
@@ -108,11 +126,12 @@
 
     <Button
         android:id="@+id/exit"
-        android:layout_width="97dp"
+        android:layout_width="184dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/plat1"
         android:onClick="launchMainActivity"
         android:text="EXIT"
         android:textSize="24sp"
