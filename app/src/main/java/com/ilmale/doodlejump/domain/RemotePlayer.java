@@ -33,9 +33,12 @@ public class RemotePlayer {
     public void receiveMessage(String s){
 
         StringTokenizer st = new StringTokenizer(s, " ", false);
+        //java.lang.NumberFormatException: For input string: "Exit"
+        //        at java.lang.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:1306)
+        //        at java.lang.Float.parseFloat(Float.java:459)
         setpX(Float.parseFloat(st.nextToken()));
         setpY(Float.parseFloat(st.nextToken()) + constants.getPoints());
-        setX(Integer.parseInt(st.nextToken()));
+        //setX(Integer.parseInt(st.nextToken()));
 
     }
 
