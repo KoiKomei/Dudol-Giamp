@@ -45,7 +45,7 @@ public class EndGameActivity extends AppCompatActivity {
         points = findViewById(R.id.points);
         points.setText(""+constants.getPoints());
         textPoints = findViewById(R.id.textPoints);
-        if(myLocation!=null){
+        if(myLocation.getLatLng()!=null){
             textPoints.setText(checkScore());
         }
         if(loginUser.getEmail()!=null){
