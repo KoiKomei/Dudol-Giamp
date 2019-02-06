@@ -72,6 +72,11 @@ public class LocationService extends IntentService {
         while (true){
             if (intent == null) {
 
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
@@ -88,11 +93,12 @@ public class LocationService extends IntentService {
                         }
                     }
                 });
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+            }
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -104,16 +110,12 @@ public class LocationService extends IntentService {
                     if (location != null) {
                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                         myLocation.setLatLng(latLng);
-                        Log.d(TAG, "OnComplete: latitude: " + latLng.latitude + " OnComplete: longitude: " + latLng.longitude);
+                        Log.d(TAG, "OnComplete: latitude: " + latLng.latitude);
+                        Log.d(TAG, "OnComplete: longitude: " + latLng.longitude);
                         checkPoints();
                     }
                 }
             });
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -146,8 +148,8 @@ public class LocationService extends IntentService {
             }
             i++;
         }
-        if (max > loginUser.getPunteggio() && !notificationSend) {
-            //myAlertDialog.notifyToPlay(users.get(pos));
+        if (max > loginUser.getPunteggio() && loginUser.getEmail()!=null && !notificationSend) {
+            myAlertDialog.notifyToPlay(users.get(pos));
             notificationSend=true;
         }
 

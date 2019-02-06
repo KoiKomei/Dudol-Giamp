@@ -14,6 +14,7 @@ import com.ilmale.doodlejump.ChainScore.HandlerScore1000;
 import com.ilmale.doodlejump.ChainScore.HandlerScore30;
 import com.ilmale.doodlejump.ChainScore.HandlerScoreWorld;
 import com.ilmale.doodlejump.domain.LoginUser;
+import com.ilmale.doodlejump.domain.MyLocation;
 
 public class EndGameActivity extends AppCompatActivity {
 
@@ -24,6 +25,7 @@ public class EndGameActivity extends AppCompatActivity {
     public TextView points, textPoints;
 
     private LoginUser loginUser = LoginUser.getInstance();
+    private MyLocation myLocation = MyLocation.getInstance();
     private Records records = Records.getInstance();
     private Constants constants = Constants.getInstance();
 
@@ -42,8 +44,10 @@ public class EndGameActivity extends AppCompatActivity {
         exit = findViewById(R.id.exit);
         points = findViewById(R.id.points);
         points.setText(""+constants.getPoints());
-        //textPoints = findViewById(R.id.textPoints);
-        //textPoints.setText(checkScore());
+        textPoints = findViewById(R.id.textPoints);
+        if(myLocation!=null){
+            textPoints.setText(checkScore());
+        }
         if(loginUser.getEmail()!=null){
             name.setText(loginUser.getUsername());
         }

@@ -87,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         myAlertDialog.setContext(this);
         db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         checkLogin();
+        if(checkMapServices()){
+            if(mLocationPermissionGranted){
+                getLastKnownLocation();
+            }
+        }
         audioManager.create(this);
         records.initializeRecords(this);
         for(Integer i: records.getRecords()){
@@ -128,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     myLocation.setLatLng(latLng);
                     Log.d(LOG_TAG, "OnComplete: latitude: " + latLng.latitude + " OnComplete: longitude: " + latLng.longitude);
-                    startLocationService();
                     if(settingsSI.isWeatherCondition()){
                         getJSON(latLng);
                     }
@@ -287,20 +291,17 @@ public class MainActivity extends AppCompatActivity {
         checkLogin();
         initializeSettings();
         playMusic();
-        /*if(checkMapServices()){
-            if(mLocationPermissionGranted){
-                getLastKnownLocation();
-            }
-            else{
-                getLocationPermission();
-            }
-        }*/
+        if(mLocationPermissionGranted){
+            getLastKnownLocation();
+            startLocationService();
+        }
         Log.d(LOG_TAG, "onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        stopLocationService();
         Log.d(LOG_TAG, "onPause");
     }
 
@@ -409,6 +410,11 @@ public class MainActivity extends AppCompatActivity {
     private void startLocationService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         startService(serviceIntent);
+    }
+
+    private void stopLocationService(){
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        stopService(serviceIntent);
     }
 
     @SuppressLint("StaticFieldLeak")

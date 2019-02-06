@@ -48,7 +48,7 @@ public class AddUserFragment extends Fragment {
                 String UserPassword=userPassword.getText().toString();
                 List<User> users=RegisterActivity.db.ourDao().getUsers();
                 for(User us:users){
-                    if(UserEmail==us.getEmail()){
+                    if(UserEmail.equalsIgnoreCase(us.getEmail())){
                         un=false;
                         break;
                     }
