@@ -12,6 +12,7 @@ public class Constants {
     private float pixelHeight=0;
     private int points = 0;
     private String name = null;
+    private boolean askedPosition = false;
 
     private static final Constants ourInstance = new Constants();
 
@@ -52,4 +53,13 @@ public class Constants {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isAskedPosition() {
+        return askedPosition;
+    }
+
+    public void setAskedPosition(boolean askedPosition) {
+        this.askedPosition = askedPosition;
+    }
+
 }

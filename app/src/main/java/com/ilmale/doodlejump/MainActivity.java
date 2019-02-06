@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     SettingsSI settingsSI = SettingsSI.getInstance();
+    Constants  constants = Constants.getInstance();
     AudioManager audioManager = AudioManager.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     Records records = Records.getInstance();
@@ -87,11 +88,6 @@ public class MainActivity extends AppCompatActivity {
         myAlertDialog.setContext(this);
         db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         checkLogin();
-        if(checkMapServices()){
-            if(mLocationPermissionGranted){
-                getLastKnownLocation();
-            }
-        }
         audioManager.create(this);
         records.initializeRecords(this);
         for(Integer i: records.getRecords()){
@@ -133,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     myLocation.setLatLng(latLng);
                     Log.d(LOG_TAG, "OnComplete: latitude: " + latLng.latitude + " OnComplete: longitude: " + latLng.longitude);
+                    startLocationService();
                     if(settingsSI.isWeatherCondition()){
                         getJSON(latLng);
                     }
@@ -291,9 +288,15 @@ public class MainActivity extends AppCompatActivity {
         checkLogin();
         initializeSettings();
         playMusic();
-        if(mLocationPermissionGranted){
-            getLastKnownLocation();
-            startLocationService();
+        if(!constants.isAskedPosition()) {
+            if (checkMapServices()) {
+                if (mLocationPermissionGranted) {
+                    getLastKnownLocation();
+                } else {
+                    getLocationPermission();
+                }
+            }
+            constants.setAskedPosition(true);
         }
         Log.d(LOG_TAG, "onResume");
     }
