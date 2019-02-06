@@ -282,14 +282,14 @@ public class MainActivity extends AppCompatActivity {
         checkLogin();
         initializeSettings();
         playMusic();
-        if(checkMapServices()){
+        /*if(checkMapServices()){
             if(mLocationPermissionGranted){
                 getLastKnownLocation();
             }
             else{
                 getLocationPermission();
             }
-        }
+        }*/
         Log.d(LOG_TAG, "onResume");
     }
 

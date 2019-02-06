@@ -18,12 +18,14 @@ public class MultiGameView extends GameView {
     MultiEngine enginee;
     Bitmap boolBobDown;
     Bitmap boolBobUp;
+    Bitmap bob2left;
 
     public MultiGameView(Context context, MultiEngine engine){
         super(context, engine);
         enginee = engine;
         boolBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.balloonupleft);
         boolBobDown = BitmapFactory.decodeResource(getResources(), R.drawable.balloondownleft);
+        bob2left = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleft);
     }
 
     public synchronized void draw() {
@@ -128,7 +130,7 @@ public class MultiGameView extends GameView {
                     }
                 }
                 if (enginee.player2.pY > -100 && enginee.player2.pY < 2000){
-                    canvas.drawBitmap(bitmapBobLeft, enginee.player2.pX, enginee.player2.pY, paint);
+                    canvas.drawBitmap(bob2left, enginee.player2.pX, enginee.player2.pY, paint);
                 }
                 else if (enginee.player2.pY < - 101) {
                     canvas.drawBitmap(boolBobUp, enginee.player2.pX, 0, paint);
@@ -139,9 +141,9 @@ public class MultiGameView extends GameView {
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
                 // Display the current fps on the screen
-                canvas.drawText("FPS:" + fps, 30, 95, paint);
-                canvas.drawText("Your Points:" + constants.getPoints(), 30, 185, paint);
-                canvas.drawText("Record:" + records.getRecords().get(0), 30, 140, paint);
+                canvas.drawText("FPS:" + fps, 30, 75, paint);
+                canvas.drawText("Your Points:" + constants.getPoints(), 30, 165, paint);
+                canvas.drawText("Record:" + records.getRecords().get(0), 30, 120, paint);
                 try {
                     for (Bullet b : gameEngine.bullets) {
                         canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);

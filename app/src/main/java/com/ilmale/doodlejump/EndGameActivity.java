@@ -42,8 +42,8 @@ public class EndGameActivity extends AppCompatActivity {
         exit = findViewById(R.id.exit);
         points = findViewById(R.id.points);
         points.setText(""+constants.getPoints());
-        textPoints = findViewById(R.id.textPoints);
-        textPoints.setText(checkScore());
+        //textPoints = findViewById(R.id.textPoints);
+        //textPoints.setText(checkScore());
         if(loginUser.getEmail()!=null){
             name.setText(loginUser.getUsername());
         }
