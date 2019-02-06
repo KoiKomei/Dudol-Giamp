@@ -141,9 +141,9 @@ public class MultiGameView extends GameView {
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
                 // Display the current fps on the screen
-                canvas.drawText("FPS:" + fps, 30, 75, paint);
-                canvas.drawText("Your Points:" + constants.getPoints(), 30, 165, paint);
-                canvas.drawText("Record:" + records.getRecords().get(0), 30, 120, paint);
+                canvas.drawText("FPS:" + fps, 30, 70, paint);
+                canvas.drawText("Your Points:" + constants.getPoints(), 30, 160, paint);
+                canvas.drawText("Record:" + records.getRecords().get(0), 30, 115, paint);
                 try {
                     for (Bullet b : gameEngine.bullets) {
                         canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);

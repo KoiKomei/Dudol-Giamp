@@ -270,6 +270,11 @@ public class MainActivity extends AppCompatActivity {
         audioManager.playBg_audio();
     }
 
+    public void stopMusic(){
+        Log.d(LOG_TAG, "stop music");
+        audioManager.pauseBg_audio();
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -303,6 +308,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(LOG_TAG, "onDestroy");
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean value){
+        super.onWindowFocusChanged(value);
+        /*if (!value) {
+            stopMusic();
+        }*/
     }
 
     @Override
