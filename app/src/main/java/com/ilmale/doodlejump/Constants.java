@@ -13,6 +13,7 @@ public class Constants {
     private int points = 0;
     private String name = null;
     private boolean askedPosition = false;
+    private int contAlert = 0;
 
     private static final Constants ourInstance = new Constants();
 
@@ -60,6 +61,14 @@ public class Constants {
 
     public void setAskedPosition(boolean askedPosition) {
         this.askedPosition = askedPosition;
+    }
+
+    public int getContAlert() {
+        return contAlert;
+    }
+
+    public void setContAlert(int contAlert) {
+        this.contAlert = contAlert;
     }
 
 }

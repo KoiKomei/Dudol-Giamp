@@ -1,7 +1,9 @@
 package com.ilmale.doodlejump;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +59,8 @@ public class LoginFragment extends Fragment {
                         login=true;
                         loginUser.setLoginUser(us);
                         loginUser.initializeBobEquipped();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
                         break;
                     }
                     else{

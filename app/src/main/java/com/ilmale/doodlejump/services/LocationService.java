@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.MyAlertDialog;
 import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
@@ -40,8 +41,7 @@ public class LocationService extends IntentService {
     LoginUser loginUser = LoginUser.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
-
-    private int cont = 0;
+    Constants constants = Constants.getInstance();
 
     public LocationService() {
         super("location service");
@@ -78,12 +78,12 @@ public class LocationService extends IntentService {
 
                         Location location = locationResult.getLastLocation();
                         if (location != null) {
-                            cont++;
+                            constants.setContAlert(constants.getContAlert()+1);
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             Log.d(TAG, "OnComplete: latitude: " + latLng.latitude);
                             Log.d(TAG, "OnComplete: longitude: " + latLng.longitude);
                             myLocation.setLatLng(latLng);
-                            if(cont==2){
+                            if(constants.getContAlert()==2){
                                 checkPoints();
                             }
                         }

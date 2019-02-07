@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -75,6 +76,9 @@ public class AddUserFragment extends Fragment {
                     RegisterActivity.db.ourDao().setUser(user);
                     RegisterActivity.db.ourDao().setPossiede(pos);
                     Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    startActivity(intent);
 
                     userEmail.setText("");
                     userName.setText("");

@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         account = this.findViewById(R.id.button_account);
         myAlertDialog.setContext(this);
+        constants.setContAlert(0);
         db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         checkLogin();
         audioManager.create(this);
@@ -285,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        constants.setContAlert(0);
         checkLogin();
         initializeSettings();
         playMusic();
@@ -304,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        stopLocationService();
+        constants.setContAlert(3);
         Log.d(LOG_TAG, "onPause");
     }
 
@@ -413,11 +415,6 @@ public class MainActivity extends AppCompatActivity {
     private void startLocationService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         startService(serviceIntent);
-    }
-
-    private void stopLocationService(){
-        Intent serviceIntent = new Intent(this, LocationService.class);
-        stopService(serviceIntent);
     }
 
     @SuppressLint("StaticFieldLeak")
