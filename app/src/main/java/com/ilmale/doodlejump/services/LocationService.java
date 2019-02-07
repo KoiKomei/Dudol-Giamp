@@ -41,7 +41,7 @@ public class LocationService extends IntentService {
     MyLocation myLocation = MyLocation.getInstance();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
 
-    private boolean notificationSend = false;
+    private int cont = 0;
 
     public LocationService() {
         super("location service");
@@ -78,11 +78,14 @@ public class LocationService extends IntentService {
 
                         Location location = locationResult.getLastLocation();
                         if (location != null) {
+                            cont++;
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             Log.d(TAG, "OnComplete: latitude: " + latLng.latitude);
                             Log.d(TAG, "OnComplete: longitude: " + latLng.longitude);
                             myLocation.setLatLng(latLng);
-                            checkPoints();
+                            if(cont==2){
+                                checkPoints();
+                            }
                         }
                     }
                 },
@@ -119,9 +122,8 @@ public class LocationService extends IntentService {
             }
             i++;
         }
-        if (max > loginUser.getPunteggio() && loginUser.getEmail()!=null && !notificationSend) {
+        if (max > loginUser.getPunteggio() && loginUser.getEmail()!=null) {
             myAlertDialog.notifyToPlay(users.get(pos));
-            notificationSend=true;
         }
 
     }
