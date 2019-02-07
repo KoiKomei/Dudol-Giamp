@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.ilmale.doodlejump.AudioManager;
 import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
 import java.util.List;
@@ -27,9 +28,11 @@ public class Player extends AbstractGameObject {
     private float velYjet;
     private float yS = 0;
 
-    private float gravity = 0.198f;
+    private float gravity = 1f;
     private double startTime;
     private double endTime;
+
+    private GameEngine gameEngine;
 
     private Constants constants = Constants.getInstance();
 
@@ -40,6 +43,13 @@ public class Player extends AbstractGameObject {
         super();
         pX = constants.getPixelWidth()/2;
         pY = constants.getPixelHeight()/3;
+    }
+
+    public Player(GameEngine ge){
+        super();
+        pX = constants.getPixelWidth()/2;
+        pY = constants.getPixelHeight()/3;
+        this.gameEngine = ge;
     }
 
     public void pickJetpack(){
@@ -54,7 +64,6 @@ public class Player extends AbstractGameObject {
     }
 
     public void updateControls() {
-        //Log.d(LOG_TAG, "Updating Player  " + accX + "  " + accY + "  " + pX + "  " + pY);
         velX = (accX * 30);
         float xS = (velX / 2);
         pX -= xS;
@@ -68,7 +77,7 @@ public class Player extends AbstractGameObject {
     @Override
     public void update(){
 
-        velY += (gravity * 5);
+        velY += gravity;
 
         yS = (velY / 2);
 
@@ -76,7 +85,19 @@ public class Player extends AbstractGameObject {
             velYjet += (gravity * 6);
             yS = (-SettingsSI.MaxVel / 2);
         }
-        pY += yS;
+
+        if(yS<0){
+            for(; yS<0; yS++){
+                pY -= 1;
+                gameEngine.checkStatus();
+            }
+        }
+        else {
+            for (; yS>0; yS--) {
+                pY += 1;
+                gameEngine.checkStatus();
+            }
+        }
 
         if(hasJetpack && velYjet >= 0){
             hasJetpack=false;

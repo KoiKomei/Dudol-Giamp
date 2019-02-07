@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.ilmale.doodlejump.AudioManager;
 import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.EndGameActivity;
 import com.ilmale.doodlejump.GameActivity;
 import com.ilmale.doodlejump.Records;
 import com.ilmale.doodlejump.RegisterActivity;
@@ -48,7 +49,7 @@ public class GameEngine {
 
         lastUpdate = System.currentTimeMillis();
 
-        player = new Player();
+        player = new Player(this);
 
         Platform platform = new Platform();
         platform.createRandomPlatform(platforms);
@@ -64,13 +65,26 @@ public class GameEngine {
     }
 
     public void update() {
-        //Log.d(LOG_TAG, "updating gameengine");
-
         player.update();
+
+        for (Bullet b: bullets){
+            b.update();
+        }
+
+        audioEnemy();
+        audioJetpack();
+
+        if(fall()){
+            endGame();
+        }
+
+    }
+
+    public void checkStatus(){
 
         for (Platform p: platformsNearThePlayer) {
             if (collidesFromAbove(player, p)){
-                //Log.d(LOG_TAG, "collision!");
+                Log.d(LOG_TAG, "collision!");
                 if (p.hasSprings()) {
                     player.jump(jumpForce * 3);
                     if(!player.hasJetpack()){
@@ -86,39 +100,31 @@ public class GameEngine {
             }
         }
 
-        for (Bullet b: bullets){
-            b.update();
-        }
-
         if (player.getpY() < constants.getPixelHeight()/3) {
             player.setpY(constants.getPixelHeight()/3);
-            constants.setPoints(constants.getPoints() - (int)player.getyS());
+            constants.setPoints(constants.getPoints() + 1);
             for(Platform p: platforms){
-                p.setyS(player.getyS());
+                p.setyS(-1);
                 p.update();
             }
-            enemy.setyS((player.getyS()));
+            enemy.setyS(-1);
             enemy.update();
-            jetpack.setyS((player.getyS()));
+            jetpack.setyS(-1);
             jetpack.update();
         }
         if (contatore == 0){
             aggiornaPiattaforme();
         }
 
-        audioEnemy();
-        audioJetpack();
         takeJetpack();
         killEnemy();
-
-        if(isDeath()){
-            endGame();
-        }
+        killedByEnemy();
 
         if (contatore > 10) {
             contatore = 0;
         }
         contatore++;
+
     }
 
     public void updatePlayer() {
@@ -134,6 +140,12 @@ public class GameEngine {
         float y12 = y11 + obj1.getHeight();
         float y21 = obj2.getpY();
         float y22 = y21 + obj2.getHeight();
+        if(obj1 instanceof Player && obj2 instanceof Enemy ) {
+            x11 += 30;
+            x12 -= 30;
+            y11 += 30;
+            y12 -= 30;
+        }
         if ((x11 >= x21 && x11 <= x22) || (x12 >= x21 && x12 <= x22)) {
             return (y11 >= y21 && y11 <= y22) || (y12 >= y21 && y12 <= y22);
         }
@@ -148,8 +160,8 @@ public class GameEngine {
         float y11 = obj1.getpY();
         float y12 = y11 + obj1.getHeight();
         float y21 = obj2.getpY();
-        if ((x11 >= x21 && x11 <= (x22 - player.getHeight()/4)) || (x12 >= (x21 + player.getHeight()/4) && x12 <= x22)) {
-            if (y12 <= y21 + 25 && y12 >= y21 - 60){
+        if (x11 + player.getWidth()/4 <= x22 && x12 - player.getWidth()/4 >= x21 ) {
+            if (y12 >= y21-0.5 && y12 <= y21+0.5){
                 return player.getVelY() >= 0;
             }
         }
@@ -195,19 +207,19 @@ public class GameEngine {
         }
     }
 
-    public boolean killedByEnemy(){
+    public void killedByEnemy(){
         if(!player.hasJetpack()){
             if(!collidesFromAbove(player,enemy)){
                 if (collide(player, enemy)){
-                    return true;
+                    endGame();
                 }
             }
         }
-        return false;
     }
 
-    public boolean isDeath(){
-        if((player.getpY()>constants.getPixelHeight() && constants.getPoints()>0 ) || killedByEnemy()){
+
+    public boolean fall(){
+        if((player.getpY()>constants.getPixelHeight() && constants.getPoints()>0 )){
             return true;
         }
         if((player.getpY()>constants.getPixelHeight() && constants.getPoints()==0 )){
