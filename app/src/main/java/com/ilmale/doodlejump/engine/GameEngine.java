@@ -43,7 +43,7 @@ public class GameEngine {
 
     protected boolean gameOver = false;
 
-    protected int jumpForce = 40;
+    protected int jumpForce = 42;
 
     public GameEngine(){
 
