@@ -14,6 +14,7 @@ public class Constants {
     private String name = null;
     private boolean askedPosition = false;
     private int contAlert = 0;
+    private boolean loseInMulti = false;
 
     private static final Constants ourInstance = new Constants();
 
@@ -69,6 +70,14 @@ public class Constants {
 
     public void setContAlert(int contAlert) {
         this.contAlert = contAlert;
+    }
+
+    public boolean isLoseInMulti() {
+        return loseInMulti;
+    }
+
+    public void setLoseInMulti(boolean loseInMulti) {
+        this.loseInMulti = loseInMulti;
     }
 
 }

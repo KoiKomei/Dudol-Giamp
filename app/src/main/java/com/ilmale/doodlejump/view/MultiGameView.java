@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.ilmale.doodlejump.EndGameActivity;
+import com.ilmale.doodlejump.EndGameMultiActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
@@ -40,7 +41,7 @@ public class MultiGameView extends GameView {
 
                 //gameEngine.platforms.clear();
 
-                Intent intent = new Intent(getContext(), EndGameActivity.class);
+                Intent intent = new Intent(getContext(), EndGameMultiActivity.class);
                 getContext().startActivity(intent);
 //                // Draw the background
 //                canvas.drawBitmap(bitmapBG, 0, 0, paint);
@@ -150,6 +151,13 @@ public class MultiGameView extends GameView {
                     }
                 }catch(Exception e){
                     e.printStackTrace();
+                }
+                if(!enginee.isStart()){
+                    Paint waitPaint = new Paint();
+                    waitPaint.setColor(Color.argb(255, 249, 129, 0));
+                    waitPaint.setTextAlign(Paint.Align.CENTER);
+                    waitPaint.setTextSize(60);
+                    canvas.drawText("WAIT SECOND PLAYER", canvas.getWidth() / 2, (canvas.getHeight() / 2), waitPaint);
                 }
             }
             // Draw everything to the screen and unlock the drawing surface

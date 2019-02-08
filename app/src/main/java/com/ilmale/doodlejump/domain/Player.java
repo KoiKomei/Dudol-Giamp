@@ -82,7 +82,7 @@ public class Player extends AbstractGameObject {
         yS = (velY / 2);
 
         if(hasJetpack && velYjet < 0){
-            velYjet += (gravity * 6);
+            velYjet += gravity;
             yS = (-SettingsSI.MaxVel / 2);
         }
 

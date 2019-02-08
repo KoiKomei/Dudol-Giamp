@@ -1,5 +1,6 @@
 package com.ilmale.doodlejump.engine;
 
+import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.domain.RemotePlayer;
@@ -9,6 +10,9 @@ public class MultiEngine extends GameEngine {
 
     public RemotePlayer player2;
     public Client client;
+    public boolean isStart = false;
+
+    private Constants constants = Constants.getInstance();
 
     public MultiEngine(){
         super();
@@ -30,19 +34,25 @@ public class MultiEngine extends GameEngine {
     @Override
     public void update() {
         //Log.d(LOG_TAG, "updating gameengine");
+        if(isStart) {
+            player.update();
+            //player2.update();
 
-        player.update();
-        //player2.update();
+            for (Bullet b : bullets) {
+                b.update();
+            }
 
-        for (Bullet b: bullets){
-            b.update();
+            audioEnemy();
+            audioJetpack();
+
+            if (fall()) {
+                endGame();
+            }
         }
-
-        audioEnemy();
-        audioJetpack();
-
-        if(fall()){
-            endGame();
+        else {
+            if(player2.pY!=0 && player2.pX!=0){
+                isStart=true;
+            }
         }
     }
 
@@ -51,9 +61,15 @@ public class MultiEngine extends GameEngine {
         if(!gameOver){
             audioManager.playLose_audio();
         }
+        constants.setLoseInMulti(true);
         client.setIsGameOver(true);
         gameOver = true;
+        isStart = false;
         //c.setIsGameOver(true);
+    }
+
+    public boolean isStart() {
+        return isStart;
     }
 
 }

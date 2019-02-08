@@ -1,13 +1,14 @@
 package com.ilmale.doodlejump.domain;
 
 import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.network.Client;
 
 import java.util.StringTokenizer;
 
 public class RemotePlayer {
 
-    public float pX;
-    public float pY;
+    public float pX = 0;
+    public float pY = 0;
     public int x; //VARIABILE DI CONTRLLO PER IL BITMAP
 
     private Constants constants = Constants.getInstance();
