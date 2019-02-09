@@ -106,8 +106,8 @@ public class LocationService extends IntentService {
     public void onCreate() {
         super.onCreate();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
-        users = db.ourDao().getUsers();
+        //db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").fallbackToDestructiveMigration().build();
+        //users = db.ourDao().getUsers();
     }
 
     private void checkPoints() {

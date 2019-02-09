@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     AudioManager audioManager = AudioManager.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     Records records = Records.getInstance();
-    LoginUser loginUser = LoginUser.getInstance();
+    //LoginUser loginUser = LoginUser.getInstance();
     ItemHandler dataHandler = new ItemHandler();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         myAlertDialog.setContext(this);
         constants.setContAlert(0);
         db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
-        checkLogin();
+        //checkLogin();
         audioManager.create(this);
         records.initializeRecords(this);
         for(Integer i: records.getRecords()){
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         setDimension();
     }
 
-    private void checkLogin() {
+    /*private void checkLogin() {
         loginUser.initializeLoginUser(this);
         if(loginUser.getEmail()!=null){
             account.setText(loginUser.getUsername());
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         else{
             account.setText(R.string.register);
         }
-    }
+    }*/
 
     public void setDimension(){
         Constants constants = Constants.getInstance();
@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         constants.setContAlert(0);
-        checkLogin();
+        //checkLogin();
         initializeSettings();
         playMusic();
         if(!constants.isAskedPosition()) {

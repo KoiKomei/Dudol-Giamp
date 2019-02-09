@@ -5,7 +5,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
 
-@Database(entities={User.class, Negozio.class, Possiede.class}, version=3, exportSchema = true)
+@Database(entities={User.class, Negozio.class, Possiede.class}, version=4, exportSchema = true)
 public abstract class OurDatabase extends RoomDatabase {
 
     public abstract OurDao ourDao();
