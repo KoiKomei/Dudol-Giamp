@@ -35,6 +35,7 @@ public class AddUserFragment extends Fragment {
 
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
+    private CollectionReference possiede=fs.collection("Possiede");
 
     public AddUserFragment() {
         // Required empty public constructor
@@ -87,6 +88,7 @@ public class AddUserFragment extends Fragment {
                                             String na=userName.getText().toString();
                                             String pass=userPassword.getText().toString();
                                             User user=new User();
+                                            Possiede possess=new Possiede();
                                             user.setEmail(em);
                                             user.setUsername(na);
                                             user.setPassword(pass);
@@ -94,6 +96,18 @@ public class AddUserFragment extends Fragment {
                                             user.setPunteggio(0);
                                             user.setLat(0);
                                             user.setMoney(0);
+                                            possess.setEmail(em);
+                                            possess.setBob(true);
+                                            possess.setBluebob(false);
+                                            possess.setBunnybob(false);
+                                            possess.setJunglebob(false);
+                                            possiede.add(possess)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+
+                                                        }
+                                                    });
                                             use.add(user)
                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                         @Override
@@ -110,6 +124,7 @@ public class AddUserFragment extends Fragment {
                                         String na=userName.getText().toString();
                                         String pass=userPassword.getText().toString();
                                         User user=new User();
+                                        Possiede possess=new Possiede();
                                         user.setEmail(em);
                                         user.setUsername(na);
                                         user.setPassword(pass);
@@ -117,6 +132,18 @@ public class AddUserFragment extends Fragment {
                                         user.setPunteggio(0);
                                         user.setLat(0);
                                         user.setMoney(0);
+                                        possess.setEmail(em);
+                                        possess.setBob(true);
+                                        possess.setBluebob(false);
+                                        possess.setBunnybob(false);
+                                        possess.setJunglebob(false);
+                                        possiede.add(possess)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+
+                                                    }
+                                                });
                                         use.add(user)
                                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                     @Override
