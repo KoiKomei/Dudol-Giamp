@@ -41,7 +41,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_multi"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ShopActivity" />
+        <activity android:name=".ShopActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ScoreActivity"
             android:label="@string/title_activity_score"
