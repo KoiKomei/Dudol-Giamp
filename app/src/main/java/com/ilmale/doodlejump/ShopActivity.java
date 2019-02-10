@@ -10,8 +10,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.database.OurDatabase;
+import com.ilmale.doodlejump.database.Possiede;
+import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
+
+import java.util.List;
 
 public class ShopActivity extends AppCompatActivity {
 
@@ -25,14 +34,15 @@ public class ShopActivity extends AppCompatActivity {
     private int moneyJungleBob=1000;
     private int moneyBunnyBob=1500;
 
-    public static OurDatabase db;
+    private FirebaseFirestore fs= FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
+    private CollectionReference negozio=fs.collection("Negozio");
+    private CollectionReference poss=fs.collection("Possiede");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-
-        db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
 
         money = findViewById(R.id.money);
         money.setText(""+loginUser.getMoney());
@@ -72,10 +82,9 @@ public class ShopActivity extends AppCompatActivity {
                         blueBob.setImageResource(R.drawable.shopbluebought);
                         loginUser.setBlueBob(true);
                         loginUser.setEquippedBlueBob(true);
-                        db.ourDao().updateBlue(true, loginUser.getEmail());
-                        db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyBlueBob, loginUser.getMoney());
-                        loginUser.setMoney(loginUser.getMoney() - moneyBlueBob);
-                        money.setText("" + loginUser.getMoney());
+                        money.setText("" + (loginUser.getMoney()-moneyBlueBob));
+                        setBlueBob();
+                        updateMoney(moneyBlueBob);
                     }
                     else if(loginUser.isBlueBob()){
                         blueBob.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -100,10 +109,9 @@ public class ShopActivity extends AppCompatActivity {
                         jungleBob.setImageResource(R.drawable.shopjunglebought);
                         loginUser.setJungleBob(true);
                         loginUser.setEquippedJungleBob(true);
-                        db.ourDao().updateJungle(true, loginUser.getEmail());
-                        db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyJungleBob, loginUser.getMoney());
-                        loginUser.setMoney(loginUser.getMoney() - moneyJungleBob);
-                        money.setText("" + loginUser.getMoney());
+                        money.setText("" + (loginUser.getMoney()-moneyJungleBob));
+                        setJungleBob();
+                        updateMoney(moneyJungleBob);
                     }
                     else if(loginUser.isJungleBob()){
                         jungleBob.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -128,10 +136,9 @@ public class ShopActivity extends AppCompatActivity {
                         bunnyBob.setImageResource(R.drawable.shopbunnybought);
                         loginUser.setBunnyBob(true);
                         loginUser.setEquippedBunnyBob(true);
-                        db.ourDao().updateBunny(true, loginUser.getEmail());
-                        db.ourDao().updateMoney(loginUser.getEmail(), loginUser.getMoney()-moneyBunnyBob, loginUser.getMoney());
-                        loginUser.setMoney(loginUser.getMoney() - moneyBunnyBob);
-                        money.setText("" + loginUser.getMoney());
+                        money.setText("" + (loginUser.getMoney()-moneyBunnyBob));
+                        setBunnyBob();
+                        updateMoney(moneyBunnyBob);
                     }
                     else if(loginUser.isBunnyBob()){
                         bunnyBob.setColorFilter(Color.argb(100, 0, 0, 0));
@@ -183,4 +190,77 @@ public class ShopActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void setBlueBob(){
+        poss.whereEqualTo("email", loginUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d:list){
+                        Possiede possiede=d.toObject(Possiede.class);
+                        possiede.setBluebob(true);
+                        String id=d.getId();
+                        poss.document(id).set(possiede);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setJungleBob(){
+        poss.whereEqualTo("email", loginUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d:list){
+                        Possiede possiede=d.toObject(Possiede.class);
+                        possiede.setJunglebob(true);
+                        String id=d.getId();
+                        poss.document(id).set(possiede);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setBunnyBob(){
+        poss.whereEqualTo("email", loginUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d:list){
+                        Possiede possiede=d.toObject(Possiede.class);
+                        possiede.setBunnybob(true);
+                        String id=d.getId();
+                        poss.document(id).set(possiede);
+                    }
+                }
+            }
+        });
+    }
+
+    private void updateMoney(final int money){
+        use.whereEqualTo("email", loginUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(!queryDocumentSnapshots.isEmpty()){
+                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                    for(DocumentSnapshot d:list){
+                        User user=d.toObject(User.class);
+                        int oldValue = loginUser.getMoney();
+                        int newValue = oldValue - money;
+                        user.setMoney(newValue);
+                        String id=d.getId();
+                        use.document(id).set(user);
+                        loginUser.setMoney(newValue);
+                    }
+                }
+            }
+        });
+    }
+
+
 }

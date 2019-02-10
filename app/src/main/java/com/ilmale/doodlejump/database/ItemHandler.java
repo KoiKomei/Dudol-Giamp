@@ -19,7 +19,7 @@ public class ItemHandler {
 
       neg.setCosto(costo);
 
-      RegisterActivity.db.ourDao().setNegozio(neg);
+      //RegisterActivity.db.ourDao().setNegozio(neg);
 
    }
 

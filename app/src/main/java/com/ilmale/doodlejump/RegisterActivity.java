@@ -12,14 +12,12 @@ import com.ilmale.doodlejump.database.OurDatabase;
 public class RegisterActivity extends AppCompatActivity {
 
     public static FragmentManager fm;
-    public static OurDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         fm=getSupportFragmentManager();
-        db= Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
         if(findViewById(R.id.fragment_container)!=null){
 
             if(savedInstanceState!=null){

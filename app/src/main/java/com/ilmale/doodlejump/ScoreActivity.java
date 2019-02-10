@@ -19,12 +19,9 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         textView = findViewById(R.id.scoreText);
-
-
         for(int i=0; i<5; i++){
             textView.setText(textView.getText()+"\n"+(i+1)+". "+records.getSRecords().get(i)+" - "+records.getRecords().get(i));
         }
-
     }
 
 }

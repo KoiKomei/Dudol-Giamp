@@ -5,7 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.database.OurDatabase;
+import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
@@ -33,6 +39,8 @@ public class Records {
     private List<String> sRecords;
 
     public LoginUser loginUser = LoginUser.getInstance();
+    private FirebaseFirestore fs= FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
 
     public Records() {
         records = new ArrayList<Integer>();
@@ -48,8 +56,6 @@ public class Records {
     }
 
     Context context;
-
-    public static OurDatabase db;
 
     public void initializeRecords(Context context) {
         this.context = context;
@@ -88,19 +94,31 @@ public class Records {
         }
 
         if (loginUser.getEmail() != null) {
-            db = Room.databaseBuilder(context, OurDatabase.class, "userdb").allowMainThreadQueries().build();
-            if (constants.getPoints() > loginUser.getPunteggio()) {
-                db.ourDao().updatePunteggio(constants.getPoints(), loginUser.getEmail());
-                db.ourDao().updateLat(myLocation.getLatLng().latitude, loginUser.getEmail());
-                db.ourDao().updateLong(myLocation.getLatLng().longitude, loginUser.getEmail());
-                loginUser.setPunteggio(constants.getPoints());
-                loginUser.setLat(myLocation.getLatLng().latitude);
-                loginUser.setLongi(myLocation.getLatLng().longitude);
-            }
-            int oldValue = loginUser.getMoney();
-            int newValue = oldValue + constants.getPoints() / 10;
-            db.ourDao().updateMoney(loginUser.getEmail(), newValue, oldValue);
-            loginUser.setMoney(newValue);
+            use.whereEqualTo("email", loginUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    if(!queryDocumentSnapshots.isEmpty()){
+                        List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                        for(DocumentSnapshot d:list){
+                            User user=d.toObject(User.class);
+                            if(constants.getPoints() > loginUser.getPunteggio()) {
+                                user.setPunteggio(constants.getPoints());
+                                user.setLat(myLocation.getLatLng().latitude);
+                                user.setLongi(myLocation.getLatLng().longitude);
+                                loginUser.setPunteggio(constants.getPoints());
+                                loginUser.setLat(myLocation.getLatLng().latitude);
+                                loginUser.setLongi(myLocation.getLatLng().longitude);
+                            }
+                            int oldValue = loginUser.getMoney();
+                            int newValue = oldValue + constants.getPoints() / 10;
+                            user.setMoney(newValue);
+                            String id=d.getId();
+                            use.document(id).set(user);
+                            loginUser.setMoney(newValue);
+                        }
+                    }
+                }
+            });
         }
 
         final SharedPreferences pref = context.getSharedPreferences("RECORDS_PREF", context.MODE_PRIVATE);

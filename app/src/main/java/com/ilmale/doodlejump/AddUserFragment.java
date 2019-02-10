@@ -113,9 +113,12 @@ public class AddUserFragment extends Fragment {
                                                         @Override
                                                         public void onSuccess(DocumentReference documentReference) {
                                                             Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
+                                                            userEmail.setText("");
+                                                            userName.setText("");
+                                                            userPassword.setText("");
+                                                            RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new LoginFragment()).addToBackStack(null).commit();
                                                         }
                                                     });
-
 
                                         }
                                     }
@@ -149,9 +152,12 @@ public class AddUserFragment extends Fragment {
                                                     @Override
                                                     public void onSuccess(DocumentReference documentReference) {
                                                         Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
+                                                        userEmail.setText("");
+                                                        userName.setText("");
+                                                        userPassword.setText("");
+                                                        RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new LoginFragment()).addToBackStack(null).commit();
                                                     }
                                                 });
-
                                     }
                                 }
                             });

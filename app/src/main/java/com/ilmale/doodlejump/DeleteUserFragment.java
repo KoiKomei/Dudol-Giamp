@@ -41,7 +41,7 @@ public class DeleteUserFragment extends Fragment {
                 String email=txtUser.getText().toString();
                 String pass=txtPass.getText().toString();
 
-                RegisterActivity.db.ourDao().deleteUser(email, pass);
+                //RegisterActivity.db.ourDao().deleteUser(email, pass);
                 txtUser.setText("");
                 txtPass.setText("");
             }

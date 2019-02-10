@@ -88,4 +88,9 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }

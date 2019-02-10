@@ -53,7 +53,6 @@ public class UpdateFragment extends Fragment {
                 String email=userEmail.getText().toString();
                 String oldp=userPassword.getText().toString();
 
-                //RegisterActivity.db.ourDao().updatePass(email, newp, oldp);
                 use.whereEqualTo("email", email).whereEqualTo("password", oldp)
                         .get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

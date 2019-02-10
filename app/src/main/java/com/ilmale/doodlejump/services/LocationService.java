@@ -18,13 +18,20 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.Constants;
 import com.ilmale.doodlejump.MyAlertDialog;
 import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationService extends IntentService {
@@ -35,13 +42,15 @@ public class LocationService extends IntentService {
 
     public final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
 
-    private OurDatabase db;
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     LoginUser loginUser = LoginUser.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
     Constants constants = Constants.getInstance();
+
+    private FirebaseFirestore fs= FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
 
     public LocationService() {
         super("location service");
@@ -106,8 +115,18 @@ public class LocationService extends IntentService {
     public void onCreate() {
         super.onCreate();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        //db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").fallbackToDestructiveMigration().build();
-        //users = db.ourDao().getUsers();
+        use.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for (DocumentSnapshot d : list) {
+                        User user = d.toObject(User.class);
+                        users.add(user);
+                    }
+                }
+            }
+        });
     }
 
     private void checkPoints() {

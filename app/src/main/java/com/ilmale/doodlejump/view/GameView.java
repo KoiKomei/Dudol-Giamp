@@ -52,9 +52,6 @@ public class GameView extends SurfaceView implements Runnable{
         // This is used to help calculate the fps
         private long timeThisFrame;
 
-        //database to get bob
-        public static OurDatabase db;
-
         // Declare an item of type Bitmap
         Bitmap bitmapBG;
         Bitmap bitmapBobLeft;
@@ -83,14 +80,12 @@ public class GameView extends SurfaceView implements Runnable{
         public GameView(Context context, GameEngine engine) {
             super(context);
 
-            this.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+            //this.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
             gameEngine = engine;
 
             // Initialize ourHolder and paint objects
             ourHolder = getHolder();
             paint = new Paint();
-
-            db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
 
             initializeBobValue();
 

@@ -12,9 +12,8 @@ import java.util.List;
 @Dao
 public interface OurDao {
 
-    /*                */
-    /*Roba dell'utente*/
-    /*                */
+    /*
+    //Roba dell'utente
 
     @Insert
     void setUser(User user);
@@ -55,9 +54,8 @@ public interface OurDao {
     @Query("Select * from User WHERE Email=:email")
     public User getUtente(String email);
 
-    /*                */
-    /*Roba del negozio*/
-    /*                */
+
+    //Roba del negozio
 
     @Insert
     void setNegozio(Negozio negozio);
@@ -65,21 +63,19 @@ public interface OurDao {
     @Query("select * from Negozio")
     public List<Negozio> getNegozio();
 
-
-    /*
     @Query("select Costo from Negozio where Nome=:name")
     public void getPrezzoBob(String name);
-    /*Nomi Bob attuali:
-    Bob
-    BlueBob
-    JungleBob
-    BunnyBob
-     */
 
 
-    /*                                                 */
-    /*Roba di quella roba che abbiamo chiamato Possiede*/
-    /*                                                 */
+    //Nomi Bob attuali:
+    //Bob
+    //BlueBob
+    //JungleBob
+    //BunnyBob
+
+
+
+    //Roba di quella roba che abbiamo chiamato Possiede
 
     @Insert
     void setPossiede(Possiede possiede);
@@ -110,5 +106,7 @@ public interface OurDao {
 
     @Query("select bunny_bob from Possiede WHERE user_email=:email")
     public boolean getBunny(String email);
+
+    */
 
 }

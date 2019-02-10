@@ -63,14 +63,12 @@ public class MainActivity extends AppCompatActivity {
     AudioManager audioManager = AudioManager.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     Records records = Records.getInstance();
-    //LoginUser loginUser = LoginUser.getInstance();
+    LoginUser loginUser = LoginUser.getInstance();
     ItemHandler dataHandler = new ItemHandler();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
 
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;
-
-    private OurDatabase db;
 
     JSONObject data = null;
     public static String weather = "";
@@ -87,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
         account = this.findViewById(R.id.button_account);
         myAlertDialog.setContext(this);
         constants.setContAlert(0);
-        db = Room.databaseBuilder(getApplicationContext(), OurDatabase.class,"userdb").allowMainThreadQueries().build();
-        //checkLogin();
+        checkLogin();
         audioManager.create(this);
         records.initializeRecords(this);
         for(Integer i: records.getRecords()){
@@ -98,23 +95,22 @@ public class MainActivity extends AppCompatActivity {
         setDimension();
     }
 
-    /*private void checkLogin() {
+    private void checkLogin() {
         loginUser.initializeLoginUser(this);
         if(loginUser.getEmail()!=null){
-            account.setText(loginUser.getUsername());
             loginUser.initializeBobEquipped();
+            account.setText(loginUser.getUsername());
         }
         else{
             account.setText(R.string.register);
         }
-    }*/
+    }
 
     public void setDimension(){
         Constants constants = Constants.getInstance();
         constants.setPixelHeight(getResources().getDisplayMetrics().heightPixels);
         constants.setPixelWidth(getResources().getDisplayMetrics().widthPixels);
         Log.d(LOG_TAG, "Width: "+constants.getPixelWidth()+ ", Height:" +constants.getPixelHeight());
-
     }
 
     public void getLastKnownLocation() {
@@ -287,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         constants.setContAlert(0);
-        //checkLogin();
+        checkLogin();
         initializeSettings();
         playMusic();
         if(!constants.isAskedPosition()) {

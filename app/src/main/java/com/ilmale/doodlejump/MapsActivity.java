@@ -20,11 +20,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -38,12 +44,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String player;
     private int points;
     Records records = Records.getInstance();
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
     private LoginUser loginUser = LoginUser.getInstance();
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
 
-    public static OurDatabase db;
+    private FirebaseFirestore fs= FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +60,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        db = Room.databaseBuilder(this, OurDatabase.class,"userdb").allowMainThreadQueries().build();
-        users = db.ourDao().getUsers();
-
+        use.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for (DocumentSnapshot d : list) {
+                        User user = d.toObject(User.class);
+                        users.add(user);
+                    }
+                }
+            }
+        });
+        for(User u: users){
+            Log.d(LOG_TAG, "Punteggio:"+ u.getPunteggio());
+        }
     }
 
     @Override
@@ -131,8 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mHandler.removeCallbacks(mRunnable);
     }
 
-    public void animateMarker(final Marker marker, final LatLng toPosition,
-                              final boolean hideMarker) {
+    public void animateMarker(final Marker marker, final LatLng toPosition, final boolean hideMarker) {
         final Handler handler = new Handler();
         final long start = SystemClock.uptimeMillis();
         Projection proj = mMap.getProjection();

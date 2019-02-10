@@ -69,8 +69,8 @@ public class LoginFragment extends Fragment {
                                         User user=d.toObject(User.class);
                                         if(UserPassword.equalsIgnoreCase(user.getPassword()) && UserEmail.equalsIgnoreCase(user.getEmail())){
                                             login=true;
-                                            //loginUser.setLoginUser(user);
-                                            //loginUser.initializeBobEquipped();
+                                            loginUser.setLoginUser(user.getEmail());
+                                            loginUser.initializeBobEquipped();
                                             Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getContext(), MainActivity.class);
                                             startActivity(intent);

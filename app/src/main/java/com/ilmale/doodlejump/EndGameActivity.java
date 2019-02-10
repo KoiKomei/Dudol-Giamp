@@ -29,14 +29,18 @@ public class EndGameActivity extends AppCompatActivity {
     private Records records = Records.getInstance();
     private Constants constants = Constants.getInstance();
 
-    boolean clicked;
+    private boolean clickedUR;
+    private boolean clickedLS;
+    private boolean clickedLM;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
-        clicked=false;
+        clickedUR=false;
+        clickedLS=false;
+        clickedLM=false;
 
         name = findViewById(R.id.nameText);
         save = findViewById(R.id.save);
@@ -56,8 +60,8 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void updateRecords(View view) {
-        if(!clicked) {
-            clicked=true;
+        if(!clickedUR) {
+            clickedUR=true;
             constants.setName(name.getText().toString());
             records.updateRecords();
             Intent intent = new Intent(this, MainActivity.class);
@@ -71,8 +75,13 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void launchMainActivity(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        if(!clickedLM) {
+            clickedLM=true;
+            constants.setName(name.getText().toString());
+            records.updateRecords();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
