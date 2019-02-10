@@ -9,8 +9,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
+
+import java.util.List;
 
 
 /**
@@ -21,6 +28,8 @@ public class UpdateFragment extends Fragment {
     private EditText userEmail, userPassword, newPass;
     private Button bnUpdate;
     private LoginUser loginUser = LoginUser.getInstance();
+    private FirebaseFirestore fs=FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
 
     public UpdateFragment() {
         // Required empty public constructor
@@ -43,12 +52,30 @@ public class UpdateFragment extends Fragment {
             public void onClick(View v){
                 String email=userEmail.getText().toString();
                 String oldp=userPassword.getText().toString();
-                String newp=newPass.getText().toString();
-                RegisterActivity.db.ourDao().updatePass(email, newp, oldp);
-                userEmail.setText("");
-                userPassword.setText("");
-                newPass.setText("");
-                loginUser.setPassword(newp);
+
+                //RegisterActivity.db.ourDao().updatePass(email, newp, oldp);
+                use.whereEqualTo("email", email).whereEqualTo("password", oldp)
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                if(!queryDocumentSnapshots.isEmpty()){
+                                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                                    for(DocumentSnapshot d:list){
+                                        String newp=newPass.getText().toString();
+                                        User user=d.toObject(User.class);
+                                        user.setPassword(newp);
+                                        String id=d.getId();
+                                        use.document(id).set(user);
+                                        userEmail.setText("");
+                                        userPassword.setText("");
+                                        newPass.setText("");
+                                        loginUser.setPassword(newp);
+                                    }
+                                }
+                            }
+                        });
+
 
             }
 

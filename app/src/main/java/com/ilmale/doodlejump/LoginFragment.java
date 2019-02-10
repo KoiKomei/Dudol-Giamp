@@ -13,9 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +32,9 @@ public class LoginFragment extends Fragment {
     EditText userEmail, userPassword;
     Button bnLogin;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private FirebaseFirestore fs=FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
+    private List<User> userList=new ArrayList<>();
 
     private LoginUser loginUser = LoginUser.getInstance();
 
@@ -46,12 +55,39 @@ public class LoginFragment extends Fragment {
         bnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean login=false;
-                String UserEmail=userEmail.getText().toString();
-                String UserPassword=userPassword.getText().toString();
-                List<User> users=RegisterActivity.db.ourDao().getUsers();
+                final String UserEmail=userEmail.getText().toString();
+                final String UserPassword=userPassword.getText().toString();
+                use.get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                for(User us:users){
+                                if(!queryDocumentSnapshots.isEmpty()){
+                                    boolean login=false;
+                                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                                    for(DocumentSnapshot d:list){
+                                        User user=d.toObject(User.class);
+                                        if(UserPassword.equalsIgnoreCase(user.getPassword()) && UserEmail.equalsIgnoreCase(user.getEmail())){
+                                            login=true;
+                                            //loginUser.setLoginUser(user);
+                                            //loginUser.initializeBobEquipped();
+                                            Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getContext(), MainActivity.class);
+                                            startActivity(intent);
+                                            break;
+
+                                        }
+                                    }
+                                    if(login==false){
+                                        Toast.makeText(getActivity(), "Login not successful", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+
+                //List<User> users=RegisterActivity.db.ourDao().getUsers();
+
+                /*for(User us:users){
                     Log.d(LOG_TAG, "Dentro al for");
                     if(UserEmail.equalsIgnoreCase(us.getEmail()) && UserPassword.equalsIgnoreCase(us.getPassword())){
                         Log.d(LOG_TAG, "Dentro all'if");
@@ -70,7 +106,7 @@ public class LoginFragment extends Fragment {
                 if(login=false){
                     Log.d(LOG_TAG, "Dentro al secondo if");
                     Toast.makeText(getActivity(), "Login not successful", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
         });

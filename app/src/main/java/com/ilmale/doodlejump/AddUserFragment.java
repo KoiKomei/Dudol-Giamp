@@ -3,6 +3,7 @@ package com.ilmale.doodlejump;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 
@@ -25,8 +33,21 @@ public class AddUserFragment extends Fragment {
     private EditText userName, userEmail, userPassword;
     private Button bnRegister;
 
+    private FirebaseFirestore fs=FirebaseFirestore.getInstance();
+    private CollectionReference use=fs.collection("User");
+    private CollectionReference possiede=fs.collection("Possiede");
+
     public AddUserFragment() {
         // Required empty public constructor
+    }
+
+    private boolean filledCamps(String email, String username, String password){
+        if(email.isEmpty() || username.isEmpty() || password.isEmpty()){
+            Toast.makeText(getActivity(), "Empty camps", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -43,13 +64,106 @@ public class AddUserFragment extends Fragment {
         bnRegister.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                boolean un=true;
+                //boolean un=true;
                 String UserName=userName.getText().toString();
                 String UserEmail=userEmail.getText().toString();
                 String UserPassword=userPassword.getText().toString();
-                List<User> users=RegisterActivity.db.ourDao().getUsers();
+                if(filledCamps(UserName,UserEmail,UserPassword)){
+
+                    use.get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    if(!queryDocumentSnapshots.isEmpty()){
+                                        boolean uniq=true;
+                                        List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                                        for(DocumentSnapshot d:list){
+                                            User user=d.toObject(User.class);
+                                            if(user.getEmail().equalsIgnoreCase(userEmail.getText().toString())){
+                                                uniq=false;
+                                            }
+                                        }
+                                        if(uniq){
+                                            String em=userEmail.getText().toString();
+                                            String na=userName.getText().toString();
+                                            String pass=userPassword.getText().toString();
+                                            User user=new User();
+                                            Possiede possess=new Possiede();
+                                            user.setEmail(em);
+                                            user.setUsername(na);
+                                            user.setPassword(pass);
+                                            user.setLongi(0);
+                                            user.setPunteggio(0);
+                                            user.setLat(0);
+                                            user.setMoney(0);
+                                            possess.setEmail(em);
+                                            possess.setBob(true);
+                                            possess.setBluebob(false);
+                                            possess.setBunnybob(false);
+                                            possess.setJunglebob(false);
+                                            possiede.add(possess)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+
+                                                        }
+                                                    });
+                                            use.add(user)
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentReference documentReference) {
+                                                            Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+
+
+                                        }
+                                    }
+                                    else{
+                                        String em=userEmail.getText().toString();
+                                        String na=userName.getText().toString();
+                                        String pass=userPassword.getText().toString();
+                                        User user=new User();
+                                        Possiede possess=new Possiede();
+                                        user.setEmail(em);
+                                        user.setUsername(na);
+                                        user.setPassword(pass);
+                                        user.setLongi(0);
+                                        user.setPunteggio(0);
+                                        user.setLat(0);
+                                        user.setMoney(0);
+                                        possess.setEmail(em);
+                                        possess.setBob(true);
+                                        possess.setBluebob(false);
+                                        possess.setBunnybob(false);
+                                        possess.setJunglebob(false);
+                                        possiede.add(possess)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+
+                                                    }
+                                                });
+                                        use.add(user)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            });
+
+
+
+
+                }
+
+               /* List<User> users=RegisterActivity.db.ourDao().getUsers();
                 for(User us:users){
-                    if(UserEmail.equalsIgnoreCase(us.getEmail())){
+                    if(UserEmail.equals(us.getEmail())){
                         un=false;
                         break;
                     }
@@ -90,7 +204,7 @@ public class AddUserFragment extends Fragment {
                     userName.setText("");
                     userPassword.setText("");
 
-                }
+                }*/
 
 
             }

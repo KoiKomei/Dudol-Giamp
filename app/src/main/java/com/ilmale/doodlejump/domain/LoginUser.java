@@ -170,7 +170,7 @@ public class LoginUser {
 
     public void initializeLoginUser(Context context) {
         this.context=context;
-        db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
+        //db = Room.databaseBuilder(context, OurDatabase.class,"userdb").allowMainThreadQueries().build();
         final SharedPreferences pref = context.getSharedPreferences("LOGIN_PREF", MODE_PRIVATE);
         String email = pref.getString("email", null);
         if(email!=null){
@@ -202,9 +202,9 @@ public class LoginUser {
         setPunteggio(us.getPunteggio());
         setLat(us.getLat());
         setLongi(us.getLongi());
-        setBlueBob(db.ourDao().getBlue(email));
+        /*setBlueBob(db.ourDao().getBlue(email));
         setBunnyBob(db.ourDao().getBunny(email));
-        setJungleBob(db.ourDao().getJungle(email));
+        setJungleBob(db.ourDao().getJungle(email));*/
         login();
     }
 

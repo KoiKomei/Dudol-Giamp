@@ -65,14 +65,6 @@ public interface OurDao {
     @Query("select * from Negozio")
     public List<Negozio> getNegozio();
 
-    @Query("UPDATE Negozio SET Nome=:name WHERE Id_oggetto=:id")
-    public void updateName(String name, int id);
-
-    @Query("UPDATE Negozio SET Image=:url WHERE Id_oggetto=:id")
-    public void updateImage(String url, int id);
-
-    @Query("UPDATE Negozio SET Costo=:costo WHERE Id_oggetto=:id")
-    public void updateCosto(int costo, int id);
 
     /*
     @Query("select Costo from Negozio where Nome=:name")

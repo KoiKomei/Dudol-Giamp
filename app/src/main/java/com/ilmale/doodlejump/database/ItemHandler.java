@@ -14,9 +14,9 @@ public class ItemHandler {
    public void insertItem(int id, String name, String url, int costo){
       Negozio neg=new Negozio();
 
-      neg.setId(id);
+
       neg.setName(name);
-      neg.setUrl(url);
+
       neg.setCosto(costo);
 
       RegisterActivity.db.ourDao().setNegozio(neg);

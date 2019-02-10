@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "877027326165",
+    "firebase_url": "https://dudolgiamp-d5465.firebaseio.com",
+    "project_id": "dudolgiamp-d5465",
+    "storage_bucket": "dudolgiamp-d5465.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877027326165:android:c744135424c11d62",
+        "android_client_info": {
+          "package_name": "com.ilmale.doodlejump"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877027326165-oks5jqjf8e16bbtrqr85horv3dblu77b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ilmale.doodlejump",
+            "certificate_hash": "7b949db95d84e3de20040b67c4f99e85b4a3d98b"
+          }
+        },
+        {
+          "client_id": "877027326165-16jps8l16ihnce59s2qjp8so4h568tbb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKzsD8u0IG-NzpI_0_t4sFL6oNAm6cq8E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877027326165-16jps8l16ihnce59s2qjp8so4h568tbb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
