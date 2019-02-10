@@ -44,7 +44,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String player;
     private int points;
     Records records = Records.getInstance();
-    private List<User> users = new ArrayList<>();
     private LoginUser loginUser = LoginUser.getInstance();
     private Handler mHandler = new Handler();
     private Runnable mRunnable;
@@ -60,21 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        use.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    for (DocumentSnapshot d : list) {
-                        User user = d.toObject(User.class);
-                        users.add(user);
-                    }
-                }
-            }
-        });
-        for(User u: users){
-            Log.d(LOG_TAG, "Punteggio:"+ u.getPunteggio());
-        }
+
     }
 
     @Override
@@ -101,7 +86,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         if(loginUser.getEmail()!=null){
             player = loginUser.getUsername();
             points = loginUser.getPunteggio();
@@ -117,15 +101,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(myPosition.latitude, myPosition.longitude), 13.6f));
         }
-        for(User u:users){
-            if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0 && !u.getEmail().equalsIgnoreCase(loginUser.getEmail())){
-                player = u.getUsername();
-                points = u.getPunteggio();
-                LatLng position = new LatLng(u.getLat(), u.getLongi());
-                MarkerOptions marker = new MarkerOptions().position(position).title(player+":"+points);
-                mMap.addMarker(marker);
+
+        use.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+                    for (DocumentSnapshot d : list) {
+                        User u = d.toObject(User.class);
+                        if(u.getLat()!=0.0 && u.getLongi()!=0.0 && u.getPunteggio()!=0 && !u.getEmail().equalsIgnoreCase(loginUser.getEmail())){
+                            player = u.getUsername();
+                            points = u.getPunteggio();
+                            LatLng position = new LatLng(u.getLat(), u.getLongi());
+                            MarkerOptions marker = new MarkerOptions().position(position).title(player+":"+points);
+                            mMap.addMarker(marker);
+                        }
+                    }
+                }
             }
-        }
+        });
     }
 
     private void startUserLocationsRunnable(){
