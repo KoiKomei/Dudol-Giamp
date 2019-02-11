@@ -3,7 +3,11 @@
     package="com.ilmale.doodlejump">
 
     <uses-permission android:name="android.permission.VIBRATE" />
-
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens= "true"
+        android:anyDensity="true"/>
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ilmale.doodlejump.ChainScore.HandlerScore1;
@@ -21,7 +22,7 @@ public class EndGameActivity extends AppCompatActivity {
     private static final String LOG_TAG = EndGameActivity.class.getSimpleName();
 
     public EditText name;
-    public Button save, playAgain, menu;
+    public ImageButton save, playAgain, menu;
     public TextView points, textPoints;
 
     private LoginUser loginUser = LoginUser.getInstance();

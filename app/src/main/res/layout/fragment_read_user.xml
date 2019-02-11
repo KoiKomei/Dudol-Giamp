@@ -9,22 +9,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <Button
-        android:id="@+id/menu_readuser"
-        android:layout_width="100dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/plat1"
-        android:text="MENU"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.972"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.874" />
 
     <ImageView
         android:id="@+id/image"
@@ -69,5 +53,19 @@
         app:layout_constraintStart_toStartOf="@+id/txt_display_info"
         app:layout_constraintTop_toBottomOf="@+id/txt_display_info"
         app:layout_constraintVertical_bias="0.061" />
+
+    <ImageButton
+        android:id="@+id/menu_readuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/update"
+        android:src="@drawable/menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.885"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.821" />
+
 
 </android.support.constraint.ConstraintLayout>

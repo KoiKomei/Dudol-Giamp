@@ -2,6 +2,7 @@ package com.ilmale.doodlejump;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,7 +19,8 @@ import com.ilmale.doodlejump.domain.LoginUser;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    private Button BnDelete, menu;
+    private Button BnDelete;
+    private ImageButton menu;
     private ImageButton BnRegister, BnUpdate, BnLogin, BnLogout, BnInfo;
     private LoginUser loginUser = LoginUser.getInstance();
 

@@ -6,23 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".EndGameMultiActivity">
 
-    <Button
-        android:id="@+id/menu_multi"
-        android:layout_width="100dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/plat1"
-        android:onClick="launchMainActivity"
-        android:text="MENU"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.854"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441" />
+
 
     <ImageView
         android:id="@+id/imageView3"
@@ -36,24 +20,18 @@
         app:layout_constraintVertical_bias="0.511"
         app:srcCompat="@drawable/background" />
 
-    <Button
+    <ImageButton
         android:id="@+id/play_again_multi"
-        android:layout_width="166dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/plat1"
-        android:onClick="launchMultiPlayerActivity"
-        android:text="PLAY AGAIN"
-        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/update"
+        android:src="@drawable/playagain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
+        app:layout_constraintHorizontal_bias="0.177"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.434" />
+        app:layout_constraintVertical_bias="0.43" />
 
     <TextView
         android:id="@+id/text_multi"
@@ -70,4 +48,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.269" />
+
+    <ImageButton
+        android:id="@+id/menu_multi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/update"
+        android:src="@drawable/menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43" />
 </android.support.constraint.ConstraintLayout>

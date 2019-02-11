@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +33,7 @@ public class ShopActivity extends AppCompatActivity {
     private ImageView blueBob;
     private ImageView jungleBob;
     private ImageView bunnyBob;
-    private Button menu;
+    private ImageButton menu;
     private int moneyBlueBob=500;
     private int moneyJungleBob=1000;
     private int moneyBunnyBob=1500;

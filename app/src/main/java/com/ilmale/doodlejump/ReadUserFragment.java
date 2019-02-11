@@ -2,6 +2,7 @@ package com.ilmale.doodlejump;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +30,7 @@ public class ReadUserFragment extends Fragment {
 
     private TextView info;
     private ImageView bobImageView;
-    private Button menu;
+    private ImageButton menu;
     private LoginUser loginUser = LoginUser.getInstance();
 
     public ReadUserFragment() {

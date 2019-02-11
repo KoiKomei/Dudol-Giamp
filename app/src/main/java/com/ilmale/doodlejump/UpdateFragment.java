@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,7 +28,7 @@ import java.util.List;
 public class UpdateFragment extends Fragment {
 
     private EditText userEmail, userPassword, newPass;
-    private Button bnUpdate, menu;
+    private ImageButton bnUpdate, menu;
     private LoginUser loginUser = LoginUser.getInstance();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");

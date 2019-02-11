@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ilmale.doodlejump.domain.LoginUser;
@@ -15,7 +16,7 @@ public class EndGameMultiActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = EndGameMultiActivity.class.getSimpleName();
 
-    public Button playAgain, menu;
+    public ImageButton playAgain, menu;
     public TextView text;
 
     private Constants constants = Constants.getInstance();

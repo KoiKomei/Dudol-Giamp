@@ -2,8 +2,10 @@ package com.ilmale.doodlejump;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +36,7 @@ import java.util.List;
  */
 public class LoginFragment extends Fragment {
     EditText userEmail, userPassword;
-    Button bnLogin, menu;
+    ImageButton bnLogin, menu;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
@@ -109,6 +114,7 @@ public class LoginFragment extends Fragment {
                                 }
                             }
                         });
+
 
                 //List<User> users=RegisterActivity.db.ourDao().getUsers();
 

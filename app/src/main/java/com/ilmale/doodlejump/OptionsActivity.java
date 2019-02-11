@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Switch;
 
 import com.ilmale.doodlejump.settings.SettingsSI;
@@ -23,7 +24,7 @@ public class OptionsActivity extends AppCompatActivity {
     Switch soundSwitch;
     Switch weatherSwitch;
     // initiate Button
-    Button save, menu;
+    ImageButton save, menu;
 
     SettingsSI settingsSI = SettingsSI.getInstance();
     AudioManager audioManager = AudioManager.getInstance();

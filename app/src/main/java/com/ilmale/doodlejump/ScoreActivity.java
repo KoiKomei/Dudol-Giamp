@@ -9,13 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ScoreActivity extends AppCompatActivity {
 
     private Records records = Records.getInstance();
     private TextView textView;
-    private Button menu;
+    private ImageButton menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -70,5 +70,8 @@
 
     <string name="action_share">Share</string>
     <string name="action_reply">Reply</string>
+    <string name="salva">Salva</string>
+    <string name="cambio_password">Cambio Password</string>
+
 
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,7 +32,7 @@ import java.util.List;
 public class AddUserFragment extends Fragment {
 
     private EditText userName, userEmail, userPassword;
-    private Button bnRegister, menu;
+    private ImageButton bnRegister, menu;
 
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
