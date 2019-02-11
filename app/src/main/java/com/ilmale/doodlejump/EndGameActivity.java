@@ -21,7 +21,7 @@ public class EndGameActivity extends AppCompatActivity {
     private static final String LOG_TAG = EndGameActivity.class.getSimpleName();
 
     public EditText name;
-    public Button save, playAgain, exit;
+    public Button save, playAgain, menu;
     public TextView points, textPoints;
 
     private LoginUser loginUser = LoginUser.getInstance();
@@ -44,7 +44,7 @@ public class EndGameActivity extends AppCompatActivity {
         name = findViewById(R.id.nameText);
         save = findViewById(R.id.save);
         playAgain = findViewById(R.id.play_again);
-        exit = findViewById(R.id.exit);
+        menu = findViewById(R.id.menu);
         points = findViewById(R.id.points);
         points.setText(""+constants.getPoints());
         textPoints = findViewById(R.id.textPoints);

@@ -7,22 +7,22 @@
     tools:context=".EndGameMultiActivity">
 
     <Button
-        android:id="@+id/exit_multi"
-        android:layout_width="184dp"
+        android:id="@+id/menu_multi"
+        android:layout_width="100dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/plat1"
         android:onClick="launchMainActivity"
-        android:text="EXIT"
+        android:text="MENU"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.854"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintVertical_bias="0.441" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -38,7 +38,7 @@
 
     <Button
         android:id="@+id/play_again_multi"
-        android:layout_width="184dp"
+        android:layout_width="166dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -50,10 +50,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.405" />
+        app:layout_constraintVertical_bias="0.434" />
 
     <TextView
         android:id="@+id/text_multi"

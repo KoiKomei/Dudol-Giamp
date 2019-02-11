@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import java.util.List;
 public class UpdateFragment extends Fragment {
 
     private EditText userEmail, userPassword, newPass;
-    private Button bnUpdate;
+    private Button bnUpdate, menu;
     private LoginUser loginUser = LoginUser.getInstance();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
@@ -46,6 +47,7 @@ public class UpdateFragment extends Fragment {
         userPassword=view.findViewById(R.id.txt_old_password);
         newPass=view.findViewById(R.id.txt_new_password);
         bnUpdate=view.findViewById(R.id.bn_save);
+        menu = view.findViewById(R.id.menu_update);
 
         bnUpdate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -82,10 +84,16 @@ public class UpdateFragment extends Fragment {
 
         });
 
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
 
     }
-
-
 
 }

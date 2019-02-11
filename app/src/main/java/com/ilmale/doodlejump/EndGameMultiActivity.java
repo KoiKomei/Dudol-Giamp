@@ -15,7 +15,7 @@ public class EndGameMultiActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = EndGameMultiActivity.class.getSimpleName();
 
-    public Button playAgain, exit;
+    public Button playAgain, menu;
     public TextView text;
 
     private Constants constants = Constants.getInstance();
@@ -26,7 +26,7 @@ public class EndGameMultiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_game_multi);
 
         playAgain = findViewById(R.id.play_again_multi);
-        exit = findViewById(R.id.exit_multi);
+        menu = findViewById(R.id.menu_multi);
         text = findViewById(R.id.text_multi);
         if(constants.isLoseInMulti()){
             text.setText("YOU LOSE");

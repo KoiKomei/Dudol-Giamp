@@ -100,7 +100,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jungleBob" />
+        app:layout_constraintTop_toBottomOf="@+id/jungleBob"
+        app:layout_constraintVertical_bias="0.233" />
 
     <TextView
         android:id="@+id/textView3"
@@ -132,4 +133,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:text="@string/money" />
+
+    <Button
+        android:id="@+id/menu_shop"
+        android:layout_width="100dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/plat1"
+        android:onClick="launchMainActivity"
+        android:text="MENU"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.308" />
 </android.support.constraint.ConstraintLayout>

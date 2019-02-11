@@ -1,12 +1,14 @@
 package com.ilmale.doodlejump;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ public class ShopActivity extends AppCompatActivity {
     private ImageView blueBob;
     private ImageView jungleBob;
     private ImageView bunnyBob;
+    private Button menu;
     private int moneyBlueBob=500;
     private int moneyJungleBob=1000;
     private int moneyBunnyBob=1500;
@@ -46,6 +49,8 @@ public class ShopActivity extends AppCompatActivity {
 
         money = findViewById(R.id.money);
         money.setText(""+loginUser.getMoney());
+
+        menu = findViewById(R.id.menu_shop);
 
         bob = findViewById(R.id.bob);
 
@@ -262,5 +267,9 @@ public class ShopActivity extends AppCompatActivity {
         });
     }
 
+    public void launchMainActivity(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }

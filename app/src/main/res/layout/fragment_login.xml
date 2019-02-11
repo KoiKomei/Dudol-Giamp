@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".LoginFragment">
 
+    <Button
+        android:id="@+id/menu_login"
+        android:layout_width="100dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/plat1"
+        android:text="MENU"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871" />
+
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
@@ -20,14 +37,16 @@
 
     <Button
         android:id="@+id/bn_login"
-        android:layout_width="wrap_content"
+        android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/login"
+        android:background="@drawable/plat1"
 
+        android:text="@string/login"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

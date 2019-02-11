@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,7 +18,7 @@ import com.ilmale.doodlejump.domain.LoginUser;
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 
-    private Button BnDelete;
+    private Button BnDelete, menu;
     private ImageButton BnRegister, BnUpdate, BnLogin, BnLogout, BnInfo;
     private LoginUser loginUser = LoginUser.getInstance();
 
@@ -31,6 +32,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_register, container, false);
 
+        menu = view.findViewById(R.id.menu_register);
         BnRegister=view.findViewById(R.id.bn_register);
         BnInfo=view.findViewById(R.id.bn_info);
         BnLogout=view.findViewById(R.id.bn_logout);
@@ -49,6 +51,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         }else{
             setLoginRegisterButton(view);
         }
+        
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -75,7 +85,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 loginUser.logout();
                 setLoginRegisterButton(v);
                 break;
-
         }
     }
 

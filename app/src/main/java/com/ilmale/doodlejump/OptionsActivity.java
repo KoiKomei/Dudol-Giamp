@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ public class OptionsActivity extends AppCompatActivity {
     Switch soundSwitch;
     Switch weatherSwitch;
     // initiate Button
-    Button save;
+    Button save, menu;
 
     SettingsSI settingsSI = SettingsSI.getInstance();
     AudioManager audioManager = AudioManager.getInstance();
@@ -51,8 +52,8 @@ public class OptionsActivity extends AppCompatActivity {
         weatherSwitch.setChecked(settingsSI.isWeatherCondition());
 
         // initiate Button
-        save = (Button) findViewById(R.id.saveButton);
-
+        save = findViewById(R.id.saveButton);
+        menu = findViewById(R.id.menu_option);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,5 +97,9 @@ public class OptionsActivity extends AppCompatActivity {
 
     }
 
+    public void launchMainActivity(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }

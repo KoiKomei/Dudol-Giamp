@@ -31,7 +31,7 @@ import java.util.List;
 public class AddUserFragment extends Fragment {
 
     private EditText userName, userEmail, userPassword;
-    private Button bnRegister;
+    private Button bnRegister, menu;
 
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
@@ -59,6 +59,7 @@ public class AddUserFragment extends Fragment {
         userName=view.findViewById(R.id.txt_username);
         userPassword=view.findViewById(R.id.txt_user_password);
         bnRegister=view.findViewById(R.id.button);
+        menu = view.findViewById(R.id.menu_adduser);
 
 
         bnRegister.setOnClickListener(new View.OnClickListener(){
@@ -216,6 +217,15 @@ public class AddUserFragment extends Fragment {
             }
 
         });
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 

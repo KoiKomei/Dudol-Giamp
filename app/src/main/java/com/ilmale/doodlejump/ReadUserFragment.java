@@ -1,12 +1,14 @@
 package com.ilmale.doodlejump;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ public class ReadUserFragment extends Fragment {
 
     private TextView info;
     private ImageView bobImageView;
+    private Button menu;
     private LoginUser loginUser = LoginUser.getInstance();
 
     public ReadUserFragment() {
@@ -39,6 +42,7 @@ public class ReadUserFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_read_user, container, false);
         info=view.findViewById(R.id.txt_display_info);
         bobImageView = view.findViewById(R.id.bob_imageView);
+        menu = view.findViewById(R.id.menu_readuser);
         DecimalFormat f = new DecimalFormat("##.00");
         String txt="";
         /*
@@ -94,6 +98,13 @@ public class ReadUserFragment extends Fragment {
             bobImageView.setImageResource(R.drawable.jungleright);
         }
 
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }

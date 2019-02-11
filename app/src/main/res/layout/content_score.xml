@@ -8,10 +8,30 @@
     tools:context=".ScoreActivity"
     tools:showIn="@layout/activity_score">
 
+    <Button
+        android:id="@+id/menu_score"
+        android:layout_width="100dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="76dp"
+        android:background="@drawable/plat1"
+        android:onClick="launchMainActivity"
+        android:text="MENU"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreText"
+        app:layout_constraintVertical_bias="0.308" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="449dp"
         android:layout_height="715dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/background" />

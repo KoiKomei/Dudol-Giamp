@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class LoginFragment extends Fragment {
     EditText userEmail, userPassword;
-    Button bnLogin;
+    Button bnLogin, menu;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
@@ -54,6 +54,7 @@ public class LoginFragment extends Fragment {
         userEmail=view.findViewById(R.id.txt_email_login);
         userPassword=view.findViewById(R.id.txt_password_login);
         bnLogin=view.findViewById(R.id.bn_login);
+        menu = view.findViewById(R.id.menu_login);
 
         bnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +133,14 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(), "Login not successful", Toast.LENGTH_SHORT).show();
                 }*/
 
+            }
+        });
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 
