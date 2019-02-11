@@ -18,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 
@@ -34,6 +35,8 @@ public class LoginFragment extends Fragment {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
+    private CollectionReference poss=fs.collection("Possiede");
+
     private List<User> userList=new ArrayList<>();
 
     private LoginUser loginUser = LoginUser.getInstance();
@@ -69,13 +72,34 @@ public class LoginFragment extends Fragment {
                                         User user=d.toObject(User.class);
                                         if(UserPassword.equalsIgnoreCase(user.getPassword()) && UserEmail.equalsIgnoreCase(user.getEmail())){
                                             login=true;
-                                            loginUser.setLoginUser(user.getEmail());
-                                            loginUser.initializeBobEquipped();
-                                            Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getContext(), MainActivity.class);
-                                            startActivity(intent);
+                                            loginUser.setEmail(user.getEmail());
+                                            loginUser.setUsername(user.getUsername());
+                                            loginUser.setMoney(user.getMoney());
+                                            loginUser.setPassword(user.getPassword());
+                                            loginUser.setPunteggio(user.getPunteggio());
+                                            loginUser.setLat(user.getLat());
+                                            loginUser.setLongi(user.getLongi());
+                                            poss.whereEqualTo("email", loginUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                    if(!queryDocumentSnapshots.isEmpty()){
+                                                        List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                                                        for(DocumentSnapshot d:list){
+                                                            Possiede possiede=d.toObject(Possiede.class);
+                                                            loginUser.setBlueBob(possiede.isBluebob());
+                                                            loginUser.setBunnyBob(possiede.isBunnybob());
+                                                            loginUser.setJungleBob(possiede.isJunglebob());
+                                                            loginUser.initializeBobEquipped();
+                                                            loginUser.login();
+                                                            Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+                                                            Intent intent = new Intent(getContext(), MainActivity.class);
+                                                            startActivity(intent);
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            });
                                             break;
-
                                         }
                                     }
                                     if(login==false){

@@ -243,43 +243,6 @@ public class LoginUser {
         resetLoginUser();
     }
 
-    public void setLoginUser(final String emailUser) {
-        use.whereEqualTo("email", emailUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    for (DocumentSnapshot d : list) {
-                        User u = d.toObject(User.class);
-                        setEmail(emailUser);
-                        setUsername(u.getUsername());
-                        setMoney(u.getMoney());
-                        setPassword(u.getPassword());
-                        setPunteggio(u.getPunteggio());
-                        setLat(u.getLat());
-                        setLongi(u.getLongi());
-                        poss.whereEqualTo("email", email).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                if(!queryDocumentSnapshots.isEmpty()){
-                                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
-                                    for(DocumentSnapshot d:list){
-                                        Possiede possiede=d.toObject(Possiede.class);
-                                        setBlueBob(possiede.isBluebob());
-                                        setBunnyBob(possiede.isBunnybob());
-                                        setJungleBob(possiede.isJunglebob());
-                                        initializeBobEquipped();
-                                        login();
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
     public void resetLoginUser() {
         setEmail(null);
         setUsername(null);
@@ -333,4 +296,5 @@ public class LoginUser {
         editorPref.putInt("bob", equippedBob);
         editorPref.commit();
     }
+
 }
