@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
     private void checkLogin() {
         loginUser.initializeLoginUser(this);
         if(loginUser.getEmail()!=null){
-            loginUser.initializeBobEquipped();
             account.setText(loginUser.getUsername());
         }
         else{

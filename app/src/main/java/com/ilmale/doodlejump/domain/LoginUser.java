@@ -17,6 +17,8 @@ import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 
+import org.json.JSONObject;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -183,16 +185,44 @@ public class LoginUser {
         this.context=context;
         final SharedPreferences pref = context.getSharedPreferences("LOGIN_PREF", context.MODE_PRIVATE);
         String emailPref  = pref.getString("email", null);
+        String usernamePref  = pref.getString("username", null);
+        String passwordPref  = pref.getString("password", null);
+        int moneyPref  = pref.getInt("money", 0);
+        int recordPref  = pref.getInt("record", 0);
+        float latPref  = pref.getFloat("lat", 0);
+        float longiPref  = pref.getFloat("longi", 0);
+        boolean isBluePref  = pref.getBoolean("blue", false);
+        boolean isBunnyPref  = pref.getBoolean("bunny", false);
+        boolean isJunglePref  = pref.getBoolean("jungle", false);
         if(emailPref!=null){
-            setLoginUser(emailPref);
+            setEmail(emailPref);
+            setUsername(usernamePref);
+            setMoney(moneyPref);
+            setPassword(passwordPref);
+            setPunteggio(recordPref);
+            setLat(latPref);
+            setLongi(longiPref);
+            setBlueBob(isBluePref);
+            setBunnyBob(isBunnyPref);
+            setJungleBob(isJunglePref);
+            initializeBobEquipped();
         }
 
     }
 
-    public void login(final String emailUser) {
+    public void login() {
         final SharedPreferences pref = context.getSharedPreferences("LOGIN_PREF", context.MODE_PRIVATE);
         final SharedPreferences.Editor editorPref = pref.edit();
-        editorPref.putString("email", emailUser);
+        editorPref.putString("email", email);
+        editorPref.putString("username", username);
+        editorPref.putString("password", password);
+        editorPref.putInt("money", money);
+        editorPref.putInt("record", punteggio);
+        editorPref.putFloat("lat", (float) lat);
+        editorPref.putFloat("longi", (float) longi);
+        editorPref.putBoolean("blue", BlueBob);
+        editorPref.putBoolean("bunny", BunnyBob);
+        editorPref.putBoolean("jungle", JungleBob);
         editorPref.commit();
     }
 
@@ -200,6 +230,15 @@ public class LoginUser {
         final SharedPreferences pref = context.getSharedPreferences("LOGIN_PREF", context.MODE_PRIVATE);
         final SharedPreferences.Editor editorPref = pref.edit();
         editorPref.putString("email", null);
+        editorPref.putString("username", null);
+        editorPref.putString("password", null);
+        editorPref.putInt("money", 0);
+        editorPref.putInt("record", 0);
+        editorPref.putFloat("lat", 0);
+        editorPref.putFloat("longi", 0);
+        editorPref.putBoolean("blue", false);
+        editorPref.putBoolean("bunny", false);
+        editorPref.putBoolean("jungle", false);
         editorPref.commit();
         resetLoginUser();
     }
@@ -219,25 +258,26 @@ public class LoginUser {
                         setPunteggio(u.getPunteggio());
                         setLat(u.getLat());
                         setLongi(u.getLongi());
+                        poss.whereEqualTo("email", email).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                if(!queryDocumentSnapshots.isEmpty()){
+                                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
+                                    for(DocumentSnapshot d:list){
+                                        Possiede possiede=d.toObject(Possiede.class);
+                                        setBlueBob(possiede.isBluebob());
+                                        setBunnyBob(possiede.isBunnybob());
+                                        setJungleBob(possiede.isJunglebob());
+                                        initializeBobEquipped();
+                                        login();
+                                    }
+                                }
+                            }
+                        });
                     }
                 }
             }
         });
-        poss.whereEqualTo("email", email).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(!queryDocumentSnapshots.isEmpty()){
-                    List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
-                    for(DocumentSnapshot d:list){
-                        Possiede possiede=d.toObject(Possiede.class);
-                        setBlueBob(possiede.isBluebob());
-                        setBunnyBob(possiede.isBunnybob());
-                        setJungleBob(possiede.isJunglebob());
-                    }
-                }
-            }
-        });
-        login(emailUser);
     }
 
     public void resetLoginUser() {
