@@ -55,11 +55,13 @@ public class AudioManager {
         }
         else{
             bg_audio.pause();
+            bgaudioactive = false;
         }
     }
 
     public void pauseBg_audio(){
         bg_audio.pause();
+        bgaudioactive = false;
     }
 
 
@@ -67,6 +69,10 @@ public class AudioManager {
         if(!lose_audio.isPlaying() && settingsSI.isSound()){
             lose_audio.start();
         }
+    }
+
+    public void pauseLose_audio() {
+        lose_audio.pause();
     }
 
 
@@ -131,8 +137,6 @@ public class AudioManager {
     }
 
     public void pauseAll(){
-        bg_audio.pause();
-        lose_audio.pause();
         bullet_audio.pause();
         enemy_audio.pause();
         jetpack_audio.pause();

@@ -314,9 +314,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean value){
         super.onWindowFocusChanged(value);
-        /*if (!value) {
-            stopMusic();
-        }*/
     }
 
     @Override

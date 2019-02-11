@@ -39,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
 
     private Constants constants = Constants.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         gameView.pause();
+        audioManager.pauseAll();
         sensorManager.unregisterListener(this);
     }
 

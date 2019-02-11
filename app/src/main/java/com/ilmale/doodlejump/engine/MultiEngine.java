@@ -38,10 +38,6 @@ public class MultiEngine extends GameEngine {
             player.update();
             //player2.update();
 
-            for (Bullet b : bullets) {
-                b.update();
-            }
-
             audioEnemy();
             audioJetpack();
 
@@ -50,6 +46,11 @@ public class MultiEngine extends GameEngine {
             }
         }
         else {
+
+            for (Bullet b : bullets) {
+                b.update();
+            }
+
             if(player2.pY!=0 && player2.pX!=0){
                 isStart=true;
             }

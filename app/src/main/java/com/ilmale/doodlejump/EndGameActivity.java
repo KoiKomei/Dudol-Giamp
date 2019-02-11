@@ -28,9 +28,9 @@ public class EndGameActivity extends AppCompatActivity {
     private MyLocation myLocation = MyLocation.getInstance();
     private Records records = Records.getInstance();
     private Constants constants = Constants.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     private boolean clickedUR;
-    private boolean clickedLS;
     private boolean clickedLM;
 
     @Override
@@ -39,7 +39,6 @@ public class EndGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_end_game);
 
         clickedUR=false;
-        clickedLS=false;
         clickedLM=false;
 
         name = findViewById(R.id.nameText);
@@ -57,6 +56,12 @@ public class EndGameActivity extends AppCompatActivity {
         }
         constants.setName(name.getText().toString());
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        audioManager.pauseLose_audio();
     }
 
     public void updateRecords(View view) {
