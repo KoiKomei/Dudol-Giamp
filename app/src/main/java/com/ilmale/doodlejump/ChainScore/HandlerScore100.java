@@ -4,8 +4,14 @@ import android.content.Context;
 
 public class HandlerScore100 extends HandlerScore{
 
-    public HandlerScore100(Context context) {
-        super(context);
+    private static final HandlerScore100 ourInstance = new HandlerScore100();
+
+    public static HandlerScore100 getInstance() {
+        return ourInstance;
+    }
+
+    public HandlerScore100() {
+        successor=HandlerScore30.getInstance();
     }
 
     @Override

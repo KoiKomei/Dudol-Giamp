@@ -26,7 +26,7 @@ public class MultiGameView extends GameView {
         enginee = engine;
         boolBobUp = BitmapFactory.decodeResource(getResources(), R.drawable.balloonupleft);
         boolBobDown = BitmapFactory.decodeResource(getResources(), R.drawable.balloondownleft);
-        bob2left = BitmapFactory.decodeResource(getResources(), R.drawable.bunnyleft);
+        bob2left = BitmapFactory.decodeResource(getResources(), R.drawable.bobleft);
     }
 
     public synchronized void draw() {
@@ -75,7 +75,7 @@ public class MultiGameView extends GameView {
                 paint.setColor(Color.argb(255, 249, 129, 0));
 
                 // Make the text a bit bigger
-                paint.setTextSize(45);
+                paint.setTextSize(40);
 
                 for (Platform p : gameEngine.getPlatforms()) {
                     //Log.d(LOG_TAG, "platx:" + p.getpX() + ", platy:" + p.getpY());
@@ -130,7 +130,7 @@ public class MultiGameView extends GameView {
                         canvas.drawBitmap(bitmapBobUp, gameEngine.player.getpX(), gameEngine.player.getpY(), paint);
                     }
                 }
-                if (enginee.player2.pY > -100 && enginee.player2.pY < 2000){
+                if (enginee.player2.pY > -100 && enginee.player2.pY < 2000 && enginee.isStart()){
                     canvas.drawBitmap(bob2left, enginee.player2.pX, enginee.player2.pY, paint);
                 }
                 else if (enginee.player2.pY < - 101) {
@@ -141,10 +141,15 @@ public class MultiGameView extends GameView {
                 }
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
+
                 // Display the current fps on the screen
-                canvas.drawText("FPS:" + fps, 30, 70, paint);
-                canvas.drawText("Your Points:" + constants.getPoints(), 30, 160, paint);
-                canvas.drawText("Record:" + records.getRecords().get(0), 30, 115, paint);
+                //canvas.drawText("FPS:" + fps, 30, 50, paint);
+                //canvas.drawText("Device Record:" + records.getRecords().get(0), 30, 95, paint);
+                //canvas.drawText("Your Points:" + constants.getPoints(), 30, 140, paint);
+
+                canvas.drawText("Device Record:" + records.getRecords().get(0), 30, 50, paint);
+                canvas.drawText("Your Points:" + constants.getPoints(), 30, 95, paint);
+
                 try {
                     for (Bullet b : gameEngine.bullets) {
                         canvas.drawBitmap(bitmapBULLET, b.getpX(), b.getpY(), paint);

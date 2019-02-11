@@ -20,29 +20,16 @@ public abstract class HandlerScore {
     protected final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
 
     protected HandlerScore successor;
-    private List<User> users = new ArrayList<>();
-    private MyLocation myLocation = MyLocation.getInstance();
+    protected List<User> users = new ArrayList<>();
+    protected MyLocation myLocation = MyLocation.getInstance();
 
-    private FirebaseFirestore fs= FirebaseFirestore.getInstance();
-    private CollectionReference use=fs.collection("User");
+    protected FirebaseFirestore fs= FirebaseFirestore.getInstance();
+    protected CollectionReference use=fs.collection("User");
 
     abstract protected int getAllowable();
     abstract protected String getString();
 
-    public HandlerScore(Context context) {
-        use.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
-                    for (DocumentSnapshot d : list) {
-                        User user = d.toObject(User.class);
-                        users.add(user);
-                    }
-                }
-            }
-        });
-    }
+    public HandlerScore() {}
 
     public void setSuccessor(HandlerScore successor) {
         this.successor = successor;

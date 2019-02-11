@@ -33,6 +33,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.ilmale.doodlejump.ChainScore.HandlerScoreWorld;
 import com.ilmale.doodlejump.database.ItemHandler;
 import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     LoginUser loginUser = LoginUser.getInstance();
     ItemHandler dataHandler = new ItemHandler();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
+    HandlerScoreWorld handlerScoreWorld = HandlerScoreWorld.getInstance();
 
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationClient;

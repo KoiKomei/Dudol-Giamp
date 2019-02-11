@@ -97,15 +97,7 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     private String checkScore(){
-        HandlerScoreWorld handlerScoreWorld = new HandlerScoreWorld(this);
-        HandlerScore1000 handlerScore1000 = new HandlerScore1000(this);
-        HandlerScore100 handlerScore100 = new HandlerScore100(this);
-        HandlerScore30 handlerScore30 = new HandlerScore30(this);
-        HandlerScore1 handlerScore1 = new HandlerScore1(this);
-        handlerScoreWorld.setSuccessor(handlerScore1000);
-        handlerScore1000.setSuccessor(handlerScore100);
-        handlerScore100.setSuccessor(handlerScore30);
-        handlerScore30.setSuccessor(handlerScore1);
+        HandlerScoreWorld handlerScoreWorld = HandlerScoreWorld.getInstance();
         return handlerScoreWorld.processScore(constants.getPoints());
     }
 }
