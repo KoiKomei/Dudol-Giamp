@@ -54,6 +54,12 @@ public class ShopActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu_shop);
 
         bob = findViewById(R.id.bob);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               launchMainActivity(view);
+            }
+        });
 
         if(loginUser.getEmail()!=null) {
 
@@ -269,6 +275,7 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     public void launchMainActivity(View view) {
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

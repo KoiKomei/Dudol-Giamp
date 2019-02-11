@@ -18,6 +18,7 @@ public class ScoreActivity extends AppCompatActivity {
     private TextView textView;
     private ImageButton menu;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,12 @@ public class ScoreActivity extends AppCompatActivity {
         for(int i=0; i<5; i++){
             textView.setText(textView.getText()+"\n"+(i+1)+". "+records.getSRecords().get(i)+" - "+records.getRecords().get(i));
         }
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchMainActivity(view);
+            }
+        });
     }
 
     public void launchMainActivity(View view) {
