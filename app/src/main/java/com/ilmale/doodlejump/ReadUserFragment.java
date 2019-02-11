@@ -14,6 +14,7 @@ import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class ReadUserFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_read_user, container, false);
         info=view.findViewById(R.id.txt_display_info);
         bobImageView = view.findViewById(R.id.bob_imageView);
+        DecimalFormat f = new DecimalFormat("##.00");
         String txt="";
         /*
         List<User> users=RegisterActivity.db.ourDao().getUsers();
@@ -79,7 +81,9 @@ public class ReadUserFragment extends Fragment {
         txt+="Password: "+loginUser.getPassword()+"\n";
         txt+="Money: "+loginUser.getMoney()+"\n";
         txt+="Punteggio: "+loginUser.getPunteggio()+"\n";
-        txt+="Posizione: "+loginUser.getLat()+", "+loginUser.getLongi();
+        String lat = f.format(loginUser.getLat());
+        String longi = f.format(loginUser.getLongi());
+        txt+="Posizione: "+lat+" - "+longi;
         info.setText(txt);
 
         if(loginUser.isEquippedBlueBob()){
