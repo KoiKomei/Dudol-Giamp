@@ -249,21 +249,21 @@ public class MainActivity extends AppCompatActivity {
         settingsSI.setSound(soundIsOn);
         settingsSI.setWeatherCondition(weatherIsOn);
         if(settingsSI.isMusic()){
-            Log.d(LOG_TAG, "music off");
-        }else{
             Log.d(LOG_TAG, "music on");
+        }else{
+            Log.d(LOG_TAG, "music off");
         }
         if(settingsSI.isSound()){
             audioManager.setVolume1();
-            Log.d(LOG_TAG, "sound off");
+            Log.d(LOG_TAG, "sound on");
         }else{
             audioManager.setVolume0();
-            Log.d(LOG_TAG, "sound on");
+            Log.d(LOG_TAG, "sound off");
         }
         if(settingsSI.isWeatherCondition()){
-            Log.d(LOG_TAG, "weather off");
-        }else{
             Log.d(LOG_TAG, "weather on");
+        }else{
+            Log.d(LOG_TAG, "weather off");
         }
     }
 
