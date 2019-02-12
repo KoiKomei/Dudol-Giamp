@@ -54,9 +54,13 @@ public class EndGameActivity extends AppCompatActivity {
             textPoints.setText(checkScore());
         }
         if(loginUser.getEmail()!=null){
-            name.setText(loginUser.getUsername().substring(0,7));
+            if(loginUser.getUsername().length()>7){
+                name.setText(loginUser.getUsername().substring(0,7));
+            }else{
+                name.setText(loginUser.getUsername());
+            }
         }
-        constants.setName(name.getText().toString().substring(0,7));
+        constants.setName(name.getText().toString());
 
     }
 
@@ -79,7 +83,12 @@ public class EndGameActivity extends AppCompatActivity {
     public void updateRecords(View view) {
         if(!clickedUR) {
             clickedUR=true;
-            constants.setName(name.getText().toString());
+            if(name.getText().toString().length()>7){
+                constants.setName(name.getText().toString().substring(0,7));
+            }
+            else{
+                constants.setName(name.getText().toString());
+            }
             records.updateRecords();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -96,7 +105,12 @@ public class EndGameActivity extends AppCompatActivity {
         if(!clickedLM) {
             audioManager.setCanStopBgAudio(false);
             clickedLM=true;
-            constants.setName(name.getText().toString());
+            if(name.getText().toString().length()>7){
+                constants.setName(name.getText().toString().substring(0,7));
+            }
+            else{
+                constants.setName(name.getText().toString());
+            }
             records.updateRecords();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
