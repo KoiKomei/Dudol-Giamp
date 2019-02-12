@@ -32,6 +32,7 @@ public class ReadUserFragment extends Fragment {
     private ImageView bobImageView;
     private ImageButton menu;
     private LoginUser loginUser = LoginUser.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     public ReadUserFragment() {
         // Required empty public constructor
@@ -103,6 +104,7 @@ public class ReadUserFragment extends Fragment {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                audioManager.setCanStopBgAudio(false);
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }

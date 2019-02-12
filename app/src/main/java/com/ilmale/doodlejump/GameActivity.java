@@ -48,7 +48,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         engine = new GameEngine();
         gameView = new GameView(this, engine);
         setContentView(gameView);
@@ -65,6 +64,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
+        audioManager.playBg_audio();
         gameView.resume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
@@ -73,6 +73,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     protected void onPause() {
         super.onPause();
         gameView.pause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
         audioManager.pauseAll();
         sensorManager.unregisterListener(this);
     }
@@ -92,6 +96,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onBackPressed() {
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

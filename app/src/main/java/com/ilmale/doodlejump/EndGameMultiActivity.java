@@ -20,6 +20,7 @@ public class EndGameMultiActivity extends AppCompatActivity {
     public TextView text;
 
     private Constants constants = Constants.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class EndGameMultiActivity extends AppCompatActivity {
         playAgain = findViewById(R.id.play_again_multi);
         menu = findViewById(R.id.menu_multi);
         text = findViewById(R.id.text_multi);
+
         if(constants.isLoseInMulti()){
             text.setText("YOU LOSE");
             constants.setLoseInMulti(false);
@@ -38,19 +40,36 @@ public class EndGameMultiActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.playBg_audio();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
+    }
+
     public void launchMultiPlayerActivity(View view) {
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MultiActivity.class);
         startActivity(intent);
     }
 
     public void launchMainActivity(View view) {
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

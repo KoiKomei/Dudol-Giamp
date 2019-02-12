@@ -49,6 +49,7 @@ public class EndGameActivity extends AppCompatActivity {
         points = findViewById(R.id.points);
         points.setText(""+constants.getPoints());
         textPoints = findViewById(R.id.textPoints);
+
         if(myLocation.getLatLng()!=null){
             textPoints.setText(checkScore());
         }
@@ -60,8 +61,18 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.playBg_audio();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
         audioManager.pauseLose_audio();
     }
 
@@ -76,12 +87,14 @@ public class EndGameActivity extends AppCompatActivity {
     }
 
     public void launchSinglePlayerActivity(View view) {
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 
     public void launchMainActivity(View view) {
         if(!clickedLM) {
+            audioManager.setCanStopBgAudio(false);
             clickedLM=true;
             constants.setName(name.getText().toString());
             records.updateRecords();
@@ -92,7 +105,7 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

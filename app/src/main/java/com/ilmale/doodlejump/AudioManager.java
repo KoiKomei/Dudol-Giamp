@@ -21,6 +21,7 @@ public class AudioManager {
 
     SettingsSI settingsSI = SettingsSI.getInstance();
     boolean bgaudioactive = false;
+    private boolean canStopBgAudio = true;
 
     private static final AudioManager audioManagerInstance = new AudioManager();
 
@@ -146,4 +147,13 @@ public class AudioManager {
         jump_audio.pause();
         rain_audio.pause();
     }
+
+    public boolean isCanStopBgAudio(){
+        return canStopBgAudio;
+    }
+
+    public void setCanStopBgAudio(boolean canStopBgAudio) {
+        this.canStopBgAudio = canStopBgAudio;
+    }
+
 }

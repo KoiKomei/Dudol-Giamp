@@ -13,6 +13,7 @@ import com.ilmale.doodlejump.database.OurDatabase;
 public class RegisterActivity extends AppCompatActivity {
 
     public static FragmentManager fm;
+    private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,5 +27,26 @@ public class RegisterActivity extends AppCompatActivity {
             }
             fm.beginTransaction().add(R.id.fragment_container, new RegisterFragment()).commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.playBg_audio();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        audioManager.setCanStopBgAudio(false);
     }
 }

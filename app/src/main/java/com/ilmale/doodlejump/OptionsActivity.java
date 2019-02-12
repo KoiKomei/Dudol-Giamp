@@ -41,7 +41,6 @@ public class OptionsActivity extends AppCompatActivity {
         settingsSI.setMusic(musicInOn);
         settingsSI.setSound(soundIsOn);
         settingsSI.setWeatherCondition(weatherIsOn);
-
         final SharedPreferences.Editor editorPref = pref.edit();
 
         // initiate Switch
@@ -98,9 +97,31 @@ public class OptionsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.playBg_audio();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
+    }
+
     public void launchMainActivity(View view) {
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        audioManager.setCanStopBgAudio(false);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 }

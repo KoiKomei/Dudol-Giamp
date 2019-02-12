@@ -20,6 +20,7 @@ public class DeleteUserFragment extends Fragment {
     private EditText txtUser;
     private EditText txtPass;
     private Button deleteButton;
+    private AudioManager audioManager = AudioManager.getInstance();
 
     public DeleteUserFragment() {
         // Required empty public constructor
@@ -33,6 +34,8 @@ public class DeleteUserFragment extends Fragment {
         txtUser=view.findViewById(R.id.txt_email_delete);
         txtPass=view.findViewById(R.id.txt_password_delete);
         deleteButton=view.findViewById(R.id.delete);
+
+        audioManager.setCanStopBgAudio(true);
 
         deleteButton.setOnClickListener(new View.OnClickListener(){
             @Override

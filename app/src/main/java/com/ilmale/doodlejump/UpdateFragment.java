@@ -30,6 +30,7 @@ public class UpdateFragment extends Fragment {
     private EditText userEmail, userPassword, newPass;
     private ImageButton bnUpdate, menu;
     private LoginUser loginUser = LoginUser.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
 
@@ -88,6 +89,7 @@ public class UpdateFragment extends Fragment {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                audioManager.setCanStopBgAudio(false);
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }

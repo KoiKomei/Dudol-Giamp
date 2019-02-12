@@ -1,6 +1,7 @@
 package com.ilmale.doodlejump;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -36,6 +37,7 @@ public class MultiActivity extends AppCompatActivity implements SensorEventListe
 
     private Constants constants = Constants.getInstance();
     private Records records = Records.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class MultiActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onResume() {
         super.onResume();
+        audioManager.playBg_audio();
         gameView.resume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
@@ -71,8 +74,19 @@ public class MultiActivity extends AppCompatActivity implements SensorEventListe
     @Override
     protected void onPause() {
         super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
         gameView.pause();
         sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        audioManager.setCanStopBgAudio(false);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override

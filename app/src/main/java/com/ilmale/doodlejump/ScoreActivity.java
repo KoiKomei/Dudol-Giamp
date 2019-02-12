@@ -17,6 +17,7 @@ public class ScoreActivity extends AppCompatActivity {
     private Records records = Records.getInstance();
     private TextView textView;
     private ImageButton menu;
+    private AudioManager audioManager = AudioManager.getInstance();
 
 
     @Override
@@ -36,7 +37,30 @@ public class ScoreActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.playBg_audio();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
+    }
+
     public void launchMainActivity(View view) {
+        audioManager.setCanStopBgAudio(false);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

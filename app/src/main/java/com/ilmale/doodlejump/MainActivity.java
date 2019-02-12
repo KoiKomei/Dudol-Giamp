@@ -264,16 +264,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void playMusic(){
-        Log.d(LOG_TAG, "play music");
-        audioManager.playBg_audio();
-    }
-
-    public void stopMusic(){
-        Log.d(LOG_TAG, "stop music");
-        audioManager.pauseBg_audio();
-    }
-
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -286,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         constants.setContAlert(0);
         checkLogin();
         initializeSettings();
-        playMusic();
+        audioManager.playBg_audio();
         if(!constants.isAskedPosition()) {
             if (checkMapServices()) {
                 if (mLocationPermissionGranted) {
@@ -304,6 +294,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         constants.setContAlert(3);
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
         Log.d(LOG_TAG, "onPause");
     }
 
@@ -357,12 +351,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchOptionsActivity(View view) {
         Log.d(LOG_TAG, "Button options clicked!");
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, OptionsActivity.class);
         startActivity(intent);
     }
 
     public void launchSinglePlayerActivity(View view) {
         Log.d(LOG_TAG, "Button single player clicked!");
+        audioManager.setCanStopBgAudio(false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
@@ -370,6 +366,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchMultiPlayerActivity(View view) {
         Log.d(LOG_TAG, "Button multi player clicked!");
+        audioManager.setCanStopBgAudio(false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Intent intent = new Intent(this, MultiActivity.class);
         startActivity(intent);
@@ -379,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Button map clicked!");
         if(checkMapServices()){
             if(mLocationPermissionGranted){
+                audioManager.setCanStopBgAudio(false);
                 Intent intent = new Intent(this, MapsActivity.class);
                 startActivity(intent);
             }
@@ -390,18 +388,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchRegisterActivity(View view){
         Log.d(LOG_TAG, "Register clicked!");
+        audioManager.setCanStopBgAudio(false);
         Intent intent=new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     public void launchScoreboardActivity(View view){
         Log.d(LOG_TAG, "Scoreboard clicked!");
+        audioManager.setCanStopBgAudio(false);
         Intent intent=new Intent(this, ScoreActivity.class);
         startActivity(intent);
     }
 
     public void launchShopActivity(View view){
         Log.d(LOG_TAG, "Scoreboard clicked!");
+        audioManager.setCanStopBgAudio(false);
         Intent intent=new Intent(this, ShopActivity.class);
         startActivity(intent);
     }

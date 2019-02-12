@@ -23,6 +23,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private ImageButton menu;
     private ImageButton BnRegister, BnUpdate, BnLogin, BnLogout, BnInfo;
     private LoginUser loginUser = LoginUser.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -53,10 +54,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         }else{
             setLoginRegisterButton(view);
         }
-        
+
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                audioManager.setCanStopBgAudio(false);
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }

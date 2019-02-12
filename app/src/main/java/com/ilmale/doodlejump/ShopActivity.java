@@ -28,6 +28,7 @@ import java.util.List;
 public class ShopActivity extends AppCompatActivity {
 
     private LoginUser loginUser = LoginUser.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
     private TextView money;
     private ImageView bob;
     private ImageView blueBob;
@@ -47,7 +48,6 @@ public class ShopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
-
         money = findViewById(R.id.money);
         money.setText(""+loginUser.getMoney());
 
@@ -165,6 +165,28 @@ public class ShopActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        audioManager.playBg_audio();
+    }
+
+    @Override
+    public void onBackPressed() {
+        audioManager.setCanStopBgAudio(false);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(audioManager.isCanStopBgAudio()){
+            audioManager.pauseBg_audio();
+        }
+        audioManager.setCanStopBgAudio(true);
+    }
+
     private void initializeBobValue() {
         if(loginUser.getEmail()!=null){
             if(loginUser.isEquippedBob()){
@@ -275,7 +297,7 @@ public class ShopActivity extends AppCompatActivity {
     }
 
     public void launchMainActivity(View view) {
-
+        audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

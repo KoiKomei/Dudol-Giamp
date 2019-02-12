@@ -33,7 +33,7 @@ public class AddUserFragment extends Fragment {
 
     private EditText userName, userEmail, userPassword;
     private ImageButton bnRegister, menu;
-
+    private AudioManager audioManager = AudioManager.getInstance();
     private FirebaseFirestore fs=FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
     private CollectionReference possiede=fs.collection("Possiede");
@@ -61,7 +61,6 @@ public class AddUserFragment extends Fragment {
         userPassword=view.findViewById(R.id.txt_user_password);
         bnRegister=view.findViewById(R.id.button);
         menu = view.findViewById(R.id.menu_adduser);
-
 
         bnRegister.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -118,6 +117,7 @@ public class AddUserFragment extends Fragment {
                                                             userEmail.setText("");
                                                             userName.setText("");
                                                             userPassword.setText("");
+                                                            audioManager.setCanStopBgAudio(false);
                                                             RegisterActivity.fm.beginTransaction().replace(R.id.fragment_container, new LoginFragment()).addToBackStack(null).commit();
                                                         }
                                                     });
@@ -222,6 +222,7 @@ public class AddUserFragment extends Fragment {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                audioManager.setCanStopBgAudio(false);
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }

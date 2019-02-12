@@ -45,6 +45,7 @@ public class LoginFragment extends Fragment {
     private List<User> userList=new ArrayList<>();
 
     private LoginUser loginUser = LoginUser.getInstance();
+    private AudioManager audioManager = AudioManager.getInstance();
 
     public LoginFragment() {
         // Required empty public constructor
@@ -98,6 +99,7 @@ public class LoginFragment extends Fragment {
                                                             loginUser.initializeBobEquipped();
                                                             loginUser.login();
                                                             Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+                                                            audioManager.setCanStopBgAudio(false);
                                                             Intent intent = new Intent(getContext(), MainActivity.class);
                                                             startActivity(intent);
                                                             break;
@@ -145,6 +147,7 @@ public class LoginFragment extends Fragment {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                audioManager.setCanStopBgAudio(false);
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
             }

@@ -10,37 +10,37 @@
 
     <ImageView
         android:id="@+id/image1"
-        android:layout_width="662dp"
-        android:layout_height="738dp"
-        android:layout_marginStart="49dp"
+        android:layout_width="484dp"
+        android:layout_height="724dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/main_menu_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.656"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.404"
         app:srcCompat="@drawable/dudol_giamp_background" />
 
     <TextView
         android:id="@+id/text_title"
         android:layout_width="261dp"
         android:layout_height="79dp"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="145dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="@string/text_label_title"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="36sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.087" />
 
     <Button
         android:id="@+id/button_options"
@@ -61,7 +61,7 @@
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.915" />
+        app:layout_constraintVertical_bias="0.886" />
 
     <Button
         android:id="@+id/button_multi"
@@ -142,7 +142,7 @@
         app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.771"
+        app:layout_constraintVertical_bias="0.75"
         tools:text="SCOREBOARD" />
 
     <Button
@@ -157,30 +157,31 @@
         android:onClick="launchMapsActivity"
         android:text="@string/button_label_map"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/image1"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.842"
+        app:layout_constraintVertical_bias="0.803"
         tools:text="MAP" />
 
     <Button
         android:id="@+id/button_account"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="46dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:onClick="launchRegisterActivity"
         android:text="@string/register"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.924"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.988" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
