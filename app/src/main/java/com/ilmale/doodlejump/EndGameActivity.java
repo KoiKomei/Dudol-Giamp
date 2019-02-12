@@ -54,9 +54,9 @@ public class EndGameActivity extends AppCompatActivity {
             textPoints.setText(checkScore());
         }
         if(loginUser.getEmail()!=null){
-            name.setText(loginUser.getUsername());
+            name.setText(loginUser.getUsername().substring(0,7));
         }
-        constants.setName(name.getText().toString());
+        constants.setName(name.getText().toString().substring(0,7));
 
     }
 

@@ -66,15 +66,17 @@ public class OptionsActivity extends AppCompatActivity {
                 }
                 else{
                     settingsSI.setMusic(false);
-                    audioManager.playBg_audio();
+                    audioManager.pauseBg_audio();
                     Log.d(LOG_TAG, "music off");
                 }
                 if (soundSwitch.isChecked()){
                     settingsSI.setSound(true);
+                    audioManager.setVolume1();
                     Log.d(LOG_TAG, "sound on");
                 }
                 else{
                     settingsSI.setSound(false);
+                    audioManager.setVolume0();
                     Log.d(LOG_TAG, "sound off");
                 }
                 if (weatherSwitch.isChecked()){

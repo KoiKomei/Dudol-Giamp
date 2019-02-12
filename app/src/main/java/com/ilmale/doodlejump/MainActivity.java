@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         constants.setContAlert(0);
         checkLogin();
         audioManager.create(this);
+        initializeSettings();
         records.initializeRecords(this);
         for(Integer i: records.getRecords()){
             Log.d(LOG_TAG,"Punteggio "+i);
@@ -253,8 +254,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "music on");
         }
         if(settingsSI.isSound()){
+            audioManager.setVolume1();
             Log.d(LOG_TAG, "sound off");
         }else{
+            audioManager.setVolume0();
             Log.d(LOG_TAG, "sound on");
         }
         if(settingsSI.isWeatherCondition()){
