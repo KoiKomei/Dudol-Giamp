@@ -140,6 +140,7 @@ public class AudioManager {
     }
 
     public void setVolume0(){
+        lose_audio.setVolume(0,0);
         bullet_audio.setVolume(0,0);
         enemy_audio.setVolume(0,0);
         jetpack_audio.setVolume(0,0);
@@ -150,6 +151,7 @@ public class AudioManager {
     }
 
     public void setVolume1(){
+        lose_audio.setVolume(1,1);
         bullet_audio.setVolume(1,1);
         enemy_audio.setVolume(1,1);
         jetpack_audio.setVolume(1,1);
