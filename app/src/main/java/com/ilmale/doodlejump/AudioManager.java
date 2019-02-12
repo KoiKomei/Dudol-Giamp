@@ -22,6 +22,7 @@ public class AudioManager {
     SettingsSI settingsSI = SettingsSI.getInstance();
     boolean bgaudioactive = false;
     private boolean canStopBgAudio = true;
+    private boolean canCreate = true;
 
     private static final AudioManager audioManagerInstance = new AudioManager();
 
@@ -34,16 +35,19 @@ public class AudioManager {
     }
 
     public void create(Context context){
-        bg_audio=MediaPlayer.create(context,R.raw.background_audio);
-        lose_audio=MediaPlayer.create(context,R.raw.lose_audio);
-        bullet_audio=MediaPlayer.create(context,R.raw.bullet_audio);
-        enemy_audio=MediaPlayer.create(context,R.raw.enemy_audio);
-        jetpack_audio=MediaPlayer.create(context,R.raw.jetpack_audio);
-        springs_audio=MediaPlayer.create(context,R.raw.springs_audio);
-        killEnemy_audio=MediaPlayer.create(context,R.raw.killenemy_audio);
-        jumpOnEnemy_audio=MediaPlayer.create(context,R.raw.jumponenemy_audio);
-        jump_audio=MediaPlayer.create(context,R.raw.jump_audio);
-        rain_audio=MediaPlayer.create(context,R.raw.rain_audio);
+        if(canCreate){
+            bg_audio=MediaPlayer.create(context,R.raw.background_audio);
+            lose_audio=MediaPlayer.create(context,R.raw.lose_audio);
+            bullet_audio=MediaPlayer.create(context,R.raw.bullet_audio);
+            enemy_audio=MediaPlayer.create(context,R.raw.enemy_audio);
+            jetpack_audio=MediaPlayer.create(context,R.raw.jetpack_audio);
+            springs_audio=MediaPlayer.create(context,R.raw.springs_audio);
+            killEnemy_audio=MediaPlayer.create(context,R.raw.killenemy_audio);
+            jumpOnEnemy_audio=MediaPlayer.create(context,R.raw.jumponenemy_audio);
+            jump_audio=MediaPlayer.create(context,R.raw.jump_audio);
+            rain_audio=MediaPlayer.create(context,R.raw.rain_audio);
+            canCreate=false;
+        }
     }
 
     public void playBg_audio() {
