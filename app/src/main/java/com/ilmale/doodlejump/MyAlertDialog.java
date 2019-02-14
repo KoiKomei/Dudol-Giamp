@@ -24,11 +24,11 @@ public class MyAlertDialog {
     }
 
     public void notifyToPlay(User user){
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Dialog);
-        builder1.setMessage("The player "+user.getUsername()+"\nhas the best score in 30 km \nScore: " + user.getPunteggio() + "\nDo you want to try to beat him?");
-        builder1.setCancelable(true);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.Theme_AppCompat_Dialog);
+        builder.setMessage("The player "+user.getUsername()+"\nhas the best score in 30 km \nScore: " + user.getPunteggio() + "\nDo you want to try to beat him?");
+        builder.setCancelable(true);
 
-        builder1.setPositiveButton(
+        builder.setPositiveButton(
                 "Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -38,7 +38,7 @@ public class MyAlertDialog {
                     }
                 });
 
-        builder1.setNegativeButton(
+        builder.setNegativeButton(
                 "No",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -46,7 +46,7 @@ public class MyAlertDialog {
                     }
                 });
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
