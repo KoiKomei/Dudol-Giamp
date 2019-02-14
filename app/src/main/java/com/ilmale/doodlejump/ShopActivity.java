@@ -1,5 +1,6 @@
 package com.ilmale.doodlejump;
 
+import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,6 +28,8 @@ import java.util.List;
 
 public class ShopActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = ShopActivity.class.getSimpleName();
+
     private LoginUser loginUser = LoginUser.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
     private TextView money;
@@ -34,7 +37,6 @@ public class ShopActivity extends AppCompatActivity {
     private ImageView blueBob;
     private ImageView jungleBob;
     private ImageView bunnyBob;
-    private ImageButton menu;
     private int moneyBlueBob=500;
     private int moneyJungleBob=1000;
     private int moneyBunnyBob=1500;
@@ -44,6 +46,7 @@ public class ShopActivity extends AppCompatActivity {
     private CollectionReference negozio=fs.collection("Negozio");
     private CollectionReference poss=fs.collection("Possiede");
 
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,7 @@ public class ShopActivity extends AppCompatActivity {
         money = findViewById(R.id.money);
         money.setText(""+loginUser.getMoney());
 
-        menu = findViewById(R.id.menu_shop);
+        ImageButton menu = findViewById(R.id.menu_shop);
 
         bob = findViewById(R.id.bob);
         menu.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +97,7 @@ public class ShopActivity extends AppCompatActivity {
                         blueBob.setImageResource(R.drawable.shopbluebought);
                         loginUser.setBlueBob(true);
                         loginUser.setEquippedBlueBob(true);
+                        loginUser.login();
                         money.setText("" + (loginUser.getMoney()-moneyBlueBob));
                         setBlueBob();
                         updateMoney(moneyBlueBob);
@@ -121,6 +125,7 @@ public class ShopActivity extends AppCompatActivity {
                         jungleBob.setImageResource(R.drawable.shopjunglebought);
                         loginUser.setJungleBob(true);
                         loginUser.setEquippedJungleBob(true);
+                        loginUser.login();
                         money.setText("" + (loginUser.getMoney()-moneyJungleBob));
                         setJungleBob();
                         updateMoney(moneyJungleBob);
@@ -148,6 +153,7 @@ public class ShopActivity extends AppCompatActivity {
                         bunnyBob.setImageResource(R.drawable.shopbunnybought);
                         loginUser.setBunnyBob(true);
                         loginUser.setEquippedBunnyBob(true);
+                        loginUser.login();
                         money.setText("" + (loginUser.getMoney()-moneyBunnyBob));
                         setBunnyBob();
                         updateMoney(moneyBunnyBob);
@@ -189,6 +195,15 @@ public class ShopActivity extends AppCompatActivity {
 
     private void initializeBobValue() {
         if(loginUser.getEmail()!=null){
+            if(loginUser.isBlueBob()){
+                blueBob.setImageResource(R.drawable.shopbluebought);
+            }
+            if(loginUser.isJungleBob()){
+                jungleBob.setImageResource(R.drawable.shopjunglebought);
+            }
+            if(loginUser.isBunnyBob()){
+                bunnyBob.setImageResource(R.drawable.shopbunnybought);
+            }
             if(loginUser.isEquippedBob()){
                 bob.setColorFilter(Color.argb(100, 0, 0, 0));
                 blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
@@ -212,15 +227,6 @@ public class ShopActivity extends AppCompatActivity {
                 blueBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 jungleBob.setColorFilter(Color.argb(0, 0, 0, 0));
                 bunnyBob.setColorFilter(Color.argb(100, 0, 0, 0));
-            }
-            if(loginUser.isBlueBob()){
-                blueBob.setImageResource(R.drawable.shopbluebought);
-            }
-            if(loginUser.isJungleBob()){
-                jungleBob.setImageResource(R.drawable.shopjunglebought);
-            }
-            if(loginUser.isBunnyBob()){
-                bunnyBob.setImageResource(R.drawable.shopbunnybought);
             }
         }
     }

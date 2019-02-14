@@ -109,12 +109,13 @@ public class Records {
                                 loginUser.setLat(myLocation.getLatLng().latitude);
                                 loginUser.setLongi(myLocation.getLatLng().longitude);
                             }
-                            int oldValue = loginUser.getMoney();
+                            int oldValue = user.getMoney();
                             int newValue = oldValue + constants.getPoints() / 10;
                             user.setMoney(newValue);
                             String id=d.getId();
                             use.document(id).set(user);
                             loginUser.setMoney(newValue);
+                            loginUser.login();
                         }
                     }
                 }

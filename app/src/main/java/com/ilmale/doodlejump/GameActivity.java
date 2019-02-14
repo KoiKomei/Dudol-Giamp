@@ -77,7 +77,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
             audioManager.pauseBg_audio();
         }
         audioManager.setCanStopBgAudio(true);
-        audioManager.pauseAll();
         sensorManager.unregisterListener(this);
     }
 

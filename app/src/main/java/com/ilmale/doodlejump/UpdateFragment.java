@@ -74,6 +74,7 @@ public class UpdateFragment extends Fragment {
                                         userPassword.setText("");
                                         newPass.setText("");
                                         loginUser.setPassword(newp);
+                                        loginUser.login();
                                     }
                                 }
                             }

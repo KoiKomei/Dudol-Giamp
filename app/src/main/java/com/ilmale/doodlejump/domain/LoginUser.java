@@ -206,6 +206,7 @@ public class LoginUser {
             setBunnyBob(isBunnyPref);
             setJungleBob(isJunglePref);
             initializeBobEquipped();
+            login();
         }
 
     }

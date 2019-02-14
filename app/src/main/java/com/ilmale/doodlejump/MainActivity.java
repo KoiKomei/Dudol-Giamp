@@ -85,17 +85,26 @@ public class MainActivity extends AppCompatActivity {
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         account = this.findViewById(R.id.button_account);
+
+        // initialize settings and dimension of the screen
+        initializeSettings();
+        setDimension();
+
+        //initialize with the context an alert dialog for best score check and set cont for the alert dialog
         myAlertDialog.setContext(this);
         constants.setContAlert(0);
-        checkLogin();
+
+        //initialize all the audio and sound
         audioManager.create(this);
-        initializeSettings();
+
+        //initialize scores of scoreboard
         records.initializeRecords(this);
-        for(Integer i: records.getRecords()){
-            Log.d(LOG_TAG,"Punteggio "+i);
-        }
+
+        //check if user is logged
+        checkLogin();
+
+        //initialize the FusedLocationClient to get position
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        setDimension();
     }
 
     private void checkLogin() {
@@ -115,6 +124,34 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Width: "+constants.getPixelWidth()+ ", Height:" +constants.getPixelHeight());
     }
 
+    public void initializeSettings(){
+        final SharedPreferences pref = getSharedPreferences("SETTINGS_PREF", MODE_PRIVATE);
+        boolean musicInOn = pref.getBoolean("music_is_on", true);
+        boolean soundIsOn = pref.getBoolean("sound_is_on", true);
+        boolean weatherIsOn = pref.getBoolean("weather_is_on", true);
+        settingsSI.setMusic(musicInOn);
+        settingsSI.setSound(soundIsOn);
+        settingsSI.setWeatherCondition(weatherIsOn);
+        if(settingsSI.isMusic()){
+            Log.d(LOG_TAG, "music on");
+        }else{
+            Log.d(LOG_TAG, "music off");
+        }
+        if(settingsSI.isSound()){
+            audioManager.setVolume1();
+            Log.d(LOG_TAG, "sound on");
+        }else{
+            audioManager.setVolume0();
+            Log.d(LOG_TAG, "sound off");
+        }
+        if(settingsSI.isWeatherCondition()){
+            Log.d(LOG_TAG, "weather on");
+        }else{
+            Log.d(LOG_TAG, "weather off");
+        }
+    }
+
+    /* functions to handle position */
     public void getLastKnownLocation() {
         Log.d(LOG_TAG, "getLastKnownLocation: called.");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -139,9 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkMapServices(){
         if(isServicesOK()){
-            if(isMapsEnabled()){
-                return true;
-            }
+            return isMapsEnabled();
         }
         return false;
     }
@@ -164,7 +199,10 @@ public class MainActivity extends AppCompatActivity {
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            buildAlertMessageNoGps();
+            if(!constants.isAskedPosition()) {
+                buildAlertMessageNoGps();
+                constants.setAskedPosition(true);
+            }
             return false;
         }
         return true;
@@ -239,33 +277,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    public void initializeSettings(){
-        final SharedPreferences pref = getSharedPreferences("SETTINGS_PREF",this.MODE_PRIVATE);
-        boolean musicInOn = pref.getBoolean("music_is_on", true);
-        boolean soundIsOn = pref.getBoolean("sound_is_on", true);
-        boolean weatherIsOn = pref.getBoolean("weather_is_on", true);
-        settingsSI.setMusic(musicInOn);
-        settingsSI.setSound(soundIsOn);
-        settingsSI.setWeatherCondition(weatherIsOn);
-        if(settingsSI.isMusic()){
-            Log.d(LOG_TAG, "music on");
-        }else{
-            Log.d(LOG_TAG, "music off");
-        }
-        if(settingsSI.isSound()){
-            audioManager.setVolume1();
-            Log.d(LOG_TAG, "sound on");
-        }else{
-            audioManager.setVolume0();
-            Log.d(LOG_TAG, "sound off");
-        }
-        if(settingsSI.isWeatherCondition()){
-            Log.d(LOG_TAG, "weather on");
-        }else{
-            Log.d(LOG_TAG, "weather off");
-        }
-    }
+    /* end of location handle */
 
     @Override
     protected void onRestart() {
@@ -280,16 +292,14 @@ public class MainActivity extends AppCompatActivity {
         checkLogin();
         initializeSettings();
         audioManager.playBg_audio();
-        if(!constants.isAskedPosition()) {
-            if (checkMapServices()) {
-                if (mLocationPermissionGranted) {
-                    getLastKnownLocation();
-                } else {
-                    getLocationPermission();
-                }
+        if (checkMapServices()) {
+            if (mLocationPermissionGranted) {
+                getLastKnownLocation();
+            } else {
+                getLocationPermission();
             }
-            constants.setAskedPosition(true);
         }
+
         Log.d(LOG_TAG, "onResume");
     }
 
@@ -379,14 +389,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOG_TAG, "Button map clicked!");
         if(checkMapServices()){
             if(mLocationPermissionGranted){
-                audioManager.setCanStopBgAudio(false);
-                Intent intent = new Intent(this, MapsActivity.class);
-                startActivity(intent);
+                getLastKnownLocation();
             }
             else{
                 getLocationPermission();
             }
         }
+        audioManager.setCanStopBgAudio(false);
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(intent);
     }
 
     public void launchRegisterActivity(View view){
@@ -410,11 +421,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //start the service to get location every 10 seconds
     private void startLocationService(){
         Intent serviceIntent = new Intent(this, LocationService.class);
         startService(serviceIntent);
     }
 
+    //function that use a weather api for the background
     @SuppressLint("StaticFieldLeak")
     public void getJSON(final LatLng latLng) {
 
@@ -470,4 +483,5 @@ public class MainActivity extends AppCompatActivity {
         }.execute();
 
     }
+
 }

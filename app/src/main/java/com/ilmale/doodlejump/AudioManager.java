@@ -161,19 +161,6 @@ public class AudioManager {
         jump_audio.setVolume(1,1);
     }
 
-
-    public void pauseAll(){
-        if(settingsSI.isSound()){
-            bullet_audio.pause();
-            enemy_audio.pause();
-            jetpack_audio.pause();
-            springs_audio.pause();
-            killEnemy_audio.pause();
-            jumpOnEnemy_audio.pause();
-            jump_audio.pause();
-        }
-    }
-
     public boolean isCanStopBgAudio(){
         return canStopBgAudio;
     }
