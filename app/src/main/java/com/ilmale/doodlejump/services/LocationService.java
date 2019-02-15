@@ -29,7 +29,7 @@ import com.ilmale.doodlejump.domain.MyLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-//this is a service that works in backgroud to update the position of the device in MyLocation
+//this is a service that works in background to update the position of the device in MyLocation
 //it is also used to get the best near score
 
 public class LocationService extends IntentService {
