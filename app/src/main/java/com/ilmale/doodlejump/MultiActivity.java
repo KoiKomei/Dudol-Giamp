@@ -74,6 +74,7 @@ public class MultiActivity extends AppCompatActivity implements SensorEventListe
     @Override
     public void onBackPressed() {
         audioManager.setCanStopBgAudio(false);
+        engine.client.closeConnection();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
