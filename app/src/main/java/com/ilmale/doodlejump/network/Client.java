@@ -47,7 +47,7 @@ public class Client extends Thread{
         try {
 
             // establish the connection with server port 5555
-            s = new Socket("151.52.152.164", 5555);
+            s = new Socket("109.117.77.215", 5555);
             //s = new Socket("192.168.43.213", 5555);
 
             // obtaining input and out streams
