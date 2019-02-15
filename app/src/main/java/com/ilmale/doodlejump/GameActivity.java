@@ -12,7 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.view.GameView;
 
-// activity that starts the game engine and the game view of the single-player
+
+/**
+ * ACTIVITY CHE FA PARTIRE IL GAME ENGINE E LA GAMEVIEW DEL SINGLEPLAYER
+ *
+ * */
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 

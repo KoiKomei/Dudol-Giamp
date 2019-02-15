@@ -32,8 +32,7 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * a fragment used to login
+ *è UN FRAGMENT PER IL LOGIN, NON FA NIENT'ALTRO
  */
 public class LoginFragment extends Fragment {
     EditText userEmail, userPassword;
@@ -119,28 +118,7 @@ public class LoginFragment extends Fragment {
                         });
 
 
-                //List<User> users=RegisterActivity.db.ourDao().getUsers();
 
-                /*for(User us:users){
-                    Log.d(LOG_TAG, "Dentro al for");
-                    if(UserEmail.equalsIgnoreCase(us.getEmail()) && UserPassword.equalsIgnoreCase(us.getPassword())){
-                        Log.d(LOG_TAG, "Dentro all'if");
-                        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
-                        login=true;
-                        loginUser.setLoginUser(us);
-                        loginUser.initializeBobEquipped();
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        startActivity(intent);
-                        break;
-                    }
-                    else{
-                        Log.d(LOG_TAG, "Else");
-                    }
-                }
-                if(login=false){
-                    Log.d(LOG_TAG, "Dentro al secondo if");
-                    Toast.makeText(getActivity(), "Login not successful", Toast.LENGTH_SHORT).show();
-                }*/
 
             }
         });

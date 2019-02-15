@@ -5,6 +5,18 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+
+/*
+*
+* TUTTE LE SCRITTE CON "@" ALL'INIZIO SERVIVANO PER IL VECCHIO ROOMDATABASE, PASSANDO A FIRESTORE
+* NON SONO PIù NECESSARIE MA SONO STATE LASCIATE IN CASO SI VOGLIA RIPASSARE AL ROOMDATABASE,
+* IL TUTTO NON COMPROMETTE LE FUNZIONALITà DELL'APP
+*
+*
+* */
+
+
+
 @Entity(tableName = "User")
 public class User {
 

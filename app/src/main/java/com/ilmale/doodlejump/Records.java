@@ -19,7 +19,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 //a class that saves top 5 scores of the device with the prefs
 //and update the best score and the position of the logged user
-//if the score is better then the database one
+//if the score is better than the database one
 
 public class Records {
 

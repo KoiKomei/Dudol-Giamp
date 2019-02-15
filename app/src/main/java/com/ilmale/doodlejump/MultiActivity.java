@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import com.ilmale.doodlejump.engine.MultiEngine;
 import com.ilmale.doodlejump.view.MultiGameView;
 
-//activity thas starts engine and view for multi-player
+/**
+ * ACTIVITY CHE FA PARTIRE L'ENGINE E LA VIEW DEL MULTIPLAYER
+ * */
 
 public class MultiActivity extends AppCompatActivity implements SensorEventListener {
 

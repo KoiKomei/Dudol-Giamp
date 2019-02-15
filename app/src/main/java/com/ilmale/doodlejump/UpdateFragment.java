@@ -3,6 +3,7 @@ package com.ilmale.doodlejump;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -23,8 +26,8 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * A fragment used to update the password of the user
+ *  FRAGMENT PER IL CAMBIO DI PASSWORD
+ *  USA UNA QUERY SU FIRESTORE PER TROVARE IL GIUSTO UTENTE
  */
 public class UpdateFragment extends Fragment {
 
@@ -76,10 +79,16 @@ public class UpdateFragment extends Fragment {
                                         newPass.setText("");
                                         loginUser.setPassword(newp);
                                         loginUser.login();
+                                        Toast.makeText(getActivity(), "Password cambiata", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
-                        });
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Email o password errata", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
             }

@@ -6,6 +6,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+/*
+*
+* RIFERIRSI AL COMMENTO IN USER
+*
+* */
+
 @Entity(tableName = "Negozio")
 public class Negozio {
 

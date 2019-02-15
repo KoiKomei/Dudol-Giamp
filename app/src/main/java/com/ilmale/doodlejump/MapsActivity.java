@@ -34,9 +34,10 @@ import com.ilmale.doodlejump.domain.MyLocation;
 import java.util.ArrayList;
 import java.util.List;
 
-//activity that handles the map and put on it a blue marker for the device/player position
-//and a list of red markers for the other player positions with their best scores
-//getting from the database
+   /**activity that handles the map and put on it a blue marker for the device/player position
+    *and a list of red markers for the other player positions with their best scores
+    * getting from the database
+    **/
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

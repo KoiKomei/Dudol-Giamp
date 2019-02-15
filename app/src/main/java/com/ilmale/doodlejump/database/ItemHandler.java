@@ -4,6 +4,13 @@ import java.util.List;
 import com.ilmale.doodlejump.RegisterActivity;
 import com.ilmale.doodlejump.database.Possiede;
 
+/*
+*
+*
+*
+* */
+
+
 public class ItemHandler {
 
 

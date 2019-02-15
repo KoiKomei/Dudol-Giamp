@@ -43,10 +43,23 @@ public class AddUserFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+    /**
+     * FUNZIONE PER VEDERE SE TUTTI I CAMPI SONO PIENI
+     * O SE IL NOME è TROPPO LUNGO
+     * IN CASO SI RIVELINO VERI MANDANO UN MESSAGGIO
+     * PER INFORMARE CHE DEVONO RIEMPIRE/CAMBIARE QUALCHE CAMPO
+     * */
+
     private boolean filledCamps(String email, String username, String password){
         if(email.isEmpty() || username.isEmpty() || password.isEmpty()){
-            Toast.makeText(getActivity(), "Empty camps", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ci sono campi vuoti", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        if(username.length()>12){
+            Toast.makeText(getActivity(), "Nome troppo lungo", Toast.LENGTH_SHORT).show();
+            return false;
+
         }
 
         return true;
@@ -70,8 +83,14 @@ public class AddUserFragment extends Fragment {
                 String UserName=userName.getText().toString();
                 String UserEmail=userEmail.getText().toString();
                 String UserPassword=userPassword.getText().toString();
-                if(filledCamps(UserName,UserEmail,UserPassword)){
-
+                if(filledCamps(UserEmail,UserName,UserPassword)){
+                    /**
+                     * FUNZIONE DI FIRESTORE
+                     * è UNA NORMALE QUERY CHE RITORNA OGNI UTENTE
+                     * CI SCUSIAMO IN ANTICIPO PER IL DOPPIO CODICE, MA A QUANTO
+                     * PARE FIRESTORE SI ARRABBIA CON POCO E NON ABBIAMO
+                     * POTUTO FARE ALTRIMENTI
+                     * */
                     use.get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
@@ -170,50 +189,7 @@ public class AddUserFragment extends Fragment {
 
                 }
 
-               /* List<User> users=RegisterActivity.db.ourDao().getUsers();
-                for(User us:users){
-                    if(UserEmail.equals(us.getEmail())){
-                        un=false;
-                        break;
-                    }
 
-                }
-                if(un) {
-                    User user = new User();
-                    user.setEmail(UserEmail);
-                    user.setPassword(UserPassword);
-                    user.setUsername(UserName);
-                    user.setMoney(0);
-                    user.setPunteggio(0);
-                    user.setLat(0);
-                    user.setLongi(0);
-
-                    Possiede pos = new Possiede();
-
-                    pos.setEmail(UserEmail);
-                    pos.setBob(true);
-                    pos.setBluebob(false);
-                    pos.setJunglebob(false);
-                    pos.setBunnybob(false);
-
-                    RegisterActivity.db.ourDao().setUser(user);
-                    RegisterActivity.db.ourDao().setPossiede(pos);
-                    Toast.makeText(getActivity(), "user added successfully", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    startActivity(intent);
-
-                    userEmail.setText("");
-                    userName.setText("");
-                    userPassword.setText("");
-                }
-                else{
-                    Toast.makeText(getActivity(), "user already exists", Toast.LENGTH_SHORT).show();
-                    userEmail.setText("");
-                    userName.setText("");
-                    userPassword.setText("");
-
-                }*/
 
 
             }

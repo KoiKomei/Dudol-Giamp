@@ -13,9 +13,15 @@ import com.ilmale.doodlejump.database.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * A fragment used to delete a user from the database
+ *
+ * QUESTO FRAGMENT NON è PIù USATO.
+ * ERA UTILIZZATO NEL VECCHIO ROOM DATABASE PER TESTARE LA CANCELLAZIONE DI UN ACCOUNT
+ * GRAZIE A FIRESTORE è POSSIBILE CANCELLARE GLI ACCOUNT MANUALMENTE DAL DATABASE ONLINE
+ * QUINDI QUESTO FRAGMENT NON è STATO PIù USATO Nè AGGIORNATO
+ *
+ *
  */
+
 public class DeleteUserFragment extends Fragment {
 
     private EditText txtUser;

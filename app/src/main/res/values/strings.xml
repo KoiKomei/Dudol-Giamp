@@ -72,6 +72,12 @@
     <string name="action_reply">Reply</string>
     <string name="salva">Salva</string>
     <string name="cambio_password">Cambio Password</string>
+    <string name="button">Button</string>
+    <string name="classifica_mondiale">Classifica Mondiale</string>
+    <string name="max_12_char">Max 12 char</string>
+    <string name="registrazione">Registrazione</string>
+    <string name="nickname_max_12">Nickname[max 12]</string>
+
 
 
 </resources>

@@ -12,8 +12,15 @@ import com.ilmale.doodlejump.ChainScore.HandlerScoreWorld;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 
-//this activity saves the score with a name on the records after a single-player match
 
+/**
+ *
+ * ACTIVITY PER LA PARTE FINALE DEL GIOCO
+ * DOPO UNA PARTITA SINGLEPLAYER AGGIORNA E SALVA I RECORD DEL DISPOSITIVO
+ * E QUELLO DEL PROPRIO ACCOUNT, OVVIAMENTE ANCHE IL NOME
+ * PUOI DECIDERE DI RIGIOCARE
+ *
+ * */
 public class EndGameActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = EndGameActivity.class.getSimpleName();
@@ -51,8 +58,8 @@ public class EndGameActivity extends AppCompatActivity {
             textPoints.setText(checkScore());
         }
         if(loginUser.getEmail()!=null){
-            if(loginUser.getUsername().length()>7){
-                name.setText(loginUser.getUsername().substring(0,7));
+            if(loginUser.getUsername().length()>12){
+                name.setText(loginUser.getUsername().substring(0,12));
             }else{
                 name.setText(loginUser.getUsername());
             }
@@ -80,8 +87,8 @@ public class EndGameActivity extends AppCompatActivity {
     public void updateRecords(View view) {
         if(!clickedUR) {
             clickedUR=true;
-            if(name.getText().toString().length()>7){
-                utility.setName(name.getText().toString().substring(0,7));
+            if(name.getText().toString().length()>12){
+                utility.setName(name.getText().toString().substring(0,12));
             }
             else{
                 utility.setName(name.getText().toString());
@@ -102,8 +109,8 @@ public class EndGameActivity extends AppCompatActivity {
         if(!clickedLM) {
             audioManager.setCanStopBgAudio(false);
             clickedLM=true;
-            if(name.getText().toString().length()>7){
-                utility.setName(name.getText().toString().substring(0,7));
+            if(name.getText().toString().length()>12){
+                utility.setName(name.getText().toString().substring(0,12));
             }
             else{
                 utility.setName(name.getText().toString());

@@ -6,6 +6,12 @@ import android.util.Log;
 
 import com.ilmale.doodlejump.settings.SettingsSI;
 
+/**
+ *
+ * CLASSE CHE GESTISCE GLI AUDIO, NIENTE DI PIù
+ *
+ * */
+
 //Manager used for audio and music
 
 public class AudioManager {

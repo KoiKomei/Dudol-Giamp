@@ -28,13 +28,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/add_user"
+        android:fontFamily="@font/alseana"
+        android:text="@string/registrazione"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,14 +45,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:autofillHints=""
         android:ems="10"
+        android:fontFamily="@font/alseana"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:targetApi="o" />
@@ -64,10 +70,13 @@
         android:layout_marginEnd="8dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/nickname"
+        android:fontFamily="@font/alseana"
+        android:hint="@string/nickname_max_12"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
 
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_user_email"
         tools:targetApi="o" />
@@ -81,9 +90,12 @@
         android:layout_marginEnd="8dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/password"
+        android:fontFamily="@font/alseana"
 
+        android:hint="@string/password"
         android:inputType="textWebPassword"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_username"
@@ -93,27 +105,29 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/update"
         android:src="@drawable/completa"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.663" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_user_password"
+        app:layout_constraintVertical_bias="0.155" />
 
     <ImageButton
         android:id="@+id/menu_adduser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/update"
         android:src="@drawable/menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.885"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.821" />
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.008" />
 
 
 </android.support.constraint.ConstraintLayout>

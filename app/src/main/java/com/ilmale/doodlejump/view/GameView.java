@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -194,6 +195,7 @@ public class GameView extends SurfaceView implements Runnable{
                 else {
 
                     Paint textPaint = new Paint();
+
                     textPaint.setColor(Color.argb(255, 249, 129, 0));
                     textPaint.setTextAlign(Paint.Align.CENTER);
                     textPaint.setTextSize(100);

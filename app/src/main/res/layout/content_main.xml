@@ -25,22 +25,22 @@
         app:layout_constraintVertical_bias="0.404"
         app:srcCompat="@drawable/dudol_giamp_background" />
 
-   <TextView
-         android:id="@+id/text_title"
-         android:layout_width="261dp"
-         android:layout_height="79dp"
-         android:fontFamily="sans-serif-smallcaps"
-         android:text="@string/text_label_title"
-         android:textAlignment="center"
-         android:textAllCaps="false"
-         android:textSize="36sp"
-         android:textStyle="bold"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.0"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toTopOf="parent"
-         app:layout_constraintVertical_bias="0.087" />
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="261dp"
+        android:layout_height="79dp"
+        android:fontFamily="@font/alseana"
+        android:text="@string/text_label_title"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.087" />
     <!--
         <Button
             android:id="@+id/button_options"
@@ -165,24 +165,27 @@
             app:layout_constraintVertical_bias="0.803"
             tools:text="MAP" />
     -->
-     <Button
-         android:id="@+id/button_account"
-         style="@style/Widget.AppCompat.Button.Borderless"
-         android:layout_width="wrap_content"
-         android:layout_height="46dp"
-         android:layout_marginStart="8dp"
-         android:layout_marginTop="8dp"
-         android:layout_marginEnd="8dp"
-         android:layout_marginBottom="8dp"
-         android:onClick="launchRegisterActivity"
-         android:text="@string/register"
-         android:textAlignment="center"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.924"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toTopOf="parent"
-         app:layout_constraintVertical_bias="1.0" />
+    <Button
+        android:id="@+id/button_account"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/alseana"
+        android:onClick="launchRegisterActivity"
+        android:text="@string/register"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/button_multi"

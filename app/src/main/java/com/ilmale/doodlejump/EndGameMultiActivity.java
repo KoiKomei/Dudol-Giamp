@@ -7,8 +7,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-//this is an activity that handles the endgame of a multi-player match
-//indicating if the device player has won or lost.
+
+/**
+ * ACTIVITY PER LA FINE DEL MULTIPLAYER
+ * DICHIARA SE HAI VINTO O PERSO
+ * IN PIù SE VUOI RIGIOCARE O MENO
+ *
+ *
+ * */
 
 public class EndGameMultiActivity extends AppCompatActivity {
 

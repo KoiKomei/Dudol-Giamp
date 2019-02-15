@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-//activity that shows the best 5 scores on the device with the respective name
+//activity that shows the best 5 scores on the device with their respective name
 
 public class ScoreActivity extends AppCompatActivity {
 
@@ -57,6 +57,11 @@ public class ScoreActivity extends AppCompatActivity {
     public void launchMainActivity(View view) {
         audioManager.setCanStopBgAudio(false);
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void launchWorldActivity(View view){
+        Intent intent = new Intent(this, WorldRecord.class);
         startActivity(intent);
     }
 

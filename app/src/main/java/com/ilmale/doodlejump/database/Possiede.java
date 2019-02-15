@@ -8,6 +8,13 @@ import android.support.annotation.NonNull;
 
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
+/*
+*
+* FARE RIFERIMENTO ALLO STESSO COMMENTO FATTO IN USER
+*
+* */
+
+
 @Entity(tableName = "Possiede", foreignKeys = @ForeignKey(entity=User.class, parentColumns = "Email", childColumns = "user_email", onDelete = ForeignKey.CASCADE))
 public class Possiede {
 

@@ -24,8 +24,7 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * fragment used to show info of the logged user
+ * FRAGMENT PER LEGGERE TUTTI I DATI DI UN UTENTE LOGGATO
  */
 public class ReadUserFragment extends Fragment {
 
@@ -49,41 +48,7 @@ public class ReadUserFragment extends Fragment {
         menu = view.findViewById(R.id.menu_readuser);
         DecimalFormat f = new DecimalFormat("##.00");
         String txt="";
-        /*
-        List<User> users=RegisterActivity.db.ourDao().getUsers();
-        List<Possiede> possess=RegisterActivity.db.ourDao().getPossiede();
-        List<String> emails=RegisterActivity.db.ourDao().getEmail();
 
-
-        for(User us:users){
-            String name=us.getUsername();
-            String password=us.getPassword();
-            String email=us.getEmail();
-            int money=us.getMoney();
-            int punteggio=us.getPunteggio();
-            double lat=us.getLat();
-            double lon=us.getLongi();
-
-
-            txt=txt+"\n\n"+"Name: "+name+"\n password: "+password+"\n email: "+email+"\n Soldi: "+money+"\n Punteggio: "+punteggio+"\n Latitudine: "+lat+"\n Longitudine: "+lon+"\n ";
-        }
-        for(Possiede pos:possess){
-
-            String em=pos.getEmail();
-            boolean bob=pos.isBob();
-            boolean bluebob=pos.isBluebob();
-            boolean junglebob=pos.isJunglebob();
-            boolean bunnybob=pos.isBunnybob();
-
-            txt=txt+"\n"+"Email: "+em+"\n Bob: "+bob+"\n BlueBob: "+bluebob+"\n JungleBob: "+junglebob+"\n BunnyBob: "+bunnybob+"\n ";
-
-        }
-
-        for(Iterator<String> it=emails.iterator(); it.hasNext();){
-            txt=txt+"\n roba: "+it.next()+"\n size: "+emails.size()+"\n last item: "+emails.get(emails.size()-1);
-
-        }
-        */
         txt+="Email: "+loginUser.getEmail()+"\n";
         txt+="Username: "+loginUser.getUsername()+"\n";
         txt+="Password: "+loginUser.getPassword()+"\n";
@@ -115,3 +80,4 @@ public class ReadUserFragment extends Fragment {
     }
 
 }
+
