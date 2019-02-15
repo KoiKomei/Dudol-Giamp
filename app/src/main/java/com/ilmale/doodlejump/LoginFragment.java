@@ -33,6 +33,7 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
+ * a fragment used to login
  */
 public class LoginFragment extends Fragment {
     EditText userEmail, userPassword;

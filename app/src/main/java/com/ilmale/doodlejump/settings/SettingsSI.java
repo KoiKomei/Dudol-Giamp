@@ -1,5 +1,7 @@
 package com.ilmale.doodlejump.settings;
 
+//used for the settings of the game: sound, music and weather conditions
+
 public class SettingsSI {
 
     private static final SettingsSI ourInstance = new SettingsSI();

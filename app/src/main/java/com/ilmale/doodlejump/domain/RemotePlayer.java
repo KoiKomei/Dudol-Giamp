@@ -1,7 +1,6 @@
 package com.ilmale.doodlejump.domain;
 
-import com.ilmale.doodlejump.Constants;
-import com.ilmale.doodlejump.network.Client;
+import com.ilmale.doodlejump.Utility;
 
 import java.util.StringTokenizer;
 
@@ -11,7 +10,7 @@ public class RemotePlayer {
     public float pY = 0;
     public int x; //VARIABILE DI CONTRLLO PER IL BITMAP
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
 
     public void update(){
 
@@ -40,7 +39,7 @@ public class RemotePlayer {
         String string = st.nextToken();
         if (!string.equals("Exit")){
             setpX(Float.parseFloat(string));
-            setpY(Float.parseFloat(st.nextToken()) + constants.getPoints());
+            setpY(Float.parseFloat(st.nextToken()) + utility.getPoints());
         }
         //setX(Integer.parseInt(st.nextToken()));
 

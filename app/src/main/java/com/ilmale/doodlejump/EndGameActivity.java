@@ -4,18 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.ilmale.doodlejump.ChainScore.HandlerScore1;
-import com.ilmale.doodlejump.ChainScore.HandlerScore100;
-import com.ilmale.doodlejump.ChainScore.HandlerScore1000;
-import com.ilmale.doodlejump.ChainScore.HandlerScore30;
 import com.ilmale.doodlejump.ChainScore.HandlerScoreWorld;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
+
+//this activity saves the score with a name on the records after a single-player match
 
 public class EndGameActivity extends AppCompatActivity {
 
@@ -28,7 +25,7 @@ public class EndGameActivity extends AppCompatActivity {
     private LoginUser loginUser = LoginUser.getInstance();
     private MyLocation myLocation = MyLocation.getInstance();
     private Records records = Records.getInstance();
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
 
     private boolean clickedUR;
@@ -47,7 +44,7 @@ public class EndGameActivity extends AppCompatActivity {
         playAgain = findViewById(R.id.play_again);
         menu = findViewById(R.id.menu);
         points = findViewById(R.id.points);
-        points.setText(""+constants.getPoints());
+        points.setText(""+ utility.getPoints());
         textPoints = findViewById(R.id.textPoints);
 
         if(myLocation.getLatLng()!=null){
@@ -60,7 +57,7 @@ public class EndGameActivity extends AppCompatActivity {
                 name.setText(loginUser.getUsername());
             }
         }
-        constants.setName(name.getText().toString());
+        utility.setName(name.getText().toString());
 
     }
 
@@ -84,10 +81,10 @@ public class EndGameActivity extends AppCompatActivity {
         if(!clickedUR) {
             clickedUR=true;
             if(name.getText().toString().length()>7){
-                constants.setName(name.getText().toString().substring(0,7));
+                utility.setName(name.getText().toString().substring(0,7));
             }
             else{
-                constants.setName(name.getText().toString());
+                utility.setName(name.getText().toString());
             }
             records.updateRecords();
             Intent intent = new Intent(this, MainActivity.class);
@@ -106,10 +103,10 @@ public class EndGameActivity extends AppCompatActivity {
             audioManager.setCanStopBgAudio(false);
             clickedLM=true;
             if(name.getText().toString().length()>7){
-                constants.setName(name.getText().toString().substring(0,7));
+                utility.setName(name.getText().toString().substring(0,7));
             }
             else{
-                constants.setName(name.getText().toString());
+                utility.setName(name.getText().toString());
             }
             records.updateRecords();
             Intent intent = new Intent(this, MainActivity.class);
@@ -126,6 +123,6 @@ public class EndGameActivity extends AppCompatActivity {
 
     private String checkScore(){
         HandlerScoreWorld handlerScoreWorld = HandlerScoreWorld.getInstance();
-        return handlerScoreWorld.processScore(constants.getPoints());
+        return handlerScoreWorld.processScore(utility.getPoints());
     }
 }

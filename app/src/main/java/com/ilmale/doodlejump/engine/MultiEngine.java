@@ -1,18 +1,17 @@
 package com.ilmale.doodlejump.engine;
 
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.domain.Bullet;
-import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.domain.RemotePlayer;
 import com.ilmale.doodlejump.network.Client;
+
+//engine of the multi-player game
 
 public class MultiEngine extends GameEngine {
 
     public RemotePlayer player2;
     public Client client;
     public boolean isStart = false;
-
-    private Constants constants = Constants.getInstance();
 
     public MultiEngine(){
         super();
@@ -62,7 +61,7 @@ public class MultiEngine extends GameEngine {
         if(!gameOver){
             audioManager.playLose_audio();
         }
-        constants.setLoseInMulti(true);
+        utility.setLoseInMulti(true);
         client.setIsGameOver(true);
         gameOver = true;
         isStart = false;

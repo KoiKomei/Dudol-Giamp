@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 
 import com.ilmale.doodlejump.database.User;
 
+//dialog that returns the score and the name of the near best score taken from database
+
 public class MyAlertDialog {
 
     private Context context;

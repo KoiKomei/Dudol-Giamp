@@ -16,6 +16,9 @@ import com.ilmale.doodlejump.settings.SettingsSI;
 
 import static android.media.tv.TvContract.Programs.Genres.MUSIC;
 
+//activity that uses three switch to turn on or turn off audio, music
+//and weather and then save the value on a pref
+
 public class OptionsActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = OptionsActivity.class.getSimpleName();

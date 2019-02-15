@@ -24,6 +24,7 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
+ * A fragment used to update the password of the user
  */
 public class UpdateFragment extends Fragment {
 

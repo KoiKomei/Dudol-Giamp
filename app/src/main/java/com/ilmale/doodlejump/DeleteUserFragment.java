@@ -14,6 +14,7 @@ import com.ilmale.doodlejump.database.User;
 
 /**
  * A simple {@link Fragment} subclass.
+ * A fragment used to delete a user from the database
  */
 public class DeleteUserFragment extends Fragment {
 

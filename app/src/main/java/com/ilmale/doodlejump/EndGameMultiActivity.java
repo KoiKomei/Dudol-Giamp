@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.ilmale.doodlejump.domain.LoginUser;
-import com.ilmale.doodlejump.domain.MyLocation;
+//this is an activity that handles the endgame of a multi-player match
+//indicating if the device player has won or lost.
 
 public class EndGameMultiActivity extends AppCompatActivity {
 
@@ -19,7 +17,7 @@ public class EndGameMultiActivity extends AppCompatActivity {
     public ImageButton playAgain, menu;
     public TextView text;
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
@@ -31,9 +29,9 @@ public class EndGameMultiActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu_multi);
         text = findViewById(R.id.text_multi);
 
-        if(constants.isLoseInMulti()){
+        if(utility.isLoseInMulti()){
             text.setText("YOU LOSE");
-            constants.setLoseInMulti(false);
+            utility.setLoseInMulti(false);
         }else{
             text.setText("YOU WIN");
         }

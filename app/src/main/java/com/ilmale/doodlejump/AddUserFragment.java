@@ -28,6 +28,7 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
+ * A fragment used to register a user on the database
  */
 public class AddUserFragment extends Fragment {
 

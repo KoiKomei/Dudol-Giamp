@@ -7,12 +7,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.ilmale.doodlejump.EndGameActivity;
 import com.ilmale.doodlejump.EndGameMultiActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.MultiEngine;
+
+//view for the multi-player game
 
 public class MultiGameView extends GameView {
 
@@ -56,7 +57,7 @@ public class MultiGameView extends GameView {
 //                textPaint.setColor(Color.argb(255, 249, 129, 0));
 //                textPaint.setTextAlign(Paint.Align.CENTER);
 //                textPaint.setTextSize(100);
-//                canvas.drawText(""+constants.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
+//                canvas.drawText(""+utility.getPoints(), canvas.getWidth()/2,  (canvas.getHeight() / 2) + 100, textPaint);
 
             }
 
@@ -66,7 +67,7 @@ public class MultiGameView extends GameView {
                 textPaint.setColor(Color.argb(255, 249, 129, 0));
                 textPaint.setTextAlign(Paint.Align.CENTER);
                 textPaint.setTextSize(100);
-                //canvas.drawText("" + constants.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
+                //canvas.drawText("" + utility.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
 
                 // Draw the background
                 canvas.drawBitmap(bitmapBG, 0, 0, paint);
@@ -136,8 +137,8 @@ public class MultiGameView extends GameView {
                 else if (enginee.player2.pY < - 101) {
                     canvas.drawBitmap(boolBobUp, enginee.player2.pX, 0, paint);
                 }
-                else if (enginee.player2.pY > constants.getPixelHeight() - 100) {
-                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, constants.getPixelHeight() - 450, paint);
+                else if (enginee.player2.pY > utility.getPixelHeight() - 100) {
+                    canvas.drawBitmap(boolBobDown, enginee.player2.pX, utility.getPixelHeight() - 450, paint);
                 }
                 canvas.drawBitmap(bitmapJETPACK, gameEngine.jetpack.getpX(), gameEngine.jetpack.getpY(), paint);
                 canvas.drawBitmap(bitmapEnemy, gameEngine.enemy.getpX(), gameEngine.enemy.getpY(), paint);
@@ -145,10 +146,10 @@ public class MultiGameView extends GameView {
                 // Display the current fps on the screen
                 //canvas.drawText("FPS:" + fps, 30, 50, paint);
                 //canvas.drawText("Device Record:" + records.getRecords().get(0), 30, 95, paint);
-                //canvas.drawText("Your Points:" + constants.getPoints(), 30, 140, paint);
+                //canvas.drawText("Your Points:" + utility.getPoints(), 30, 140, paint);
 
                 canvas.drawText("Device Record:" + records.getRecords().get(0), 30, 50, paint);
-                canvas.drawText("Your Points:" + constants.getPoints(), 30, 95, paint);
+                canvas.drawText("Your Points:" + utility.getPoints(), 30, 95, paint);
 
                 try {
                     for (Bullet b : gameEngine.bullets) {

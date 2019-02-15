@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.ilmale.doodlejump.database.OurDatabase;
 
+//activity that handles the fragments of the account management
+
 public class RegisterActivity extends AppCompatActivity {
 
     public static FragmentManager fm;

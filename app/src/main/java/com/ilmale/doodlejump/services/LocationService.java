@@ -2,12 +2,10 @@ package com.ilmale.doodlejump.services;
 
 import android.Manifest;
 import android.app.IntentService;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -17,22 +15,22 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.MyAlertDialog;
-import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//this is a service that works in backgroud to update the position of the device in MyLocation
+//it is also used to get the best near score
 
 public class LocationService extends IntentService {
 
@@ -47,7 +45,7 @@ public class LocationService extends IntentService {
     LoginUser loginUser = LoginUser.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     MyAlertDialog myAlertDialog = MyAlertDialog.getInstance();
-    Constants constants = Constants.getInstance();
+    Utility utility = Utility.getInstance();
 
     private FirebaseFirestore fs= FirebaseFirestore.getInstance();
     private CollectionReference use=fs.collection("User");
@@ -87,12 +85,12 @@ public class LocationService extends IntentService {
 
                         Location location = locationResult.getLastLocation();
                         if (location != null) {
-                            constants.setContAlert(constants.getContAlert()+1);
+                            utility.setContAlert(utility.getContAlert()+1);
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             Log.d(TAG, "OnComplete: latitude: " + latLng.latitude);
                             Log.d(TAG, "OnComplete: longitude: " + latLng.longitude);
                             myLocation.setLatLng(latLng);
-                            if(constants.getContAlert()==2){
+                            if(utility.getContAlert()==2){
                                 checkPoints();
                             }
                         }

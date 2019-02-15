@@ -1,20 +1,17 @@
 package com.ilmale.doodlejump.engine;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
 
 import com.ilmale.doodlejump.AudioManager;
-import com.ilmale.doodlejump.Constants;
-import com.ilmale.doodlejump.EndGameActivity;
-import com.ilmale.doodlejump.GameActivity;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.Records;
-import com.ilmale.doodlejump.RegisterActivity;
-import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.*;
 
 import java.util.List;
 import java.util.ArrayList;
+
+//engine of the single-player game
 
 @SuppressLint("Registered")
 public class GameEngine {
@@ -37,7 +34,7 @@ public class GameEngine {
     public Jetpack jetpack;
     public Enemy enemy;
 
-    protected Constants constants = Constants.getInstance();
+    protected Utility utility = Utility.getInstance();
     protected Records records = Records.getInstance();
     protected AudioManager audioManager = AudioManager.getInstance();
 
@@ -60,7 +57,7 @@ public class GameEngine {
         jetpack = new Jetpack();
         player.setJetpack(jetpack);
 
-        constants.setPoints(0);
+        utility.setPoints(0);
 
     }
 
@@ -100,9 +97,9 @@ public class GameEngine {
             }
         }
 
-        if (player.getpY() < constants.getPixelHeight()/3) {
-            player.setpY(constants.getPixelHeight()/3);
-            constants.setPoints(constants.getPoints() + 1);
+        if (player.getpY() < utility.getPixelHeight()/3) {
+            player.setpY(utility.getPixelHeight()/3);
+            utility.setPoints(utility.getPoints() + 1);
             for(Platform p: platforms){
                 p.setyS(-1);
                 p.update();
@@ -173,7 +170,7 @@ public class GameEngine {
         float x2 = x1+object.getWidth();
         float y1 = object.getpY();
         float y2 = y1+object.getHeight();
-        if(y1<constants.getPixelHeight() && y2>0 && x2>0 && x1<constants.getPixelWidth()){
+        if(y1< utility.getPixelHeight() && y2>0 && x2>0 && x1< utility.getPixelWidth()){
             return true;
         }
         return false;
@@ -219,10 +216,10 @@ public class GameEngine {
 
 
     public boolean fall(){
-        if((player.getpY()>constants.getPixelHeight() && constants.getPoints()>0 )){
+        if((player.getpY()> utility.getPixelHeight() && utility.getPoints()>0 )){
             return true;
         }
-        if((player.getpY()>constants.getPixelHeight() && constants.getPoints()==0 )){
+        if((player.getpY()> utility.getPixelHeight() && utility.getPoints()==0 )){
             player.jump(jumpForce*2);
         }
         return false;

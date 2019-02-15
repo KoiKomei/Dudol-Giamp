@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+//activity that shows the best 5 scores on the device with the respective name
+
 public class ScoreActivity extends AppCompatActivity {
 
     private Records records = Records.getInstance();

@@ -1,34 +1,18 @@
 package com.ilmale.doodlejump;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.view.GameView;
 
-import java.security.PublicKey;
-
-import static android.view.View.INVISIBLE;
+// activity that starts the game engine and the game view of the single-player
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -38,7 +22,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
@@ -51,7 +35,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         engine = new GameEngine();
         gameView = new GameView(this, engine);
         setContentView(gameView);
-        constants.setPoints(0);
+        utility.setPoints(0);
 
     }
 

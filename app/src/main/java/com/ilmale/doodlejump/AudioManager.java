@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.ilmale.doodlejump.settings.SettingsSI;
 
+//Manager used for audio and musid
+
 public class AudioManager {
 
     private MediaPlayer bg_audio;

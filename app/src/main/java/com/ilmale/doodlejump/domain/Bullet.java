@@ -1,14 +1,12 @@
 package com.ilmale.doodlejump.domain;
 
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 
 public class Bullet extends AbstractGameObject {
 
     private float pX;
     private float pY;
     private float velY=100;
-
-    private Constants constants = Constants.getInstance();
 
     public Bullet(float pX, float pY) {
         this.pX = pX;

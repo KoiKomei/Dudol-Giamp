@@ -16,6 +16,7 @@ import com.ilmale.doodlejump.domain.LoginUser;
 
 /**
  * A simple {@link Fragment} subclass.
+ * a fragment that initialize all the button of the account management
  */
 public class RegisterFragment extends Fragment implements View.OnClickListener{
 

@@ -15,6 +15,10 @@ import com.ilmale.doodlejump.domain.MyLocation;
 import java.util.ArrayList;
 import java.util.List;
 
+/* This abstract class is used to create a chain of responsibility
+*  that check the player score with the scores of the others.
+*  This is based on the distance between the players on the map*/
+
 public abstract class HandlerScore {
 
     protected final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;

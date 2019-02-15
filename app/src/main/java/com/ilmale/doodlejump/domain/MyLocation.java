@@ -4,6 +4,8 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
+//this is a class used to keep location of the device
+
 public class MyLocation{
 
     private LatLng latLng;

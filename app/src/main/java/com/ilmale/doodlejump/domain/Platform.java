@@ -1,8 +1,6 @@
 package com.ilmale.doodlejump.domain;
 
-import android.util.Log;
-
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.view.GameView;
 
 import java.util.List;
@@ -16,7 +14,7 @@ public class Platform extends AbstractGameObject {
     private float yS=0;
     private int maxPlat=10;
     private boolean hasSprings;
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
 
     public Platform(float pX, float pY){
         this.pX=pX;
@@ -57,9 +55,9 @@ public class Platform extends AbstractGameObject {
     @Override
     public void update() {
         pY -= yS;
-        if(pY > (constants.getPixelHeight()-50)){
-            //constants.setPoints(constants.getPoints() - (int)yS);
-            pX = (float) (Math.random() * (constants.getPixelWidth()-150));
+        if(pY > (utility.getPixelHeight()-50)){
+            //utility.setPoints(utility.getPoints() - (int)yS);
+            pX = (float) (Math.random() * (utility.getPixelWidth()-150));
             pY = 0;
             setHasSprings(false);
             float j = (float) Math.random()*100;
@@ -72,7 +70,7 @@ public class Platform extends AbstractGameObject {
     public void createRandomPlatform(List<Platform> platforms){
         for (int i=0; i<maxPlat; i++){
             float j = (float) Math.random()*100;
-            Platform platform = new Platform((float)Math.random() * (constants.getPixelWidth()-150),i*((constants.getPixelHeight()-50)/10));
+            Platform platform = new Platform((float)Math.random() * (utility.getPixelWidth()-150),i*((utility.getPixelHeight()-50)/10));
             if(j>=97){
                 platform.setHasSprings(true);
             }

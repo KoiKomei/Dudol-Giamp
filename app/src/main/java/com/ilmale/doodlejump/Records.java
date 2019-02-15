@@ -1,30 +1,29 @@
 package com.ilmale.doodlejump;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.ilmale.doodlejump.database.OurDatabase;
-import com.ilmale.doodlejump.database.Possiede;
 import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
+//a class that saves top 5 scores of the device with the prefs
+//and update the best score and the position of the logged user
+//if the score is better then the database one
+
 public class Records {
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
     private MyLocation myLocation = MyLocation.getInstance();
 
     private static final Records ourInstance = new Records();
@@ -84,8 +83,8 @@ public class Records {
 
     public void updateRecords() {
 
-        int points = constants.getPoints();
-        String name = constants.getName();
+        int points = utility.getPoints();
+        String name = utility.getName();
         int pos = -1;
 
         pos = findPosition(points);
@@ -101,16 +100,16 @@ public class Records {
                         List<DocumentSnapshot> list=queryDocumentSnapshots.getDocuments();
                         for(DocumentSnapshot d:list){
                             User user=d.toObject(User.class);
-                            if(constants.getPoints() > loginUser.getPunteggio()) {
-                                user.setPunteggio(constants.getPoints());
+                            if(utility.getPoints() > loginUser.getPunteggio()) {
+                                user.setPunteggio(utility.getPoints());
                                 user.setLat(myLocation.getLatLng().latitude);
                                 user.setLongi(myLocation.getLatLng().longitude);
-                                loginUser.setPunteggio(constants.getPoints());
+                                loginUser.setPunteggio(utility.getPoints());
                                 loginUser.setLat(myLocation.getLatLng().latitude);
                                 loginUser.setLongi(myLocation.getLatLng().longitude);
                             }
                             int oldValue = user.getMoney();
-                            int newValue = oldValue + constants.getPoints() / 10;
+                            int newValue = oldValue + utility.getPoints() / 10;
                             user.setMoney(newValue);
                             String id=d.getId();
                             use.document(id).set(user);

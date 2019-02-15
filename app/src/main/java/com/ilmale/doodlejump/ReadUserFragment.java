@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
+ * fragment used to show info of the logged user
  */
 public class ReadUserFragment extends Fragment {
 

@@ -3,7 +3,6 @@ package com.ilmale.doodlejump;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,8 +34,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.ilmale.doodlejump.ChainScore.HandlerScoreWorld;
 import com.ilmale.doodlejump.database.ItemHandler;
-import com.ilmale.doodlejump.database.OurDatabase;
-import com.ilmale.doodlejump.database.User;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.MyLocation;
 import com.ilmale.doodlejump.services.LocationService;
@@ -47,20 +44,19 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.ilmale.doodlejump.Constants.ERROR_DIALOG_REQUEST;
-import static com.ilmale.doodlejump.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
-import static com.ilmale.doodlejump.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
+import static com.ilmale.doodlejump.Utility.ERROR_DIALOG_REQUEST;
+import static com.ilmale.doodlejump.Utility.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.ilmale.doodlejump.Utility.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     SettingsSI settingsSI = SettingsSI.getInstance();
-    Constants  constants = Constants.getInstance();
+    Utility utility = Utility.getInstance();
     AudioManager audioManager = AudioManager.getInstance();
     MyLocation myLocation = MyLocation.getInstance();
     Records records = Records.getInstance();
@@ -92,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize with the context an alert dialog for best score check and set cont for the alert dialog
         myAlertDialog.setContext(this);
-        constants.setContAlert(0);
+        utility.setContAlert(0);
 
         //initialize all the audio and sound
         audioManager.create(this);
@@ -118,10 +114,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setDimension(){
-        Constants constants = Constants.getInstance();
-        constants.setPixelHeight(getResources().getDisplayMetrics().heightPixels);
-        constants.setPixelWidth(getResources().getDisplayMetrics().widthPixels);
-        Log.d(LOG_TAG, "Width: "+constants.getPixelWidth()+ ", Height:" +constants.getPixelHeight());
+        utility.setPixelHeight(getResources().getDisplayMetrics().heightPixels);
+        utility.setPixelWidth(getResources().getDisplayMetrics().widthPixels);
+        Log.d(LOG_TAG, "Width: "+utility.getPixelWidth()+ ", Height:" +utility.getPixelHeight());
     }
 
     public void initializeSettings(){
@@ -199,9 +194,9 @@ public class MainActivity extends AppCompatActivity {
         final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 
         if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            if(!constants.isAskedPosition()) {
+            if(!utility.isAskedPosition()) {
                 buildAlertMessageNoGps();
-                constants.setAskedPosition(true);
+                utility.setAskedPosition(true);
             }
             return false;
         }
@@ -288,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        constants.setContAlert(0);
+        utility.setContAlert(0);
         checkLogin();
         initializeSettings();
         audioManager.playBg_audio();
@@ -306,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        constants.setContAlert(3);
+        utility.setContAlert(3);
         if(audioManager.isCanStopBgAudio()){
             audioManager.pauseBg_audio();
         }

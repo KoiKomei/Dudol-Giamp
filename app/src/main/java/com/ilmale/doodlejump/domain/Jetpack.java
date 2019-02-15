@@ -1,6 +1,6 @@
 package com.ilmale.doodlejump.domain;
 
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 
 public class Jetpack extends AbstractGameObject {
 
@@ -9,10 +9,10 @@ public class Jetpack extends AbstractGameObject {
     private float yS=0;
     private int duration = 5;
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
 
     public Jetpack(){
-        pX = (float)Math.random() * (constants.getPixelWidth()-52);
+        pX = (float)Math.random() * (utility.getPixelWidth()-52);
         pY = -5000;
     }
 
@@ -52,14 +52,14 @@ public class Jetpack extends AbstractGameObject {
     @Override
     public void update() {
         pY -= yS;
-        if(pY > constants.getPixelHeight()){
-            pX = (float) (Math.random() * (constants.getPixelWidth()-52));
+        if(pY > utility.getPixelHeight()){
+            pX = (float) (Math.random() * (utility.getPixelWidth()-52));
             pY = -5000;
         }
     }
 
     public void replace(){
-        pX = (float) (Math.random() * (constants.getPixelWidth()-52));
+        pX = (float) (Math.random() * (utility.getPixelWidth()-52));
         pY = -15000;
     }
 }

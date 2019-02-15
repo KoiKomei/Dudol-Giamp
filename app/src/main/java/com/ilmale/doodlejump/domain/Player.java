@@ -1,9 +1,6 @@
 package com.ilmale.doodlejump.domain;
 
-import android.util.Log;
-
-import com.ilmale.doodlejump.AudioManager;
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.settings.SettingsSI;
 
@@ -34,21 +31,21 @@ public class Player extends AbstractGameObject {
 
     private GameEngine gameEngine;
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
 
     private List<Platform> platforms;
     private Jetpack jetpack;
 
     public Player(){
         super();
-        pX = constants.getPixelWidth()/2;
-        pY = constants.getPixelHeight()/3;
+        pX = utility.getPixelWidth()/2;
+        pY = utility.getPixelHeight()/3;
     }
 
     public Player(GameEngine ge){
         super();
-        pX = constants.getPixelWidth()/2;
-        pY = constants.getPixelHeight()/3;
+        pX = utility.getPixelWidth()/2;
+        pY = utility.getPixelHeight()/3;
         this.gameEngine = ge;
     }
 
@@ -67,10 +64,10 @@ public class Player extends AbstractGameObject {
         velX = (accX * 30);
         float xS = (velX / 2);
         pX -= xS;
-        if (pX > constants.getPixelWidth()) {
+        if (pX > utility.getPixelWidth()) {
             pX = -this.getWidth();
         } else if (pX < -this.getWidth()) {
-            pX = constants.getPixelWidth();
+            pX = utility.getPixelWidth();
         }
     }
 

@@ -1,28 +1,13 @@
 package com.ilmale.doodlejump.domain;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.ilmale.doodlejump.MainActivity;
-import com.ilmale.doodlejump.RegisterActivity;
-import com.ilmale.doodlejump.database.OurDatabase;
-import com.ilmale.doodlejump.database.Possiede;
-import com.ilmale.doodlejump.database.User;
-
-import org.json.JSONObject;
-
-import java.util.Collections;
-import java.util.List;
-
 import static android.content.Context.MODE_PRIVATE;
+
+/* It's useful to get and set all values of the logged user quickly.
+*  We use prefs to keep the logged user and the equipped bob after the application is closed.*/
 
 public class LoginUser {
 

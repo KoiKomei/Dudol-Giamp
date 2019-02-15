@@ -2,20 +2,20 @@ package com.ilmale.doodlejump.network;
 
 import android.util.Log;
 
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.domain.Player;
 import com.ilmale.doodlejump.domain.RemotePlayer;
 
 import java.io.*;
 import java.net.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+//client used to connect to the server for multi-player
 
 public class Client extends Thread{
 
     private static final String LOG_TAG = Client.class.getSimpleName();
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
 
     private Player localplayer;
     private RemotePlayer remoteplayer;
@@ -80,7 +80,7 @@ public class Client extends Thread{
 //                String tosend = sdf.format(resultdate);
                 String tosend = //dos.println(
                         //tosend + " " +
-                        localplayer.getpX() + " " + (localplayer.getpY() - constants.getPoints());//);
+                        localplayer.getpX() + " " + (localplayer.getpY() - utility.getPoints());//);
 
                 if (isGameOver){
                     tosend = "Exit";
@@ -104,7 +104,7 @@ public class Client extends Thread{
                     break;
                 }
 
-                //PICCOLO SLEEP PER QUESTIONI DI EFFICIENZA E PERCHE ANCORA FACCIO SCHIFO CON I WAIT E NOTIFY
+                //sleep for efficiency
                 try {
                     Thread.sleep(25);
                 } catch (InterruptedException e) {

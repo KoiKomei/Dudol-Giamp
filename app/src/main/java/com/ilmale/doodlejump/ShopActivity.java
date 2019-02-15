@@ -26,6 +26,10 @@ import com.ilmale.doodlejump.domain.LoginUser;
 
 import java.util.List;
 
+//In this activity the logged user can shop a type of bob to use in the game.
+//Once a bob is selected, if the user has enough money that bob is added
+//to the database and equipped for the logged user.
+
 public class ShopActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = ShopActivity.class.getSimpleName();

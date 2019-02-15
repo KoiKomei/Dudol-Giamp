@@ -1,8 +1,13 @@
 package com.ilmale.doodlejump;
 
-import com.google.android.gms.maps.model.LatLng;
+//class of variables and utility used to set:
+//dimension of the screen,
+//points and name of the player,
+//check who win in multiplayer,
+//avoid multiple requests to activate location service
+//and three utility for position request
 
-public class Constants {
+public class Utility {
 
     public static final int  ERROR_DIALOG_REQUEST = 9001;
     public static final int  PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9002;
@@ -16,13 +21,13 @@ public class Constants {
     private int contAlert = 0;
     private boolean loseInMulti = false;
 
-    private static final Constants ourInstance = new Constants();
+    private static final Utility ourInstance = new Utility();
 
-    public static Constants getInstance() {
+    public static Utility getInstance() {
         return ourInstance;
     }
 
-    public Constants() {}
+    public Utility() {}
 
     public float getPixelWidth() {
         return pixelWidth;

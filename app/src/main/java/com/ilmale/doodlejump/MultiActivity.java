@@ -1,31 +1,18 @@
 package com.ilmale.doodlejump;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
 
-import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.engine.MultiEngine;
-import com.ilmale.doodlejump.network.Client;
-import com.ilmale.doodlejump.view.GameView;
 import com.ilmale.doodlejump.view.MultiGameView;
 
-import java.security.PublicKey;
+//activity thas starts engine and view for multi-player
 
 public class MultiActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -35,7 +22,7 @@ public class MultiActivity extends AppCompatActivity implements SensorEventListe
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
     private Records records = Records.getInstance();
     private AudioManager audioManager = AudioManager.getInstance();
 
@@ -54,7 +41,7 @@ public class MultiActivity extends AppCompatActivity implements SensorEventListe
         engine = new MultiEngine();
         gameView = new MultiGameView(this, engine);
         setContentView(gameView);
-        constants.setPoints(0);
+        utility.setPoints(0);
     }
 
     @Override

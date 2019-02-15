@@ -1,6 +1,5 @@
 package com.ilmale.doodlejump.view;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,19 +11,19 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 import com.ilmale.doodlejump.EndGameActivity;
 import com.ilmale.doodlejump.MainActivity;
 import com.ilmale.doodlejump.R;
 import com.ilmale.doodlejump.Records;
-import com.ilmale.doodlejump.database.OurDatabase;
 import com.ilmale.doodlejump.domain.Bullet;
 import com.ilmale.doodlejump.domain.LoginUser;
 import com.ilmale.doodlejump.domain.Platform;
 import com.ilmale.doodlejump.engine.GameEngine;
 import com.ilmale.doodlejump.settings.SettingsSI;
+
+//surface view used for the single-player game
 
 public class GameView extends SurfaceView implements Runnable{
 
@@ -74,7 +73,7 @@ public class GameView extends SurfaceView implements Runnable{
 
 
         GameEngine gameEngine;
-        protected Constants constants = Constants.getInstance();
+        protected Utility utility = Utility.getInstance();
         protected Records records = Records.getInstance();
 
         public GameView(Context context, GameEngine engine) {
@@ -87,6 +86,7 @@ public class GameView extends SurfaceView implements Runnable{
             ourHolder = getHolder();
             paint = new Paint();
 
+            //initialize the value of the bob equipped
             initializeBobValue();
 
             // Initialize bitmaps of Bob
@@ -120,6 +120,7 @@ public class GameView extends SurfaceView implements Runnable{
 
             // Initialize bitmaps
             bitmapBG = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            //check weather conditions
             changeBG();
 
             bitmapPlatform = BitmapFactory.decodeResource(getResources(), R.drawable.plat1);
@@ -196,7 +197,7 @@ public class GameView extends SurfaceView implements Runnable{
                     textPaint.setColor(Color.argb(255, 249, 129, 0));
                     textPaint.setTextAlign(Paint.Align.CENTER);
                     textPaint.setTextSize(100);
-                    canvas.drawText("" + constants.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
+                    canvas.drawText("" + utility.getPoints(), canvas.getWidth() / 2, (canvas.getHeight() / 2) + 100, textPaint);
 
                     // Draw the background
                     canvas.drawBitmap(bitmapBG, 0, 0, paint);
@@ -267,10 +268,10 @@ public class GameView extends SurfaceView implements Runnable{
                     // Display the current fps on the screen
                     //canvas.drawText("FPS:" + fps, 30, 50, paint);
                     //canvas.drawText("Device Record:" + records.getRecords().get(0), 30, 95, paint);
-                    //canvas.drawText("Your Points:" + constants.getPoints(), 30, 140, paint);
+                    //canvas.drawText("Your Points:" + utility.getPoints(), 30, 140, paint);
 
                     canvas.drawText("Device Record:" + records.getRecords().get(0), 30, 50, paint);
-                    canvas.drawText("Your Points:" + constants.getPoints(), 30, 95, paint);
+                    canvas.drawText("Your Points:" + utility.getPoints(), 30, 95, paint);
 
                     try {
                         for (Bullet b : gameEngine.bullets) {

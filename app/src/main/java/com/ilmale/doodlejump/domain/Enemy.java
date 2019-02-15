@@ -1,6 +1,6 @@
 package com.ilmale.doodlejump.domain;
 
-import com.ilmale.doodlejump.Constants;
+import com.ilmale.doodlejump.Utility;
 
 public class Enemy extends AbstractGameObject {
 
@@ -8,10 +8,10 @@ public class Enemy extends AbstractGameObject {
     private float pY;
     private float yS=0;
 
-    private Constants constants = Constants.getInstance();
+    private Utility utility = Utility.getInstance();
 
     public Enemy(){
-        pX = (float)Math.random() * (constants.getPixelWidth()-76);
+        pX = (float)Math.random() * (utility.getPixelWidth()-76);
         pY = -2000;
     }
 
@@ -47,14 +47,14 @@ public class Enemy extends AbstractGameObject {
     @Override
     public void update() {
         pY -= yS;
-        if(pY > constants.getPixelHeight()){
-            pX = (float) (Math.random() * constants.getPixelWidth());
+        if(pY > utility.getPixelHeight()){
+            pX = (float) (Math.random() * utility.getPixelWidth());
             pY = -2000;
         }
     }
 
     public void replace(){
-        pX = (float) (Math.random() * (constants.getPixelWidth()-76));
+        pX = (float) (Math.random() * (utility.getPixelWidth()-76));
         pY = -2000;
     }
 }

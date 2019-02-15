@@ -39,7 +39,6 @@
         <activity
             android:name=".EndGameActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".LoadActivity" />
         <activity
             android:name=".MultiActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
