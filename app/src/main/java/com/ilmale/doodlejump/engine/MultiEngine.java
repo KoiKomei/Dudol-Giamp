@@ -36,6 +36,10 @@ public class MultiEngine extends GameEngine {
         if(isStart) {
             player.update();
             //player2.update();
+            
+            for (Bullet b : bullets) {
+                b.update();
+            }
 
             audioEnemy();
             audioJetpack();
