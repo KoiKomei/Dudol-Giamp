@@ -8,11 +8,10 @@
     tools:context=".UpdateFragment">
 
 
-
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="459dp"
+        android:layout_height="741dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/backgroundforgot"

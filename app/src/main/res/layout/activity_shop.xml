@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="526dp"
+        android:layout_height="734dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/background"
         app:layout_constraintBottom_toBottomOf="parent"
