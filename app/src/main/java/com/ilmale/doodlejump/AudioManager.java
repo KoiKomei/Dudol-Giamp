@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.ilmale.doodlejump.settings.SettingsSI;
 
-//Manager used for audio and musid
+//Manager used for audio and music
 
 public class AudioManager {
 
