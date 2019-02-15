@@ -292,4 +292,8 @@ public class Client extends Thread{
         }
     }*/
 
+    public boolean isShutdown() {
+        return shutdown;
+    }
+
 }//CLIENT

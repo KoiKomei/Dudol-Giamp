@@ -44,7 +44,7 @@ public class MultiEngine extends GameEngine {
             audioEnemy();
             audioJetpack();
 
-            if (fall() || client.isGameOver) {
+            if (fall() || client.isShutdown()) {
                 endGame();
             }
         }
