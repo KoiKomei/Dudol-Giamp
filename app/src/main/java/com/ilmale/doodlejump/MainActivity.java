@@ -82,10 +82,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         account = this.findViewById(R.id.button_account);
 
-        // initialize settings and dimension of the screen
-        initializeSettings();
-        setDimension();
-
         //initialize with the context an alert dialog for best score check and set cont for the alert dialog
         myAlertDialog.setContext(this);
         utility.setContAlert(0);
@@ -95,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
 
         //initialize scores of scoreboard
         records.initializeRecords(this);
+
+        // initialize settings and dimension of the screen
+        initializeSettings();
+        setDimension();
 
         //check if user is logged
         checkLogin();
