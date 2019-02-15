@@ -44,8 +44,11 @@ public class MultiEngine extends GameEngine {
             audioEnemy();
             audioJetpack();
 
-            if (fall() || client.isShutdown()) {
-                endGame();
+            if(fall()){
+                endGameLose();
+            }
+            if (client.isShutdown()) {
+                endGameWin();
             }
         }
         else {
@@ -61,7 +64,17 @@ public class MultiEngine extends GameEngine {
     }
 
     @Override
-    public void endGame(){
+    public void killedByEnemy(){
+        if(!player.hasJetpack()){
+            if(!collidesFromAbove(player,enemy)){
+                if (collide(player, enemy)){
+                    endGameLose();
+                }
+            }
+        }
+    }
+
+    public void endGameLose(){
         if(!gameOver){
             audioManager.playLose_audio();
         }
@@ -69,7 +82,15 @@ public class MultiEngine extends GameEngine {
         client.setIsGameOver(true);
         gameOver = true;
         isStart = false;
-        //c.setIsGameOver(true);
+    }
+
+    public void endGameWin(){
+        if(!gameOver){
+            audioManager.playLose_audio();
+        }
+        client.setIsGameOver(true);
+        gameOver = true;
+        isStart = false;
     }
 
     public boolean isStart() {
