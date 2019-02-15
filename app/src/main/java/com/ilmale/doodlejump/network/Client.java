@@ -139,7 +139,9 @@ public class Client extends Thread{
         try {
             //write.join();
             shutdown = true;
-            reader.join();
+            if(reader!=null){
+                reader.join();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
